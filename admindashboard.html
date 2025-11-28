@@ -1,0 +1,2866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeoCorp WMS - Clean Mobile Interface</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- iOS Safari PWA Support -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Neo-WMS">
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#0099ff">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📦</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📦</text></svg>">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        :root {
+            --neo-primary-bg: #f8faff;
+            --neo-secondary-bg: #ffffff;
+            --neo-card-bg: rgba(255, 255, 255, 0.92);
+            --neo-accent-blue: #0099ff;
+            --neo-accent-purple: #9966ff;
+            --neo-accent-cyan: #00e5ff;
+            --neo-accent-pink: #ff66cc;
+            --neo-accent-green: #00e676;
+            --neo-accent-orange: #ff9800;
+            --neo-accent-red: #ff5252;
+            --neo-text-dark: #222233;
+            --neo-text-light: #666699;
+            --neo-border-light: rgba(0, 153, 255, 0.25);
+            --neo-shadow-light: 0 4px 20px rgba(0, 153, 255, 0.1);
+            --neo-transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'SF Pro Display', 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: var(--neo-primary-bg);
+            color: var(--neo-text-dark);
+            min-height: 100vh;
+            overflow-x: hidden;
+            /* Enable PWA features */
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior: none;
+        }
+
+        /* Mobile Header - Only visible on mobile */
+        .wms-mobile-header {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: var(--neo-secondary-bg);
+            border-bottom: 1px solid var(--neo-border-light);
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            z-index: 1100;
+            box-shadow: var(--neo-shadow-light);
+        }
+
+        .wms-header-company {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .wms-header-logo {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--neo-accent-blue), var(--neo-accent-purple));
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wms-header-logo i {
+            font-size: 1rem;
+            color: white;
+        }
+
+        .wms-header-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--neo-text-dark);
+        }
+
+        .wms-header-nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .wms-header-toggle {
+            background: var(--neo-accent-blue);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 153, 255, 0.3);
+            transition: var(--neo-transition);
+        }
+
+        .wms-header-toggle:hover {
+            background: #0080e0;
+            transform: scale(1.05);
+        }
+
+        .wms-dashboard-container {
+            display: flex;
+            min-height: 100vh;
+            padding-left: 181px; /* Increased by 1px for sidebar */
+        }
+
+        /* Enhanced Compact Fixed Sidebar */
+        .wms-sidebar {
+            width: 181px; /* Increased by 1px */
+            background: var(--neo-secondary-bg);
+            border-right: 1px solid var(--neo-border-light);
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--neo-shadow-light);
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            z-index: 1000;
+            overflow: hidden;
+            transition: var(--neo-transition);
+        }
+
+        /* Scrollable Navigation Area */
+        .wms-sidebar-nav {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar Header */
+        .wms-sidebar-header {
+            padding: 13px 11px; /* Increased by 1px */
+            border-bottom: 1px solid var(--neo-border-light);
+            display: flex;
+            align-items: center;
+            gap: 7px; /* Increased by 1px */
+            background: var(--neo-card-bg);
+            flex-shrink: 0;
+        }
+
+        .wms-logo {
+            width: 25px; /* Increased by 1px */
+            height: 25px; /* Increased by 1px */
+            background: linear-gradient(135deg, var(--neo-accent-blue), var(--neo-accent-purple));
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wms-logo i {
+            font-size: 0.85rem; /* Increased by 0.05rem */
+            color: white;
+        }
+
+        .wms-sidebar-title {
+            font-weight: 500;
+            font-size: 0.9rem; /* Increased by 0.05rem */
+            color: var(--neo-text-dark);
+        }
+
+        /* Mobile Overlay */
+        .wms-mobile-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 800;
+        }
+
+        /* Navigation Section */
+        .wms-nav-section {
+            padding: 11px 0; /* Increased by 1px */
+            border-bottom: 1px solid var(--neo-border-light);
+        }
+
+        .wms-section-title {
+            padding: 0 11px 7px; /* Increased by 1px */
+            font-size: 0.7rem; /* Increased by 0.05rem */
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--neo-text-light);
+            display: flex;
+            align-items: center;
+            gap: 5px; /* Increased by 1px */
+        }
+
+        .wms-section-title i {
+            font-size: 0.6rem; /* Increased by 0.05rem */
+        }
+
+        .wms-nav-menu {
+            list-style: none;
+        }
+
+        .wms-nav-item {
+            margin: 2px 0; /* Increased by 1px */
+        }
+
+        .wms-nav-link {
+            display: flex;
+            align-items: center;
+            gap: 7px; /* Increased by 1px */
+            padding: 7px 11px; /* Increased by 1px */
+            color: var(--neo-text-dark);
+            text-decoration: none;
+            transition: var(--neo-transition);
+            position: relative;
+            font-size: 0.8rem; /* Increased by 0.05rem */
+        }
+
+        .wms-nav-link:hover {
+            color: var(--neo-accent-blue);
+            background: rgba(0, 153, 255, 0.05);
+        }
+
+        .wms-nav-link.active {
+            color: var(--neo-accent-blue);
+            background: rgba(0, 153, 255, 0.1);
+            border-right: 2px solid var(--neo-accent-blue);
+        }
+
+        .wms-nav-link.active .wms-nav-icon {
+            color: var(--neo-accent-blue);
+        }
+
+        .wms-nav-icon {
+            width: 15px; /* Increased by 1px */
+            text-align: center;
+            font-size: 0.75rem; /* Increased by 0.05rem */
+            transition: var(--neo-transition);
+            color: var(--neo-text-light);
+        }
+
+        .wms-nav-text {
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .wms-nav-badge {
+            margin-left: auto;
+            background: var(--neo-accent-pink);
+            color: white;
+            font-size: 0.6rem; /* Increased by 0.05rem */
+            padding: 2px 5px; /* Increased by 1px */
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        .wms-nav-arrow {
+            margin-left: auto;
+            font-size: 0.6rem; /* Increased by 0.05rem */
+            color: var(--neo-text-light);
+            transition: var(--neo-transition);
+            flex-shrink: 0;
+        }
+
+        .wms-nav-item.active .wms-nav-arrow {
+            transform: rotate(90deg);
+            color: var(--neo-accent-blue);
+        }
+
+        /* Submenu */
+        .wms-submenu {
+            list-style: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .wms-nav-item.active .wms-submenu {
+            max-height: 500px;
+        }
+
+        .wms-submenu-item {
+            margin: 0;
+        }
+
+        .wms-submenu-link {
+            display: flex;
+            align-items: center;
+            gap: 7px; /* Increased by 1px */
+            padding: 5px 11px 5px 28px; /* Increased by 1px */
+            color: var(--neo-text-light);
+            text-decoration: none;
+            transition: var(--neo-transition);
+            font-size: 0.75rem; /* Increased by 0.05rem */
+            border-left: 1px solid transparent;
+        }
+
+        .wms-submenu-link:hover {
+            color: var(--neo-accent-blue);
+            background: rgba(0, 153, 255, 0.03);
+            border-left-color: var(--neo-border-light);
+        }
+
+        .wms-submenu-link.active {
+            color: var(--neo-accent-blue);
+            background: rgba(0, 153, 255, 0.05);
+            border-left-color: var(--neo-accent-blue);
+        }
+
+        .wms-submenu-icon {
+            width: 13px; /* Increased by 1px */
+            text-align: center;
+            font-size: 0.7rem; /* Increased by 0.05rem */
+        }
+
+        /* User Profile Section */
+        .wms-user-section {
+            padding: 9px 11px; /* Increased by 1px */
+            border-top: 1px solid var(--neo-border-light);
+            background: var(--neo-card-bg);
+            flex-shrink: 0;
+        }
+
+        .wms-user-profile {
+            display: flex;
+            align-items: center;
+            gap: 7px; /* Increased by 1px */
+            margin-bottom: 7px; /* Increased by 1px */
+        }
+
+        .wms-user-avatar {
+            width: 25px; /* Increased by 1px */
+            height: 25px; /* Increased by 1px */
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--neo-accent-purple), var(--neo-accent-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.75rem; /* Increased by 0.05rem */
+        }
+
+        .wms-user-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .wms-user-name {
+            font-size: 0.75rem; /* Increased by 0.05rem */
+            font-weight: 500;
+            margin-bottom: 2px; /* Increased by 1px */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .wms-user-role {
+            font-size: 0.6rem; /* Increased by 0.05rem */
+            color: var(--neo-text-light);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .wms-user-status {
+            width: 7px; /* Increased by 1px */
+            height: 7px; /* Increased by 1px */
+            border-radius: 50%;
+            background: var(--neo-accent-green);
+            flex-shrink: 0;
+        }
+
+        /* Logout Button */
+        .wms-logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 7px; /* Increased by 1px */
+            padding: 5px 9px; /* Increased by 1px */
+            color: var(--neo-text-light);
+            text-decoration: none;
+            transition: var(--neo-transition);
+            font-size: 0.7rem; /* Increased by 0.05rem */
+            border-radius: 4px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .wms-logout-btn:hover {
+            color: var(--neo-accent-red);
+            background: rgba(255, 82, 82, 0.08);
+        }
+
+        .wms-logout-icon {
+            width: 13px; /* Increased by 1px */
+            text-align: center;
+            font-size: 0.65rem; /* Increased by 0.05rem */
+        }
+
+        /* Logout Confirmation Modal */
+        .wms-logout-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wms-modal-content {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            max-width: 300px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+        .wms-modal-icon {
+            font-size: 1.5rem;
+            color: var(--neo-accent-red);
+            margin-bottom: 10px;
+        }
+
+        .wms-modal-title {
+            font-size: 1rem;
+            margin-bottom: 8px;
+            color: var(--neo-text-dark);
+        }
+
+        .wms-modal-text {
+            color: var(--neo-text-light);
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .wms-modal-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .wms-modal-btn {
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--neo-transition);
+            border: none;
+        }
+
+        .wms-modal-btn-cancel {
+            background: rgba(0, 0, 0, 0.05);
+            color: var(--neo-text-light);
+        }
+
+        .wms-modal-btn-cancel:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .wms-modal-btn-logout {
+            background: var(--neo-accent-red);
+            color: white;
+        }
+
+        .wms-modal-btn-logout:hover {
+            background: #ff3838;
+            transform: translateY(-1px);
+        }
+
+        /* Main Content Area */
+        .wms-main-content {
+            flex: 1;
+            padding: 15px;
+            background: var(--neo-primary-bg);
+            overflow-y: auto;
+        }
+
+        .wms-content-header {
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .wms-content-title {
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: var(--neo-text-dark);
+        }
+
+        .wms-content-subtitle {
+            color: var(--neo-text-light);
+            font-size: 0.8rem;
+        }
+
+        /* Analytics Dashboard Styles */
+        .neo-dashboard-container {
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .neo-dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--neo-border-light);
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .neo-dashboard-title {
+            font-weight: 350;
+            font-size: 1.5rem;
+            color: var(--neo-text-dark);
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Compact Metrics Section */
+        .neo-compact-metrics {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+            padding: 0;
+        }
+
+        .neo-compact-card {
+            background: var(--neo-card-bg);
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: var(--neo-shadow-light);
+            border: 1px solid var(--neo-border-light);
+            transition: var(--neo-transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-height: 60px;
+        }
+
+        .neo-compact-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 153, 255, 0.15);
+        }
+
+        .neo-compact-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            background: rgba(0, 153, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--neo-accent-blue);
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .neo-compact-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .neo-compact-value {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--neo-text-dark);
+            line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .neo-compact-label {
+            font-size: 0.7rem;
+            color: var(--neo-text-light);
+            font-weight: 500;
+            line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Performance Metrics Table */
+        .neo-data-table-container {
+            width: 100%;
+            background: var(--neo-card-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--neo-shadow-light);
+            border: 1px solid var(--neo-border-light);
+            transition: var(--neo-transition);
+            margin-bottom: 20px;
+        }
+
+        .neo-data-table-container:hover {
+            box-shadow: 0 8px 25px rgba(0, 153, 255, 0.15);
+        }
+
+        .neo-data-table-header {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--neo-border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .neo-data-table-title {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--neo-text-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .neo-department-filters {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .neo-filter-btn {
+            padding: 4px 10px;
+            border-radius: 14px;
+            background: rgba(0, 153, 255, 0.1);
+            color: var(--neo-accent-blue);
+            border: 1px solid var(--neo-border-light);
+            cursor: pointer;
+            transition: var(--neo-transition);
+            font-size: 0.7rem;
+        }
+
+        .neo-filter-btn.active {
+            background: var(--neo-accent-blue);
+            color: white;
+        }
+
+        .neo-filter-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(0, 153, 255, 0.2);
+        }
+
+        .neo-data-table-wrapper {
+            max-height: 240px;
+            overflow-y: auto;
+            overflow-x: auto;
+        }
+
+        .neo-data-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        .neo-data-table th {
+            background: rgb(223 242 255);
+            padding: 10px 8px;
+            text-align: left;
+            font-weight: 500;
+            font-size: 0.75rem;
+            color: var(--neo-text-light);
+            border-bottom: 1px solid var(--neo-border-light);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .neo-data-table td {
+            padding: 8px;
+            border-bottom: 1px solid var(--neo-border-light);
+            transition: var(--neo-transition);
+            font-size: 0.75rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .neo-data-table tr:hover td {
+            background: rgba(0, 153, 255, 0.03);
+        }
+
+        .neo-data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Metrics and Chart Section */
+        .neo-metrics-chart-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .neo-kpi-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .neo-kpi-card {
+            background: var(--neo-card-bg);
+            border-radius: 10px;
+            padding: 12px;
+            box-shadow: var(--neo-shadow-light);
+            border: 1px solid var(--neo-border-light);
+            transition: var(--neo-transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .neo-kpi-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 153, 255, 0.15);
+        }
+
+        .neo-kpi-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .neo-kpi-title {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--neo-text-light);
+        }
+
+        .neo-kpi-icon {
+            font-size: 0.9rem;
+            color: var(--neo-accent-blue);
+        }
+
+        .neo-kpi-value {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--neo-text-dark);
+            margin-bottom: 3px;
+        }
+
+        .neo-kpi-change {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .neo-kpi-change.positive {
+            color: var(--neo-accent-green);
+        }
+
+        .neo-kpi-change.negative {
+            color: var(--neo-accent-pink);
+        }
+
+        .neo-kpi-change.neutral {
+            color: var(--neo-accent-orange);
+        }
+
+        /* Chart Styles */
+        .neo-chart-card {
+            background: var(--neo-card-bg);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: var(--neo-shadow-light);
+            border: 1px solid var(--neo-border-light);
+            transition: var(--neo-transition);
+        }
+
+        .neo-chart-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 153, 255, 0.15);
+        }
+
+        .neo-chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .neo-chart-title {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--neo-text-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .neo-time-selector-container {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .neo-time-label {
+            font-size: 0.7rem;
+            color: var(--neo-text-light);
+            font-weight: 500;
+        }
+
+        .neo-time-select {
+            background: var(--neo-card-bg);
+            border: 1px solid var(--neo-border-light);
+            border-radius: 5px;
+            padding: 4px 8px;
+            font-size: 0.7rem;
+            color: var(--neo-text-dark);
+            cursor: pointer;
+            transition: var(--neo-transition);
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666699' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 6px center;
+            background-size: 8px;
+            padding-right: 20px;
+        }
+
+        .neo-time-select:focus {
+            outline: none;
+            border-color: var(--neo-accent-blue);
+            box-shadow: 0 0 0 2px rgba(0, 153, 255, 0.1);
+        }
+
+        .neo-chart-container {
+            width: 100%;
+            height: 150px;
+            position: relative;
+        }
+
+        /* Table column widths */
+        .neo-data-table th:nth-child(1),
+        .neo-data-table td:nth-child(1) {
+            width: 15%;
+        }
+
+        .neo-data-table th:nth-child(2),
+        .neo-data-table td:nth-child(2) {
+            width: 20%;
+        }
+
+        .neo-data-table th:nth-child(3),
+        .neo-data-table td:nth-child(3) {
+            width: 25%;
+        }
+
+        .neo-data-table th:nth-child(4),
+        .neo-data-table td:nth-child(4) {
+            width: 15%;
+        }
+
+        .neo-data-table th:nth-child(5),
+        .neo-data-table td:nth-child(5) {
+            width: 15%;
+        }
+
+        .neo-data-table th:nth-child(6),
+        .neo-data-table td:nth-child(6) {
+            width: 10%;
+        }
+
+        /* Status colors */
+        .neo-positive {
+            color: var(--neo-accent-green);
+        }
+
+        .neo-negative {
+            color: var(--neo-accent-pink);
+        }
+
+        .neo-neutral {
+            color: var(--neo-accent-orange);
+        }
+
+        .neo-trend-indicator {
+            margin-left: 3px;
+            font-size: 0.65rem;
+        }
+
+        /* Compact Store Toggle Styles */
+        .neo-store-selector-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .neo-store-toggle-group {
+            display: flex;
+            gap: 4px;
+        }
+
+        .neo-store-toggle {
+            padding: 4px 8px;
+            border-radius: 12px;
+            background: rgba(0, 153, 255, 0.08);
+            color: var(--neo-text-dark);
+            border: 1px solid var(--neo-border-light);
+            cursor: pointer;
+            transition: var(--neo-transition);
+            font-size: 0.65rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            position: relative;
+            overflow: hidden;
+            min-width: 32px;
+            height: 24px;
+            justify-content: center;
+        }
+
+        .neo-store-toggle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--store-color, var(--neo-accent-blue));
+            opacity: 0;
+            transition: var(--neo-transition);
+            z-index: 1;
+        }
+
+        .neo-store-toggle.active::before {
+            opacity: 0.12;
+        }
+
+        .neo-store-toggle.active {
+            border-color: var(--store-color, var(--neo-accent-blue));
+            box-shadow: 0 1px 4px rgba(0, 153, 255, 0.15);
+        }
+
+        .neo-store-toggle:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(0, 153, 255, 0.2);
+        }
+
+        .neo-store-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--store-color, var(--neo-accent-blue));
+            transition: var(--neo-transition);
+            position: relative;
+            z-index: 2;
+            flex-shrink: 0;
+        }
+
+        .neo-store-toggle.active .neo-store-dot {
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.9), 0 0 0 2px var(--store-color, var(--neo-accent-blue));
+        }
+
+        .neo-store-toggle span:last-child {
+            position: relative;
+            z-index: 2;
+            line-height: 1;
+        }
+
+        /* Store color definitions */
+        .neo-store-toggle[data-store="store1"] { --store-color: #0099ff; }
+        .neo-store-toggle[data-store="store2"] { --store-color: #9966ff; }
+        .neo-store-toggle[data-store="store3"] { --store-color: #00e676; }
+        .neo-store-toggle[data-store="store4"] { --store-color: #ff66cc; }
+        .neo-store-toggle[data-store="store5"] { --store-color: #ff9800; }
+
+        /* Compact Alerts Section */
+        .neo-alerts-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
+            margin-top: 15px;
+        }
+
+        .neo-alert-card.compact {
+            background: var(--neo-card-bg);
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: var(--neo-shadow-light);
+            border: 1px solid var(--neo-border-light);
+            transition: var(--neo-transition);
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .neo-alert-card.compact:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(0, 153, 255, 0.15);
+        }
+
+        .neo-alert-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid var(--neo-border-light);
+        }
+
+        .neo-alert-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--neo-text-dark);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .neo-alert-badge {
+            background: rgba(0, 153, 255, 0.1);
+            color: var(--neo-accent-blue);
+            padding: 1px 6px;
+            border-radius: 8px;
+            font-size: 0.6rem;
+            font-weight: 600;
+            border: 1px solid var(--neo-border-light);
+        }
+
+        .neo-alert-list {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .neo-alert-item.compact {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 0;
+            border-bottom: 1px solid rgba(0, 153, 255, 0.08);
+            transition: var(--neo-transition);
+        }
+
+        .neo-alert-item.compact:hover {
+            background: rgba(0, 153, 255, 0.03);
+            border-radius: 3px;
+            padding: 4px 3px;
+        }
+
+        .neo-alert-item.compact:last-child {
+            border-bottom: none;
+        }
+
+        .neo-alert-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .neo-alert-product {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--neo-text-dark);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .neo-alert-metric {
+            font-size: 0.6rem;
+            color: var(--neo-text-light);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Status indicators */
+        .neo-alert-status {
+            font-size: 0.55rem;
+            font-weight: 700;
+            padding: 2px 5px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            flex-shrink: 0;
+            margin-left: 6px;
+        }
+
+        .neo-alert-status.critical {
+            background: rgba(255, 152, 0, 0.15);
+            color: #ff9800;
+            border: 1px solid rgba(255, 152, 0, 0.3);
+        }
+
+        .neo-alert-status.warning {
+            background: rgba(255, 102, 204, 0.15);
+            color: #ff66cc;
+            border: 1px solid rgba(255, 102, 204, 0.3);
+        }
+
+        /* Score indicators */
+        .neo-alert-score {
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 3px 6px;
+            border-radius: 5px;
+            flex-shrink: 0;
+            margin-left: 6px;
+            min-width: 36px;
+            text-align: center;
+        }
+
+        .neo-alert-score.excellent {
+            background: rgba(0, 230, 118, 0.15);
+            color: #00e676;
+            border: 1px solid rgba(0, 230, 118, 0.3);
+        }
+
+        .neo-alert-score.good {
+            background: rgba(0, 153, 255, 0.15);
+            color: #0099ff;
+            border: 1px solid rgba(0, 153, 255, 0.3);
+        }
+
+        .neo-alert-score.average {
+            background: rgba(153, 102, 255, 0.15);
+            color: #9966ff;
+            border: 1px solid rgba(153, 102, 255, 0.3);
+        }
+
+        /* Scrollbar Styling */
+        .wms-sidebar-nav::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .wms-sidebar-nav::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .wms-sidebar-nav::-webkit-scrollbar-thumb {
+            background: var(--neo-border-light);
+            border-radius: 2px;
+        }
+
+        .wms-sidebar-nav::-webkit-scrollbar-thumb:hover {
+            background: var(--neo-accent-blue);
+        }
+
+        /* PRINT STYLES - Hide sidebar and adjust layout for printing */
+        @media print {
+            .wms-sidebar, .wms-mobile-header {
+                display: none !important;
+            }
+            
+            .wms-dashboard-container {
+                padding-left: 0 !important;
+                display: block !important;
+            }
+            
+            .wms-main-content {
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                background: white !important;
+                box-shadow: none !important;
+                border: none !important;
+            }
+            
+            .wms-content-header,
+            .wms-content-placeholder {
+                box-shadow: none !important;
+                border: none !important;
+                background: white !important;
+            }
+            
+            /* Ensure text is black for printing */
+            body, .wms-content-title, .wms-placeholder-title, .wms-placeholder-text {
+                color: #000 !important;
+                background: white !important;
+            }
+            
+            /* Hide elements that shouldn't print */
+            .wms-nav-badge,
+            .wms-user-status {
+                display: none !important;
+            }
+        }
+
+        /* PWA Install Prompt */
+        .wms-pwa-prompt {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            max-width: 300px;
+        }
+
+        .wms-pwa-prompt-content {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .wms-pwa-prompt-title {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--neo-text-dark);
+        }
+
+        .wms-pwa-prompt-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+
+        .wms-pwa-prompt-btn {
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--neo-transition);
+            border: none;
+        }
+
+        .wms-pwa-prompt-cancel {
+            background: rgba(0, 0, 0, 0.05);
+            color: var(--neo-text-light);
+        }
+
+        .wms-pwa-prompt-install {
+            background: var(--neo-accent-blue);
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .neo-compact-metrics {
+                grid-template-columns: repeat(5, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .neo-metrics-chart-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .neo-data-table-wrapper {
+                overflow-x: auto;
+            }
+            
+            .neo-data-table th,
+            .neo-data-table td {
+                white-space: nowrap;
+            }
+        }
+
+        @media (max-width: 768px) {
+            /* Show mobile header */
+            .wms-mobile-header {
+                display: flex;
+            }
+            .wms-sidebar-header{
+                display: none;
+            }
+            /* Adjust dashboard container for mobile */
+            .wms-dashboard-container {
+                padding-left: 0;
+                padding-top: 60px; /* Space for mobile header */
+            }
+            
+            /* Hide sidebar by default on mobile */
+            .wms-sidebar {
+                margin-top: 60px;
+                width: 281px; /* Increased by 1px */
+                transform: translateX(-100%);
+                z-index: 1000;
+                top: 0; /* Start from top of screen */
+            }
+            
+            /* Show sidebar when mobile-open class is added */
+            .wms-sidebar.mobile-open {
+                transform: translateX(0);
+            }
+            
+            /* Hide the close button styles since we removed it */
+            .wms-sidebar-toggle {
+                display: none;
+            }
+            
+            .wms-mobile-toggle {
+                display: none;
+            }
+            
+            .wms-mobile-overlay.active {
+                display: block;
+            }
+            
+            .wms-nav-menu {
+                display: block;
+                padding: 0;
+            }
+            
+            .wms-user-section {
+                display: block;
+            }
+            
+            .wms-submenu {
+                display: block;
+            }
+            
+            .wms-main-content {
+                padding: 15px;
+            }
+            
+            .wms-content-title {
+                font-size: 1.1rem;
+            }
+
+            .neo-compact-metrics {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .neo-dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .neo-data-table-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .neo-department-filters {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .neo-kpi-container {
+                grid-template-columns: 1fr;
+            }
+
+            .neo-chart-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            
+            .neo-store-selector-container {
+                width: 100%;
+            }
+            
+            .neo-store-toggle-group {
+                width: 100%;
+                justify-content: flex-start;
+            }
+            
+            .neo-store-toggle {
+                flex: 1;
+                min-width: 28px;
+            }
+
+            .neo-alerts-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .wms-sidebar {
+                width: 100%;
+            }
+            
+            .wms-main-content {
+                padding: 80px 10px 10px;
+            }
+            
+            .wms-content-placeholder {
+                padding: 15px;
+            }
+
+            .neo-compact-metrics {
+                grid-template-columns: 1fr;
+            }
+            
+            .neo-compact-card {
+                padding: 8px;
+            }
+            
+            .neo-compact-value {
+                font-size: 0.9rem;
+            }
+            
+            .neo-compact-label {
+                font-size: 0.65rem;
+            }
+
+            .neo-dashboard-title {
+                font-size: 1.3rem;
+            }
+            
+            .neo-kpi-value {
+                font-size: 1.2rem;
+            }
+            
+            .neo-chart-container {
+                height: 130px;
+            }
+
+            .neo-store-toggle {
+                padding: 3px 6px;
+                font-size: 0.6rem;
+                height: 22px;
+                min-width: 26px;
+            }
+            
+            .neo-store-dot {
+                width: 5px;
+                height: 5px;
+            }
+            
+            .neo-chart-container {
+                height: 160px !important;
+            }
+
+            .neo-alert-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+            }
+            
+            .neo-alert-item.compact {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 3px;
+            }
+            
+            .neo-alert-status,
+            .neo-alert-score {
+                margin-left: 0;
+                align-self: flex-end;
+            }
+            
+            .neo-alert-card.compact {
+                padding: 8px;
+                min-height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Header with Company Name and Hamburger Menu -->
+    <header class="wms-mobile-header">
+        <!-- Left-aligned company name -->
+        <div class="wms-header-company">
+            <div class="wms-header-logo">
+                <i class="fas fa-cube"></i>
+            </div>
+            <h1 class="wms-header-title">NEO-WMS</h1>
+        </div>
+        
+        <!-- Right-aligned hamburger menu -->
+        <div class="wms-header-nav">
+            <button class="wms-header-toggle" id="headerToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+    
+    <!-- Mobile Overlay -->
+    <div class="wms-mobile-overlay" id="mobileOverlay"></div>
+
+    <div class="wms-dashboard-container">
+        <!-- Enhanced Compact Fixed Sidebar -->
+        <aside class="wms-sidebar" id="sidebar">
+            <!-- Sidebar Header - No close button needed -->
+            <div class="wms-sidebar-header">
+                <div class="wms-logo">
+                    <i class="fas fa-cube"></i>
+                </div>
+                <h1 class="wms-sidebar-title">NEO-WMS</h1>
+            </div>
+
+            <!-- Scrollable Navigation Area -->
+            <div class="wms-sidebar-nav">
+                <!-- Navigation Sections -->
+                <div class="wms-nav-section">
+                    <h2 class="wms-section-title">
+                        <i class="fas fa-compass"></i>
+                        DASHBOARD
+                    </h2>
+                    <ul class="wms-nav-menu">
+                        <li class="wms-nav-item">
+                            <a href="#" class="wms-nav-link active">
+                                <i class="fas fa-home wms-nav-icon"></i>
+                                <span class="wms-nav-text">Overview</span>
+                            </a>
+                        </li>
+                        <li class="wms-nav-item">
+                            <a href="#" class="wms-nav-link">
+                                <i class="fas fa-chart-bar wms-nav-icon"></i>
+                                <span class="wms-nav-text">Analytics</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="wms-nav-section">
+                    <h2 class="wms-section-title">
+                        <i class="fas fa-warehouse"></i>
+                        OPERATIONS
+                    </h2>
+                    <ul class="wms-nav-menu">
+                        <li class="wms-nav-item">
+                            <a href="#" class="wms-nav-link">
+                                <i class="fas fa-boxes wms-nav-icon"></i>
+                                <span class="wms-nav-text">Inventory</span>
+                                <i class="fas fa-chevron-right wms-nav-arrow"></i>
+                            </a>
+                            <ul class="wms-submenu">
+                                <li class="wms-submenu-item">
+                                    <a href="#" class="wms-submenu-link">
+                                        <i class="fas fa-list wms-submenu-icon"></i>
+                                        <span>Stock Levels</span>
+                                    </a>
+                                </li>
+                                <li class="wms-submenu-item">
+                                    <a href="#" class="wms-submenu-link">
+                                        <i class="fas fa-search wms-submenu-icon"></i>
+                                        <span>Stock Search</span>
+                                    </a>
+                                </li>
+                                <li class="wms-submenu-item">
+                                    <a href="#" class="wms-submenu-link">
+                                        <i class="fas fa-chart-line wms-submenu-icon"></i>
+                                        <span>Stock Movement</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="wms-nav-item">
+                            <a href="#" class="wms-nav-link">
+                                <i class="fas fa-shipping-fast wms-nav-icon"></i>
+                                <span class="wms-nav-text">Receiving</span>
+                                <i class="fas fa-chevron-right wms-nav-arrow"></i>
+                            </a>
+                            <ul class="wms-submenu">
+                                <li class="wms-submenu-item">
+                                    <a href="#" class="wms-submenu-link">
+                                        <i class="fas fa-clipboard-list wms-submenu-icon"></i>
+                                        <span>ASN Management</span>
+                                    </a>
+                                </li>
+                                <li class="wms-submenu-item">
+                                    <a href="#" class="wms-submenu-link">
+                                        <i class="fas fa-check-circle wms-submenu-icon"></i>
+                                        <span>Quality Check</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="wms-nav-item">
+                            <a href="#" class="wms-nav-link">
+                                <i class="fas fa-dolly wms-nav-icon"></i>
+                                <span class="wms-nav-text">Picking</span>
+                                <span class="wms-nav-badge">12</span>
+                                <i class="fas fa-chevron-right wms-nav-arrow"></i>
+                            </a>
+                            <ul class="wms-submenu">
+                                <li class="wms-submenu-item">
+                                    <a href="#" class="wms-submenu-link">
+                                        <i class="fas fa-tasks wms-submenu-icon"></i>
+                                        <span>Pick Lists</span>
+                                    </a>
+                                </li>
+                                <li class="wms-submenu-item">
+                                    <a href="#" class="wms-submenu-link">
+                                        <i class="fas fa-route wms-submenu-icon"></i>
+                                        <span>Pick Routes</span>
+                                    </a>
+                                </li>
+                                <li class="wms-submenu-item">
+                                    <a href="#" class="wms-submenu-link">
+                                        <i class="fas fa-clock wms-submenu-icon"></i>
+                                        <span>Pick Performance</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="wms-nav-item">
+                            <a href="#" class="wms-nav-link">
+                                <i class="fas fa-truck-loading wms-nav-icon"></i>
+                                <span class="wms-nav-text">Shipping</span>
+                                <i class="fas fa-chevron-right wms-nav-arrow"></i>
+                            </a>
+                            <ul class="wms-submenu">
+                                <li class="wms-submenu-item">
+                                    <a href="#" class="wms-submenu-link">
+                                        <i class="fas fa-box-open wms-submenu-icon"></i>
+                                        <span>Packing</span>
+                                    </a>
+                                </li>
+                                <li class="wms-submenu-item">
+                                    <a href="#" class="wms-submenu-link">
+                                        <i class="fas fa-shipping-fast wms-submenu-icon"></i>
+                                        <span>Dispatch</span>
+                                    </a>
+                                </li>
+                                <li class="wms-submenu-item">
+                                    <a href="#" class="wms-submenu-link">
+                                        <i class="fas fa-file-invoice wms-submenu-icon"></i>
+                                        <span>Shipping Docs</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="wms-nav-section">
+                    <h2 class="wms-section-title">
+                        <i class="fas fa-cogs"></i>
+                        MANAGEMENT
+                    </h2>
+                    <ul class="wms-nav-menu">
+                        <li class="wms-nav-item">
+                            <a href="#" class="wms-nav-link">
+                                <i class="fas fa-users wms-nav-icon"></i>
+                                <span class="wms-nav-text">Users</span>
+                                <i class="fas fa-chevron-right wms-nav-arrow"></i>
+                            </a>
+                            <ul class="wms-submenu">
+                                <li class="wms-submenu-item">
+                                    <a href="#" class="wms-submenu-link">
+                                        <i class="fas fa-user-plus wms-submenu-icon"></i>
+                                        <span>Add Users</span>
+                                    </a>
+                                </li>
+                                <li class="wms-submenu-item">
+                                    <a href="#" class="wms-submenu-link">
+                                        <i class="fas fa-user-shield wms-submenu-icon"></i>
+                                        <span>Roles & Permissions</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="wms-nav-item">
+                            <a href="#" class="wms-nav-link">
+                                <i class="fas fa-microchip wms-nav-icon"></i>
+                                <span class="wms-nav-text">Devices</span>
+                                <i class="fas fa-chevron-right wms-nav-arrow"></i>
+                            </a>
+                            <ul class="wms-submenu">
+                                <li class="wms-submenu-item">
+                                    <a href="#" class="wms-submenu-link">
+                                        <i class="fas fa-barcode wms-submenu-icon"></i>
+                                        <span>Scanners</span>
+                                    </a>
+                                </li>
+                                <li class="wms-submenu-item">
+                                    <a href="#" class="wms-submenu-link">
+                                        <i class="fas fa-print wms-submenu-icon"></i>
+                                        <span>Printers</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="wms-nav-section">
+                    <h2 class="wms-section-title">
+                        <i class="fas fa-chart-line"></i>
+                        REPORTS
+                    </h2>
+                    <ul class="wms-nav-menu">
+                        <li class="wms-nav-item">
+                            <a href="#" class="wms-nav-link">
+                                <i class="fas fa-file-alt wms-nav-icon"></i>
+                                <span class="wms-nav-text">Daily Reports</span>
+                            </a>
+                        </li>
+                        <li class="wms-nav-item">
+                            <a href="#" class="wms-nav-link">
+                                <i class="fas fa-chart-pie wms-nav-icon"></i>
+                                <span class="wms-nav-text">Performance</span>
+                                <i class="fas fa-chevron-right wms-nav-arrow"></i>
+                            </a>
+                            <ul class="wms-submenu">
+                                <li class="wms-submenu-item">
+                                    <a href="#" class="wms-submenu-link">
+                                        <i class="fas fa-tachometer-alt wms-submenu-icon"></i>
+                                        <span>KPIs</span>
+                                    </a>
+                                </li>
+                                <li class="wms-submenu-item">
+                                    <a href="#" class="wms-submenu-link">
+                                        <i class="fas fa-user-clock wms-submenu-icon"></i>
+                                        <span>Staff Performance</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- User Profile Section with Logout -->
+            <div class="wms-user-section">
+                <div class="wms-user-profile">
+                    <div class="wms-user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="wms-user-info">
+                        <div class="wms-user-name">Alex Morgan</div>
+                        <div class="wms-user-role">Operations Manager</div>
+                    </div>
+                    <div class="wms-user-status"></div>
+                </div>
+                <button class="wms-logout-btn" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt wms-logout-icon"></i>
+                    <span>Log Out</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area with Analytics Dashboard -->
+        <main class="wms-main-content">
+            <div class="wms-content-header">
+                <h1 class="wms-content-title">Warehouse Management System</h1>
+                <p class="wms-content-subtitle">NeoCorp Logistics Platform • Clean Mobile Interface</p>
+            </div>
+
+            <!-- Analytics Dashboard Content -->
+            <div class="neo-dashboard-container">
+                <!-- Compact Metrics Section -->
+                <div class="neo-compact-metrics">
+                    <div class="neo-compact-card">
+                        <div class="neo-compact-icon">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="neo-compact-content">
+                            <div class="neo-compact-value">$124,580</div>
+                            <div class="neo-compact-label">Revenue Today</div>
+                        </div>
+                    </div>
+                    
+                    <div class="neo-compact-card">
+                        <div class="neo-compact-icon">
+                            <i class="fas fa-boxes"></i>
+                        </div>
+                        <div class="neo-compact-content">
+                            <div class="neo-compact-value">$2.45M</div>
+                            <div class="neo-compact-label">Inventory Value</div>
+                        </div>
+                    </div>
+                    
+                    <div class="neo-compact-card">
+                        <div class="neo-compact-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="neo-compact-content">
+                            <div class="neo-compact-value">24.8%</div>
+                            <div class="neo-compact-label">Profit Margin</div>
+                        </div>
+                    </div>
+                    
+                    <div class="neo-compact-card">
+                        <div class="neo-compact-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="neo-compact-content">
+                            <div class="neo-compact-value">3,842</div>
+                            <div class="neo-compact-label">Total Sales</div>
+                        </div>
+                    </div>
+                    
+                    <div class="neo-compact-card">
+                        <div class="neo-compact-icon">
+                            <i class="fas fa-receipt"></i>
+                        </div>
+                        <div class="neo-compact-content">
+                            <div class="neo-compact-value">$511,800</div>
+                            <div class="neo-compact-label">Total Expenses</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="neo-dashboard-header">
+                    <h1 class="neo-dashboard-title">
+                        <i class="fas fa-warehouse"></i>
+                        NEO CORP ANALYTICS
+                    </h1>
+                </div>
+                
+                <!-- Comprehensive Performance Metrics Table -->
+                <div class="neo-data-table-container">
+                    <div class="neo-data-table-header">
+                        <div class="neo-data-table-title">
+                            <i class="fas fa-table"></i>
+                            Performance Metrics
+                        </div>
+                        <div class="neo-department-filters">
+                            <button class="neo-filter-btn active" data-department="all">All</button>
+                            <button class="neo-filter-btn" data-department="Operations">Operations</button>
+                            <button class="neo-filter-btn" data-department="Inventory">Inventory</button>
+                            <button class="neo-filter-btn" data-department="Financial">Financial</button>
+                            <button class="neo-filter-btn" data-department="Shipping">Shipping</button>
+                            <button class="neo-filter-btn" data-department="Quality">Quality</button>
+                        </div>
+                    </div>
+                    <div class="neo-data-table-wrapper">
+                        <table class="neo-data-table">
+                            <thead>
+                                <tr>
+                                    <th>Department</th>
+                                    <th>Indicator</th>
+                                    <th>Period</th>
+                                    <th>Current</th>
+                                    <th>Previous</th>
+                                    <th>Change</th>
+                                </tr>
+                            </thead>
+                            <tbody id="neo-table-body">
+                                <tr data-department="Operations">
+                                    <td>Operations</td>
+                                    <td>Receivable</td>
+                                    <td>Today vs One Month Ago</td>
+                                    <td>$124,580</td>
+                                    <td>$118,420</td>
+                                    <td class="neo-positive">
+                                        <span>+5.2%</span>
+                                        <i class="fas fa-arrow-up neo-trend-indicator"></i>
+                                    </td>
+                                </tr>
+                                <tr data-department="Operations">
+                                    <td>Operations</td>
+                                    <td>Payable</td>
+                                    <td>Today vs One Month Ago</td>
+                                    <td>$87,420</td>
+                                    <td>$89,950</td>
+                                    <td class="neo-negative">
+                                        <span>-2.8%</span>
+                                        <i class="fas fa-arrow-down neo-trend-indicator"></i>
+                                    </td>
+                                </tr>
+                                <tr data-department="Financial">
+                                    <td>Financial</td>
+                                    <td>Invoices Created Today</td>
+                                    <td>Current</td>
+                                    <td>142</td>
+                                    <td>N/A</td>
+                                    <td class="neo-positive">
+                                        <span>Live</span>
+                                        <i class="fas fa-bolt neo-trend-indicator"></i>
+                                    </td>
+                                </tr>
+                                <tr data-department="Financial">
+                                    <td>Financial</td>
+                                    <td>Invoices Created This Week</td>
+                                    <td>Current</td>
+                                    <td>897</td>
+                                    <td>N/A</td>
+                                    <td class="neo-positive">
+                                        <span>Live</span>
+                                        <i class="fas fa-bolt neo-trend-indicator"></i>
+                                    </td>
+                                </tr>
+                                <tr data-department="Financial">
+                                    <td>Financial</td>
+                                    <td>Sales</td>
+                                    <td>This Month vs Same Last Quarter to Date</td>
+                                    <td>$2.45M</td>
+                                    <td>$2.17M</td>
+                                    <td class="neo-positive">
+                                        <span>+12.7%</span>
+                                        <i class="fas fa-arrow-up neo-trend-indicator"></i>
+                                    </td>
+                                </tr>
+                                <tr data-department="Financial">
+                                    <td>Financial</td>
+                                    <td>Sales (Orders)</td>
+                                    <td>This Month vs Same Last Quarter to Date</td>
+                                    <td>3,842</td>
+                                    <td>3,548</td>
+                                    <td class="neo-positive">
+                                        <span>+8.3%</span>
+                                        <i class="fas fa-arrow-up neo-trend-indicator"></i>
+                                    </td>
+                                </tr>
+                                <tr data-department="Financial">
+                                    <td>Financial</td>
+                                    <td>Purchase Orders</td>
+                                    <td>This Month vs Last Month</td>
+                                    <td>1,240</td>
+                                    <td>1,180</td>
+                                    <td class="neo-positive">
+                                        <span>+5.1%</span>
+                                        <i class="fas fa-arrow-up neo-trend-indicator"></i>
+                                    </td>
+                                </tr>
+                                <tr data-department="Financial">
+                                    <td>Financial</td>
+                                    <td>Purchase Value</td>
+                                    <td>This Month vs Last Month</td>
+                                    <td>$845,000</td>
+                                    <td>$810,000</td>
+                                    <td class="neo-positive">
+                                        <span>+4.3%</span>
+                                        <i class="fas fa-arrow-up neo-trend-indicator"></i>
+                                    </td>
+                                </tr>
+                                <tr data-department="Financial">
+                                    <td>Financial</td>
+                                    <td>Operating Expenses</td>
+                                    <td>This Month vs Last Month</td>
+                                    <td>$324,500</td>
+                                    <td>$310,200</td>
+                                    <td class="neo-negative">
+                                        <span>+4.6%</span>
+                                        <i class="fas fa-arrow-up neo-trend-indicator"></i>
+                                    </td>
+                                </tr>
+                                <tr data-department="Financial">
+                                    <td>Financial</td>
+                                    <td>Payroll Expenses</td>
+                                    <td>This Month vs Last Month</td>
+                                    <td>$187,300</td>
+                                    <td>$182,500</td>
+                                    <td class="neo-negative">
+                                        <span>+2.6%</span>
+                                        <i class="fas fa-arrow-up neo-trend-indicator"></i>
+                                    </td>
+                                </tr>
+                                <tr data-department="Operations">
+                                    <td>Operations</td>
+                                    <td>Order Picking Accuracy</td>
+                                    <td>Today vs Last Week</td>
+                                    <td>99.4%</td>
+                                    <td>99.1%</td>
+                                    <td class="neo-positive">
+                                        <span>+0.3%</span>
+                                        <i class="fas fa-arrow-up neo-trend-indicator"></i>
+                                    </td>
+                                </tr>
+                                <tr data-department="Operations">
+                                    <td>Operations</td>
+                                    <td>On-time Shipment</td>
+                                    <td>This Week vs Last Week</td>
+                                    <td>97.8%</td>
+                                    <td>96.6%</td>
+                                    <td class="neo-positive">
+                                        <span>+1.2%</span>
+                                        <i class="fas fa-arrow-up neo-trend-indicator"></i>
+                                    </td>
+                                </tr>
+                                <tr data-department="Inventory">
+                                    <td>Inventory</td>
+                                    <td>Inventory Turnover</td>
+                                    <td>Current Month vs Previous</td>
+                                    <td>8.2x</td>
+                                    <td>7.7x</td>
+                                    <td class="neo-positive">
+                                        <span>+0.5x</span>
+                                        <i class="fas fa-arrow-up neo-trend-indicator"></i>
+                                    </td>
+                                </tr>
+                                <tr data-department="Inventory">
+                                    <td>Inventory</td>
+                                    <td>Stockout Rate</td>
+                                    <td>Current Week vs Last Week</td>
+                                    <td>1.4%</td>
+                                    <td>1.1%</td>
+                                    <td class="neo-negative">
+                                        <span>+0.3%</span>
+                                        <i class="fas fa-arrow-up neo-trend-indicator"></i>
+                                    </td>
+                                </tr>
+                                <tr data-department="Shipping">
+                                    <td>Shipping</td>
+                                    <td>On-Time Delivery</td>
+                                    <td>Current Week vs Last Week</td>
+                                    <td>95.2%</td>
+                                    <td>94.8%</td>
+                                    <td class="neo-positive">
+                                        <span>+0.4%</span>
+                                        <i class="fas fa-arrow-up neo-trend-indicator"></i>
+                                    </td>
+                                </tr>
+                                <tr data-department="Shipping">
+                                    <td>Shipping</td>
+                                    <td>Shipping Cost per Unit</td>
+                                    <td>This Month vs Last Month</td>
+                                    <td>$4.75</td>
+                                    <td>$4.82</td>
+                                    <td class="neo-positive">
+                                        <span>-1.5%</span>
+                                        <i class="fas fa-arrow-down neo-trend-indicator"></i>
+                                    </td>
+                                </tr>
+                                <tr data-department="Quality">
+                                    <td>Quality</td>
+                                    <td>Defect Rate</td>
+                                    <td>Current Week vs Last Week</td>
+                                    <td>0.8%</td>
+                                    <td>0.9%</td>
+                                    <td class="neo-positive">
+                                        <span>-0.1%</span>
+                                        <i class="fas fa-arrow-down neo-trend-indicator"></i>
+                                    </td>
+                                </tr>
+                                <tr data-department="Quality">
+                                    <td>Quality</td>
+                                    <td>Customer Returns</td>
+                                    <td>This Month vs Last Month</td>
+                                    <td>1.2%</td>
+                                    <td>1.4%</td>
+                                    <td class="neo-positive">
+                                        <span>-0.2%</span>
+                                        <i class="fas fa-arrow-down neo-trend-indicator"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Metrics and Chart Section -->
+                <div class="neo-metrics-chart-section">
+                    <!-- Performance Metrics -->
+                    <div class="neo-kpi-container">
+                        <div class="neo-kpi-card">
+                            <div class="neo-kpi-header">
+                                <span class="neo-kpi-title">Inventory Turnover</span>
+                                <i class="fas fa-boxes neo-kpi-icon"></i>
+                            </div>
+                            <div class="neo-kpi-value">8.2x</div>
+                            <div class="neo-kpi-change positive">
+                                <span>+12.5%</span>
+                                <i class="fas fa-arrow-up neo-trend-indicator"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="neo-kpi-card">
+                            <div class="neo-kpi-header">
+                                <span class="neo-kpi-title">Stockout Rate</span>
+                                <i class="fas fa-exclamation-triangle neo-kpi-icon"></i>
+                            </div>
+                            <div class="neo-kpi-value">2.8%</div>
+                            <div class="neo-kpi-change negative">
+                                <span>+3.2%</span>
+                                <i class="fas fa-arrow-up neo-trend-indicator"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="neo-kpi-card">
+                            <div class="neo-kpi-header">
+                                <span class="neo-kpi-title">Order Accuracy</span>
+                                <i class="fas fa-clipboard-check neo-kpi-icon"></i>
+                            </div>
+                            <div class="neo-kpi-value">99.4%</div>
+                            <div class="neo-kpi-change positive">
+                                <span>+0.3%</span>
+                                <i class="fas fa-arrow-up neo-trend-indicator"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="neo-kpi-card">
+                            <div class="neo-kpi-header">
+                                <span class="neo-kpi-title">On-time Delivery</span>
+                                <i class="fas fa-shipping-fast neo-kpi-icon"></i>
+                            </div>
+                            <div class="neo-kpi-value">95.2%</div>
+                            <div class="neo-kpi-change positive">
+                                <span>+0.4%</span>
+                                <i class="fas fa-arrow-up neo-trend-indicator"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Top 5 Clients Chart -->
+                    <div class="neo-chart-card">
+                        <div class="neo-chart-header">
+                            <h2 class="neo-chart-title">
+                                <i class="fas fa-chart-bar"></i>
+                                TOP 5 CLIENTS BY SALES VOLUME
+                            </h2>
+                            <div class="neo-time-selector-container">
+                                <span class="neo-time-label">PERIOD:</span>
+                                <select class="neo-time-select" id="neo-time-period-select">
+                                    <option value="7d">LAST 7 DAYS</option>
+                                    <option value="30d" selected>LAST 30 DAYS</option>
+                                    <option value="90d">LAST 90 DAYS</option>
+                                    <option value="1y">LAST YEAR</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="neo-chart-container">
+                            <canvas id="neo-sales-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Multi-Store Revenue Chart -->
+                <div class="neo-chart-card">
+                    <div class="neo-chart-header">
+                        <h2 class="neo-chart-title">
+                            <i class="fas fa-chart-line"></i>
+                            STORE REVENUE TREND
+                        </h2>
+                        <div class="neo-store-selector-container">
+                            <div class="neo-store-toggle-group">
+                                <button class="neo-store-toggle active" data-store="store1" title="Store A">
+                                    <span class="neo-store-dot"></span>
+                                    madina
+                                </button>
+                                <button class="neo-store-toggle active" data-store="store2" title="Store B">
+                                    <span class="neo-store-dot"></span>
+                                    B
+                                </button>
+                                <button class="neo-store-toggle active" data-store="store3" title="Store C">
+                                    <span class="neo-store-dot"></span>
+                                    C
+                                </button>
+                                <button class="neo-store-toggle" data-store="store4" title="Store D">
+                                    <span class="neo-store-dot"></span>
+                                    D
+                                </button>
+                                <button class="neo-store-toggle" data-store="store5" title="Store E">
+                                    <span class="neo-store-dot"></span>
+                                    E
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="neo-chart-container" style="height: 180px;">
+                        <canvas id="neo-revenue-chart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Compact Alerts Section -->
+                <div class="neo-alerts-section">
+                    <!-- Critical Stock Alerts -->
+                    <div class="neo-alert-card compact">
+                        <div class="neo-alert-header">
+                            <h3 class="neo-alert-title">
+                                <i class="fas fa-exclamation-triangle" style="color: #ff9800;"></i>
+                                STOCK ALERTS
+                            </h3>
+                            <span class="neo-alert-badge">3</span>
+                        </div>
+                        <div class="neo-alert-list">
+                            <div class="neo-alert-item compact">
+                                <div class="neo-alert-content">
+                                    <span class="neo-alert-product">Quantum Processors</span>
+                                    <span class="neo-alert-metric">12 units</span>
+                                </div>
+                                <div class="neo-alert-status critical">CRITICAL</div>
+                            </div>
+                            <div class="neo-alert-item compact">
+                                <div class="neo-alert-content">
+                                    <span class="neo-alert-product">Neural Interface Chips</span>
+                                    <span class="neo-alert-metric">8 units</span>
+                                </div>
+                                <div class="neo-alert-status warning">LOW</div>
+                            </div>
+                            <div class="neo-alert-item compact">
+                                <div class="neo-alert-content">
+                                    <span class="neo-alert-product">Holographic Displays</span>
+                                    <span class="neo-alert-metric">15 units</span>
+                                </div>
+                                <div class="neo-alert-status warning">LOW</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Supplier Reliability Scoreboard -->
+                    <div class="neo-alert-card compact">
+                        <div class="neo-alert-header">
+                            <h3 class="neo-alert-title">
+                                <i class="fas fa-star" style="color: #00e676;"></i>
+                                SUPPLIER SCORES
+                            </h3>
+                            <span class="neo-alert-badge">Top 5</span>
+                        </div>
+                        <div class="neo-alert-list">
+                            <div class="neo-alert-item compact">
+                                <div class="neo-alert-content">
+                                    <span class="neo-alert-product">Quantum Components Inc.</span>
+                                    <span class="neo-alert-metric">98.7% On-time</span>
+                                </div>
+                                <div class="neo-alert-score excellent">98.7</div>
+                            </div>
+                            <div class="neo-alert-item compact">
+                                <div class="neo-alert-content">
+                                    <span class="neo-alert-product">Neural Tech Supplies</span>
+                                    <span class="neo-alert-metric">96.2% On-time</span>
+                                </div>
+                                <div class="neo-alert-score good">96.2</div>
+                            </div>
+                            <div class="neo-alert-item compact">
+                                <div class="neo-alert-content">
+                                    <span class="neo-alert-product">Holo Display Co.</span>
+                                    <span class="neo-alert-metric">95.8% On-time</span>
+                                </div>
+                                <div class="neo-alert-score good">95.8</div>
+                            </div>
+                            <div class="neo-alert-item compact">
+                                <div class="neo-alert-content">
+                                    <span class="neo-alert-product">Precision Circuits Ltd</span>
+                                    <span class="neo-alert-metric">94.1% On-time</span>
+                                </div>
+                                <div class="neo-alert-score average">94.1</div>
+                            </div>
+                            <div class="neo-alert-item compact">
+                                <div class="neo-alert-content">
+                                    <span class="neo-alert-product">Advanced Materials Co</span>
+                                    <span class="neo-alert-metric">92.3% On-time</span>
+                                </div>
+                                <div class="neo-alert-score average">92.3</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- PWA Install Prompt -->
+    <div class="wms-pwa-prompt" id="pwaPrompt">
+        <div class="wms-pwa-prompt-content">
+            <h3 class="wms-pwa-prompt-title">Install Neo-WMS App</h3>
+            <p style="font-size: 0.75rem; color: var(--neo-text-light);">
+                Install this application on your device for a better experience.
+            </p>
+            <div class="wms-pwa-prompt-actions">
+                <button class="wms-pwa-prompt-btn wms-pwa-prompt-cancel" id="pwaCancel">Not Now</button>
+                <button class="wms-pwa-prompt-btn wms-pwa-prompt-install" id="pwaInstall">Install</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logout Confirmation Modal -->
+    <div class="wms-logout-modal" id="logoutModal">
+        <div class="wms-modal-content">
+            <div class="wms-modal-icon">
+                <i class="fas fa-sign-out-alt"></i>
+            </div>
+            <h3 class="wms-modal-title">Confirm Logout</h3>
+            <p class="wms-modal-text">Are you sure you want to log out of Neo-WMS?</p>
+            <div class="wms-modal-actions">
+                <button class="wms-modal-btn wms-modal-btn-cancel" id="cancelLogout">Cancel</button>
+                <button class="wms-modal-btn wms-modal-btn-logout" id="confirmLogout">Log Out</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    document.getElementById('pwaStatus').textContent = 'PWA is ready for installation';
+                }, function(err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                    document.getElementById('pwaStatus').textContent = 'PWA features limited (offline mode not available)';
+                });
+            });
+        } else {
+            document.getElementById('pwaStatus').textContent = 'Your browser does not support PWA features';
+        }
+
+        // PWA Install Prompt
+        let deferredPrompt;
+        const installButton = document.getElementById('installPWA');
+        const pwaPrompt = document.getElementById('pwaPrompt');
+        const pwaInstall = document.getElementById('pwaInstall');
+        const pwaCancel = document.getElementById('pwaCancel');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent the mini-infobar from appearing on mobile
+            e.preventDefault();
+            // Stash the event so it can be triggered later
+            deferredPrompt = e;
+            // Update UI notify the user they can install the PWA
+            installButton.style.display = 'block';
+            pwaPrompt.style.display = 'block';
+            
+            installButton.addEventListener('click', () => {
+                // Show the install prompt
+                deferredPrompt.prompt();
+                // Wait for the user to respond to the prompt
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                        installButton.style.display = 'none';
+                        pwaPrompt.style.display = 'none';
+                    } else {
+                        console.log('User dismissed the install prompt');
+                    }
+                    deferredPrompt = null;
+                });
+            });
+            
+            pwaInstall.addEventListener('click', () => {
+                // Show the install prompt
+                deferredPrompt.prompt();
+                // Wait for the user to respond to the prompt
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                        pwaPrompt.style.display = 'none';
+                    } else {
+                        console.log('User dismissed the install prompt');
+                    }
+                    deferredPrompt = null;
+                });
+            });
+            
+            pwaCancel.addEventListener('click', () => {
+                pwaPrompt.style.display = 'none';
+            });
+        });
+
+        // Add interactive effects to sidebar navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.wms-nav-link');
+            const submenuLinks = document.querySelectorAll('.wms-submenu-link');
+            const headerToggle = document.getElementById('headerToggle');
+            const sidebar = document.getElementById('sidebar');
+            const mobileOverlay = document.getElementById('mobileOverlay');
+            
+            // Handle main menu item clicks
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // Toggle submenu if it exists
+                    const parentItem = this.parentElement;
+                    const submenu = parentItem.querySelector('.wms-submenu');
+                    
+                    if (submenu) {
+                        e.preventDefault();
+                        
+                        // Close other open submenus
+                        document.querySelectorAll('.wms-nav-item.active').forEach(item => {
+                            if (item !== parentItem) {
+                                item.classList.remove('active');
+                            }
+                        });
+                        
+                        // Toggle current submenu
+                        parentItem.classList.toggle('active');
+                        
+                        // Do NOT close sidebar on mobile when opening submenus
+                    } else {
+                        // Remove active class from all links
+                        navLinks.forEach(l => l.classList.remove('active'));
+                        
+                        // Add active class to clicked link
+                        this.classList.add('active');
+                        
+                        // Close sidebar on mobile after selection (only for menu items without submenus)
+                        if (window.innerWidth <= 768) {
+                            sidebar.classList.remove('mobile-open');
+                            mobileOverlay.classList.remove('active');
+                        }
+                    }
+                });
+            });
+
+            // Handle submenu item clicks
+            submenuLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // Remove active class from all submenu links
+                    submenuLinks.forEach(l => l.classList.remove('active'));
+                    
+                    // Add active class to clicked submenu link
+                    this.classList.add('active');
+                    
+                    // Close sidebar on mobile after submenu selection
+                    if (window.innerWidth <= 768) {
+                        sidebar.classList.remove('mobile-open');
+                        mobileOverlay.classList.remove('active');
+                    }
+                });
+            });
+
+            // Mobile menu toggle (hamburger button in header) - TOGGLE FUNCTIONALITY
+            headerToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('mobile-open');
+                mobileOverlay.classList.toggle('active');
+            });
+            
+            // Close sidebar when clicking on overlay
+            mobileOverlay.addEventListener('click', function() {
+                sidebar.classList.remove('mobile-open');
+                mobileOverlay.classList.remove('active');
+            });
+
+            // Logout functionality
+            const logoutBtn = document.getElementById('logoutBtn');
+            const logoutModal = document.getElementById('logoutModal');
+            const cancelLogout = document.getElementById('cancelLogout');
+            const confirmLogout = document.getElementById('confirmLogout');
+
+            // Show logout confirmation modal
+            logoutBtn.addEventListener('click', function() {
+                logoutModal.style.display = 'flex';
+            });
+
+            // Hide modal on cancel
+            cancelLogout.addEventListener('click', function() {
+                logoutModal.style.display = 'none';
+            });
+
+            // Handle logout confirmation
+            confirmLogout.addEventListener('click', function() {
+                // In a real application, you would perform logout actions here
+                // For demo purposes, we'll just show an alert
+                alert('Logging out...');
+                logoutModal.style.display = 'none';
+                
+                // In a real app, you would redirect to login page:
+                // window.location.href = '/login';
+            });
+
+            // Close modal when clicking outside
+            logoutModal.addEventListener('click', function(e) {
+                if (e.target === logoutModal) {
+                    logoutModal.style.display = 'none';
+                }
+            });
+            
+            // Close sidebar when window is resized to desktop size
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768) {
+                    sidebar.classList.remove('mobile-open');
+                    mobileOverlay.classList.remove('active');
+                }
+            });
+        });
+
+        // Initialize the chart
+        document.addEventListener('DOMContentLoaded', function() {
+            const neoSalesChartCtx = document.getElementById('neo-sales-chart').getContext('2d');
+            
+            // Sample data for the chart
+            const neoClientNames = ['Nova Corp', 'Quantum Ind', 'Stellar Sys', 'Aether Tech', 'Zenith Sol'];
+            const neoSalesData = [850000, 720000, 540000, 480000, 350000];
+            
+            // Function to create gradient effect
+            function neoCreateGradient(ctx, topColor, bottomColor) {
+                const gradient = ctx.createLinearGradient(0, 0, 0, 150);
+                gradient.addColorStop(0, topColor);
+                gradient.addColorStop(0.7, bottomColor);
+                gradient.addColorStop(1, bottomColor);
+                return gradient;
+            }
+            
+            // Create the chart
+            const neoSalesChart = new Chart(neoSalesChartCtx, {
+                type: 'bar',
+                data: {
+                    labels: neoClientNames,
+                    datasets: [{
+                        label: 'Sales Volume',
+                        data: neoSalesData,
+                        backgroundColor: [
+                            neoCreateGradient(neoSalesChartCtx, '#3A4FBE', '#2A3B9E'),
+                            neoCreateGradient(neoSalesChartCtx, '#5A6FDE', '#3A4FBE'),
+                            neoCreateGradient(neoSalesChartCtx, '#00C2D6', '#00A0B2'),
+                            neoCreateGradient(neoSalesChartCtx, '#FF5E7D', '#E04A68'),
+                            neoCreateGradient(neoSalesChartCtx, '#8A6BFF', '#6A4BDF')
+                        ],
+                        borderColor: [
+                            '#2A3B9E',
+                            '#3A4FBE',
+                            '#00A0B2',
+                            '#E04A68',
+                            '#6A4BDF'
+                        ],
+                        borderWidth: 1,
+                        barPercentage: 0.6,
+                        categoryPercentage: 0.7,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                            titleColor: '#222233',
+                            bodyColor: '#666699',
+                            borderColor: 'rgba(0, 153, 255, 0.25)',
+                            borderWidth: 1,
+                            cornerRadius: 6,
+                            displayColors: false,
+                            padding: 6,
+                            titleFont: {
+                                size: 10
+                            },
+                            bodyFont: {
+                                size: 10
+                            },
+                            callbacks: {
+                                label: function(context) {
+                                    return new Intl.NumberFormat('en-US', {
+                                        style: 'currency',
+                                        currency: 'USD',
+                                        minimumFractionDigits: 0
+                                    }).format(context.parsed.y);
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false,
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: '#666699',
+                                font: {
+                                    size: 9
+                                }
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(221, 228, 240, 0.6)',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: '#666699',
+                                font: {
+                                    size: 9
+                                },
+                                callback: function(value) {
+                                    if (value >= 1000) {
+                                        return '$' + (value / 1000).toFixed(0) + 'K';
+                                    }
+                                    return '$' + value;
+                                },
+                                maxTicksLimit: 5
+                            }
+                        }
+                    },
+                    animation: {
+                        duration: 800,
+                        easing: 'easeOutQuart'
+                    }
+                }
+            });
+            
+            // Handle time period selection
+            document.getElementById('neo-time-period-select').addEventListener('change', function() {
+                const neoTimePeriod = this.value;
+                let neoMultiplier = 1;
+                
+                switch(neoTimePeriod) {
+                    case '7d':
+                        neoMultiplier = 0.25;
+                        break;
+                    case '90d':
+                        neoMultiplier = 1.5;
+                        break;
+                    case '1y':
+                        neoMultiplier = 4;
+                        break;
+                }
+                
+                // Update chart data
+                neoSalesChart.data.datasets[0].data = neoSalesData.map(value => value * neoMultiplier);
+                neoSalesChart.update();
+            });
+            
+            // Department filtering functionality
+            const neoFilterButtons = document.querySelectorAll('.neo-filter-btn');
+            const neoTableRows = document.querySelectorAll('#neo-table-body tr');
+            
+            neoFilterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    neoFilterButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    const neoDepartment = this.getAttribute('data-department');
+                    
+                    // Show/hide table rows based on filter
+                    neoTableRows.forEach(row => {
+                        const neoRowDepartment = row.getAttribute('data-department');
+                        
+                        if (neoDepartment === 'all') {
+                            row.style.display = 'table-row';
+                        } else if (neoRowDepartment === neoDepartment) {
+                            row.style.display = 'table-row';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // Simulate real-time data updates
+            setInterval(() => {
+                // Update "Invoices Created Today" with a random increase
+                const neoRows = document.querySelectorAll('#neo-table-body tr');
+                neoRows.forEach(row => {
+                    const neoIndicatorCell = row.cells[1];
+                    if (neoIndicatorCell && neoIndicatorCell.textContent.trim() === "Invoices Created Today") {
+                        const neoTodayInvoicesValue = row.cells[3];
+                        let neoCurrentValue = parseInt(neoTodayInvoicesValue.textContent);
+                        if (!isNaN(neoCurrentValue)) {
+                            neoTodayInvoicesValue.textContent = neoCurrentValue + Math.floor(Math.random() * 3);
+                        }
+                    }
+                });
+            }, 5000);
+        });
+
+        // Multi-Store Revenue Chart with Toggle Buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            const neoRevenueChartCtx = document.getElementById('neo-revenue-chart').getContext('2d');
+            const neoStoreToggles = document.querySelectorAll('.neo-store-toggle');
+            
+            // Sample data for 7 days
+            const neoDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            
+            // Store data with different revenue patterns
+            const neoStoreData = {
+                store1: {
+                    name: 'Store A',
+                    data: [45000, 52000, 48000, 61000, 55000, 72000, 68000],
+                    color: '#0099ff'
+                },
+                store2: {
+                    name: 'Store B', 
+                    data: [38000, 42000, 51000, 47000, 59000, 53000, 61000],
+                    color: '#9966ff'
+                },
+                store3: {
+                    name: 'Store C',
+                    data: [52000, 58000, 54000, 62000, 68000, 75000, 71000],
+                    color: '#00e676'
+                },
+                store4: {
+                    name: 'Store D',
+                    data: [29000, 32000, 35000, 41000, 38000, 45000, 42000],
+                    color: '#ff66cc'
+                },
+                store5: {
+                    name: 'Store E',
+                    data: [61000, 67000, 63000, 69000, 72000, 68000, 74000],
+                    color: '#ff9800'
+                }
+            };
+            
+            // Function to create gradient for line charts
+            function neoCreateLineGradient(ctx, color) {
+                const gradient = ctx.createLinearGradient(0, 0, 0, 200);
+                gradient.addColorStop(0, color);
+                gradient.addColorStop(0.7, color + '80');
+                gradient.addColorStop(1, color + '00');
+                return gradient;
+            }
+            
+            // Function to get currently active stores
+            function neoGetActiveStores() {
+                return Array.from(neoStoreToggles)
+                    .filter(toggle => toggle.classList.contains('active'))
+                    .map(toggle => toggle.getAttribute('data-store'));
+            }
+            
+            // Function to update chart based on active stores
+            function neoUpdateChart() {
+                const activeStores = neoGetActiveStores();
+                
+                const datasets = activeStores.map(storeId => {
+                    const store = neoStoreData[storeId];
+                    return {
+                        label: store.name,
+                        data: store.data,
+                        borderColor: store.color,
+                        backgroundColor: neoCreateLineGradient(neoRevenueChartCtx, store.color),
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: store.color,
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    };
+                });
+                
+                neoRevenueChart.data.datasets = datasets;
+                neoRevenueChart.update();
+            }
+            
+            // Initialize the revenue chart
+            const neoRevenueChart = new Chart(neoRevenueChartCtx, {
+                type: 'line',
+                data: {
+                    labels: neoDays,
+                    datasets: []
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                usePointStyle: true,
+                                pointStyle: 'circle',
+                                padding: 15,
+                                font: {
+                                    size: 9
+                                },
+                                color: '#666699'
+                            }
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                            titleColor: '#222233',
+                            bodyColor: '#666699',
+                            borderColor: 'rgba(0, 153, 255, 0.25)',
+                            borderWidth: 1,
+                            cornerRadius: 6,
+                            padding: 8,
+                            titleFont: {
+                                size: 10
+                            },
+                            bodyFont: {
+                                size: 10
+                            },
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + 
+                                        new Intl.NumberFormat('en-US', {
+                                            style: 'currency',
+                                            currency: 'USD',
+                                            minimumFractionDigits: 0
+                                        }).format(context.parsed.y);
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                color: 'rgba(221, 228, 240, 0.6)',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: '#666699',
+                                font: {
+                                    size: 9
+                                }
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(221, 228, 240, 0.6)',
+                                drawBorder: false
+                            },
+                            ticks: {
+                                color: '#666699',
+                                font: {
+                                    size: 9
+                                },
+                                callback: function(value) {
+                                    if (value >= 1000) {
+                                        return '$' + (value / 1000).toFixed(0) + 'K';
+                                    }
+                                    return '$' + value;
+                                },
+                                maxTicksLimit: 6
+                            }
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    },
+                    animation: {
+                        duration: 800,
+                        easing: 'easeOutQuart'
+                    }
+                }
+            });
+            
+            // Event listeners for store toggle buttons
+            neoStoreToggles.forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    neoUpdateChart();
+                });
+            });
+            
+            // Initialize the chart with default active stores
+            neoUpdateChart();
+        });
+    </script>
+</body>
+</html>
