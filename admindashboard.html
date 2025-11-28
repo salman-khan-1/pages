@@ -515,22 +515,11 @@
             overflow-y: auto;
         }
 
-        .wms-content-header {
-            margin-bottom: 15px;
-            position: relative;
-        }
+     
 
-        .wms-content-title {
-            font-size: 1.3rem;
-            font-weight: 500;
-            margin-bottom: 5px;
-            color: var(--neo-text-dark);
-        }
+   
 
-        .wms-content-subtitle {
-            color: var(--neo-text-light);
-            font-size: 0.8rem;
-        }
+    
 
         /* Analytics Dashboard Styles */
         .neo-dashboard-container {
@@ -538,26 +527,8 @@
             margin: 0 auto;
         }
 
-        .neo-dashboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--neo-border-light);
-            flex-wrap: wrap;
-            gap: 12px;
-        }
 
-        .neo-dashboard-title {
-            font-weight: 350;
-            font-size: 1.5rem;
-            color: var(--neo-text-dark);
-            letter-spacing: 0.5px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+
 
         /* Compact Metrics Section */
         .neo-compact-metrics {
@@ -1211,7 +1182,7 @@
                 border: none !important;
             }
             
-            .wms-content-header,
+            
             .wms-content-placeholder {
                 box-shadow: none !important;
                 border: none !important;
@@ -1219,7 +1190,7 @@
             }
             
             /* Ensure text is black for printing */
-            body, .wms-content-title, .wms-placeholder-title, .wms-placeholder-text {
+            body,  .wms-placeholder-title, .wms-placeholder-text {
                 color: #000 !important;
                 background: white !important;
             }
@@ -1362,19 +1333,13 @@
             .wms-main-content {
                 padding: 15px;
             }
-            
-            .wms-content-title {
-                font-size: 1.1rem;
-            }
+      
 
             .neo-compact-metrics {
                 grid-template-columns: repeat(2, 1fr);
             }
 
-            .neo-dashboard-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
+     
             
             .neo-data-table-header {
                 flex-direction: column;
@@ -1445,9 +1410,7 @@
                 font-size: 0.65rem;
             }
 
-            .neo-dashboard-title {
-                font-size: 1.3rem;
-            }
+          
             
             .neo-kpi-value {
                 font-size: 1.2rem;
@@ -1776,11 +1739,7 @@
 
         <!-- Main Content Area with Analytics Dashboard -->
         <main class="wms-main-content">
-            <div class="wms-content-header">
-                <h1 class="wms-content-title">Warehouse Management System</h1>
-                <p class="wms-content-subtitle">NeoCorp Logistics Platform • Clean Mobile Interface</p>
-            </div>
-
+     
             <!-- Analytics Dashboard Content -->
             <div class="neo-dashboard-container">
                 <!-- Compact Metrics Section -->
@@ -1835,13 +1794,59 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="neo-dashboard-header">
-                    <h1 class="neo-dashboard-title">
-                        <i class="fas fa-warehouse"></i>
-                        NEO CORP ANALYTICS
-                    </h1>
+                 <div class="neo-compact-metrics">
+                    <div class="neo-compact-card">
+                        <div class="neo-compact-icon">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="neo-compact-content">
+                            <div class="neo-compact-value">$124,580</div>
+                            <div class="neo-compact-label">Revenue Today</div>
+                        </div>
+                    </div>
+                    
+                    <div class="neo-compact-card">
+                        <div class="neo-compact-icon">
+                            <i class="fas fa-boxes"></i>
+                        </div>
+                        <div class="neo-compact-content">
+                            <div class="neo-compact-value">$2.45M</div>
+                            <div class="neo-compact-label">Inventory Value</div>
+                        </div>
+                    </div>
+                    
+                    <div class="neo-compact-card">
+                        <div class="neo-compact-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="neo-compact-content">
+                            <div class="neo-compact-value">24.8%</div>
+                            <div class="neo-compact-label">Profit Margin</div>
+                        </div>
+                    </div>
+                    
+                    <div class="neo-compact-card">
+                        <div class="neo-compact-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="neo-compact-content">
+                            <div class="neo-compact-value">3,842</div>
+                            <div class="neo-compact-label">Total Sales</div>
+                        </div>
+                    </div>
+                    
+                    <div class="neo-compact-card">
+                        <div class="neo-compact-icon">
+                            <i class="fas fa-receipt"></i>
+                        </div>
+                        <div class="neo-compact-content">
+                            <div class="neo-compact-value">$511,800</div>
+                            <div class="neo-compact-label">Total Expenses</div>
+                        </div>
+                    </div>
                 </div>
+
+             
                 
                 <!-- Comprehensive Performance Metrics Table -->
                 <div class="neo-data-table-container">
