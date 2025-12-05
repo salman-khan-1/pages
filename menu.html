@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NeoCorp WMS - Clean Mobile Interface</title>
+ <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="Neo-WMS" />
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#0099ff" />
+    <link rel="icon" href="data:,">
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="/css/main.css">
+    
+  </head>
+  <body>
+    <!-- Mobile Header with Company Name and Hamburger Menu -->
+    <header class="wms-mobile-header">
+      <!-- Left-aligned company name -->
+      <div class="wms-header-company">
+        <div class="wms-header-logo">
+          <i class="fas fa-cube"></i>
+        </div>
+        <h1 class="wms-header-title">NEO-WMS</h1>
+      </div>
+
+      <!-- Right-aligned hamburger menu -->
+      <div class="wms-header-nav">
+        <button class="wms-header-toggle" id="headerToggle">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Mobile Overlay -->
+    <div class="wms-mobile-overlay" id="mobileOverlay"></div>
+
+    <div class="wms-dashboard-container">
+      <!-- Enhanced Compact Fixed Sidebar -->
+      <aside class="wms-sidebar" id="sidebar">
+        <!-- Sidebar Header - No close button needed -->
+        <div class="wms-sidebar-header">
+          <div class="wms-logo">
+            <i class="fas fa-cube"></i>
+          </div>
+          <h1 class="wms-sidebar-title">NEO-WMS</h1>
+        </div>
+
+        <!-- Scrollable Navigation Area -->
+        <div class="wms-sidebar-nav">
+          <!-- Navigation Sections -->
+          <div class="wms-nav-section">
+            <h2 class="wms-section-title">
+              <i class="fas fa-compass"></i>
+              DASHBOARD
+            </h2>
+            <ul class="wms-nav-menu">
+              <li class="wms-nav-item">
+                <a href="#" class="wms-nav-link active">
+                  <i class="fas fa-home wms-nav-icon"></i>
+                  <span class="wms-nav-text">Overview</span>
+                </a>
+              </li>
+              <li class="wms-nav-item">
+                <a href="#" class="wms-nav-link">
+                  <i class="fas fa-chart-bar wms-nav-icon"></i>
+                  <span class="wms-nav-text">Analytics</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="wms-nav-section">
+            <h2 class="wms-section-title">
+              <i class="fas fa-warehouse"></i>
+              OPERATIONS
+            </h2>
+            <ul class="wms-nav-menu">
+              <li class="wms-nav-item">
+                <a href="#" class="wms-nav-link">
+                  <i class="fa-solid fa-receipt wms-nav-icon"></i>
+                  <span class="wms-nav-text">Entry vouchers</span>
+                  <i class="fas fa-chevron-right wms-nav-arrow"></i>
+                </a>
+                <ul class="wms-submenu">
+                  <li class="wms-submenu-item">
+                    <a href="#" class="wms-submenu-link">
+                      <i class="fa-solid fa-ticket wms-submenu-icon"></i>
+                      <span>All vouchers</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="wms-nav-item">
+                <a href="#" class="wms-nav-link">
+                  <i class="fa-solid fa-file-invoice wms-nav-icon"></i>
+                  <span class="wms-nav-text">Issue vouchers</span>
+                  <i class="fas fa-chevron-right wms-nav-arrow"></i>
+                </a>
+                <ul class="wms-submenu">
+                  <li class="wms-submenu-item">
+                    <a href="#" class="wms-submenu-link">
+                      <i class="fa-solid fa-ticket wms-submenu-icon"></i>
+                      <span>All vouchers</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="wms-nav-item">
+                <a href="#" class="wms-nav-link">
+                  <i class="fas fa-boxes wms-nav-icon"></i>
+                  <span class="wms-nav-text">Inventory</span>
+                  <i class="fas fa-chevron-right wms-nav-arrow"></i>
+                </a>
+                <ul class="wms-submenu">
+                  <li class="wms-submenu-item">
+                    <a href="#" class="wms-submenu-link">
+                      <i class="fas fa-list wms-submenu-icon"></i>
+                      <span>Stock Levels</span>
+                    </a>
+                  </li>
+                  <li class="wms-submenu-item">
+                    <a href="#" class="wms-submenu-link">
+                      <i class="fas fa-search wms-submenu-icon"></i>
+                      <span>Stock Search</span>
+                    </a>
+                  </li>
+                  <li class="wms-submenu-item">
+                    <a href="#" class="wms-submenu-link">
+                      <i class="fas fa-chart-line wms-submenu-icon"></i>
+                      <span>Stock Movement</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="wms-nav-item">
+                <a href="#" class="wms-nav-link">
+                  <i class="fa-solid fa-clipboard-check wms-nav-icon"></i>
+                  <span class="wms-nav-text">approvals</span>
+                </a>
+              </li>
+              <li class="wms-nav-item">
+                <a href="#" class="wms-nav-link">
+                  <i class="fas fa-dolly wms-nav-icon"></i>
+                  <span class="wms-nav-text">Picking</span>
+                  <span class="wms-nav-badge">12</span>
+                  <i class="fas fa-chevron-right wms-nav-arrow"></i>
+                </a>
+                <ul class="wms-submenu">
+                  <li class="wms-submenu-item">
+                    <a href="#" class="wms-submenu-link">
+                      <i class="fas fa-tasks wms-submenu-icon"></i>
+                      <span>Pick Lists</span>
+                    </a>
+                  </li>
+                  <li class="wms-submenu-item">
+                    <a href="#" class="wms-submenu-link">
+                      <i class="fas fa-route wms-submenu-icon"></i>
+                      <span>Pick Routes</span>
+                    </a>
+                  </li>
+                  <li class="wms-submenu-item">
+                    <a href="#" class="wms-submenu-link">
+                      <i class="fas fa-clock wms-submenu-icon"></i>
+                      <span>Pick Performance</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="wms-nav-item">
+                <a href="#" class="wms-nav-link">
+                  <i class="fas fa-truck-loading wms-nav-icon"></i>
+                  <span class="wms-nav-text">Shipping</span>
+                  <i class="fas fa-chevron-right wms-nav-arrow"></i>
+                </a>
+                <ul class="wms-submenu">
+                  <li class="wms-submenu-item">
+                    <a href="#" class="wms-submenu-link">
+                      <i class="fas fa-box-open wms-submenu-icon"></i>
+                      <span>Packing</span>
+                    </a>
+                  </li>
+                  <li class="wms-submenu-item">
+                    <a href="#" class="wms-submenu-link">
+                      <i class="fas fa-shipping-fast wms-submenu-icon"></i>
+                      <span>Dispatch</span>
+                    </a>
+                  </li>
+                  <li class="wms-submenu-item">
+                    <a href="#" class="wms-submenu-link">
+                      <i class="fas fa-file-invoice wms-submenu-icon"></i>
+                      <span>Shipping Docs</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+
+          <div class="wms-nav-section">
+            <h2 class="wms-section-title">
+              <i class="fas fa-cogs"></i>
+              MANAGEMENT
+            </h2>
+            <ul class="wms-nav-menu">
+              <li class="wms-nav-item">
+                <a href="#" class="wms-nav-link">
+                  <i class="fas fa-users wms-nav-icon"></i>
+                  <span class="wms-nav-text">Users</span>
+                  <i class="fas fa-chevron-right wms-nav-arrow"></i>
+                </a>
+                <ul class="wms-submenu">
+                  <li class="wms-submenu-item">
+                    <a href="#" class="wms-submenu-link">
+                      <i class="fas fa-user-plus wms-submenu-icon"></i>
+                      <span>Add Users</span>
+                    </a>
+                  </li>
+                  <li class="wms-submenu-item">
+                    <a href="#" class="wms-submenu-link">
+                      <i class="fas fa-user-group wms-submenu-icon"></i>
+                      <span>All Users</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="wms-nav-item">
+                <a href="#" class="wms-nav-link">
+                  <i class="fas fa-warehouse wms-nav-icon"></i>
+                  <span class="wms-nav-text">Warehose</span>
+                  <i class="fas fa-chevron-right wms-nav-arrow"></i>
+                </a>
+                <ul class="wms-submenu">
+                  <li class="wms-submenu-item">
+                    <a href="#" class="wms-submenu-link">
+                      <i class="fas fa-plus wms-submenu-icon"></i>
+                      <span>Add Warehose</span>
+                    </a>
+                  </li>
+                  <li class="wms-submenu-item">
+                    <a href="#" class="wms-submenu-link">
+                      <i class="fas fa-warehouse wms-submenu-icon"></i>
+                      <span>All Warehoses</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+               <li class="wms-nav-item">
+                <a href="#" class="wms-nav-link">
+                  <i class="fas fa-store wms-nav-icon"></i>
+                  <span class="wms-nav-text">Stores</span>
+                  <i class="fas fa-chevron-right wms-nav-arrow"></i>
+                </a>
+                <ul class="wms-submenu">
+                  <li class="wms-submenu-item">
+                    <a href="#" class="wms-submenu-link">
+                      <i class="fas fa-plus wms-submenu-icon"></i>
+                      <span>add Store</span>
+                    </a>
+                  </li>
+                  <li class="wms-submenu-item">
+                    <a href="#" class="wms-submenu-link">
+                      <i class="fas fa-store wms-submenu-icon"></i>
+                      <span>All Stores</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="wms-nav-item">
+                <a href="#" class="wms-nav-link">
+                  <i class="fas fa-id-card wms-nav-icon"></i>
+                  <span class="wms-nav-text">Customers</span>
+                  <i class="fas fa-chevron-right wms-nav-arrow"></i>
+                </a>
+                <ul class="wms-submenu">
+                  <li class="wms-submenu-item">
+                    <a href="#" class="wms-submenu-link">
+                      <i class="fas fa-user-plus wms-submenu-icon"></i>
+                      <span>Add Customers</span>
+                    </a>
+                  </li>
+                  <li class="wms-submenu-item">
+                    <a href="#" class="wms-submenu-link">
+                      <i class="fas fa-user-group wms-submenu-icon"></i>
+                      <span>All Customers</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="wms-nav-item">
+                <a href="#" class="wms-nav-link">
+                  <i class="fas fa-parachute-box wms-nav-icon"></i>
+                  <span class="wms-nav-text">SUPPLIERS</span>
+                  <i class="fas fa-chevron-right wms-nav-arrow"></i>
+                </a>
+                <ul class="wms-submenu">
+                  <li class="wms-submenu-item">
+                    <a href="#" class="wms-submenu-link">
+                      <i class="fas fa-user-plus wms-submenu-icon"></i>
+                      <span>Add SUPPLIER</span>
+                    </a>
+                  </li>
+                  <li class="wms-submenu-item">
+                    <a href="#" class="wms-submenu-link">
+                      <i class="fas fa-user-group wms-submenu-icon"></i>
+                      <span>All SUPPLIERS</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="wms-nav-item">
+                <a href="#" class="wms-nav-link">
+                  <i class="fa-solid fa-box wms-nav-icon"></i>
+                  <span class="wms-nav-text">Products</span>
+                  <i class="fas fa-chevron-right wms-nav-arrow"></i>
+                </a>
+                <ul class="wms-submenu">
+                  <li class="wms-submenu-item">
+                    <a href="#" class="wms-submenu-link">
+                      <i class="fas fa-plus wms-submenu-icon"></i>
+                      <span>Add product</span>
+                    </a>
+                  </li>
+                  <li class="wms-submenu-item">
+                    <a href="#" class="wms-submenu-link">
+                      <i class="fas fa-layer-group wms-submenu-icon"></i>
+                      <span>All product</span>
+                    </a>
+                  </li>
+                  <li class="wms-submenu-item">
+                    <a href="#" class="wms-submenu-link">
+                      <i class="fas fa-bullhorn wms-submenu-icon"></i>
+                      <span>CREATE OFFERS</span>
+                    </a>
+                  </li>
+                  <li class="wms-submenu-item">
+                    <a href="#" class="wms-submenu-link">
+                      <i class="fas fa-barcode wms-submenu-icon"></i>
+                      <span>generate barcode</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <!-- Add new section before Reports -->
+          <div class="wms-nav-section">
+            <h2 class="wms-section-title">
+              <i class="fas fa-sliders-h"></i>
+              SYSTEM
+            </h2>
+            <ul class="wms-nav-menu">
+              <li class="wms-nav-item">
+                <a href="#" class="wms-nav-link">
+                  <i class="fas fa-cog wms-nav-icon"></i>
+                  <span class="wms-nav-text">Settings</span>
+                  <i class="fas fa-chevron-right wms-nav-arrow"></i>
+                </a>
+                <ul class="wms-submenu">
+                  <li class="wms-submenu-item">
+                    <a href="#" class="wms-submenu-link">
+                      <i class="fas fa-cogs wms-submenu-icon"></i>
+                      <span>System Settings</span>
+                    </a>
+                  </li>
+                  <li class="wms-submenu-item">
+                    <a href="#" class="wms-submenu-link">
+                      <i class="fas fa-bell wms-submenu-icon"></i>
+                      <span>Notifications</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="wms-nav-item">
+                <a href="#" class="wms-nav-link">
+                  <i class="fas fa-database wms-nav-icon"></i>
+                  <span class="wms-nav-text">Data Management</span>
+                  <i class="fas fa-chevron-right wms-nav-arrow"></i>
+                </a>
+                <ul class="wms-submenu">
+                  <li class="wms-submenu-item">
+                    <a href="#" class="wms-submenu-link">
+                      <i class="fas fa-file-export wms-submenu-icon"></i>
+                      <span>Export Data</span>
+                    </a>
+                  </li>
+                  <li class="wms-submenu-item">
+                    <a href="#" class="wms-submenu-link">
+                      <i class="fas fa-file-import wms-submenu-icon"></i>
+                      <span>Import Data</span>
+                    </a>
+                  </li>
+                  <li class="wms-submenu-item">
+                    <a href="#" class="wms-submenu-link">
+                      <i class="fas fa-trash-alt wms-submenu-icon"></i>
+                      <span>Data Cleanup</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <div class="wms-nav-section">
+            <h2 class="wms-section-title">
+              <i class="fas fa-chart-line"></i>
+              REPORTS
+            </h2>
+            <ul class="wms-nav-menu">
+              <li class="wms-nav-item">
+                <a href="#" class="wms-nav-link">
+                  <i class="fas fa-file-alt wms-nav-icon"></i>
+                  <span class="wms-nav-text">Daily Reports</span>
+                </a>
+              </li>
+              <li class="wms-nav-item">
+                <a href="#" class="wms-nav-link">
+                  <i class="fas fa-chart-pie wms-nav-icon"></i>
+                  <span class="wms-nav-text">Performance</span>
+                  <i class="fas fa-chevron-right wms-nav-arrow"></i>
+                </a>
+                <ul class="wms-submenu">
+                  <li class="wms-submenu-item">
+                    <a href="#" class="wms-submenu-link">
+                      <i class="fas fa-tachometer-alt wms-submenu-icon"></i>
+                      <span>KPIs</span>
+                    </a>
+                  </li>
+                  <li class="wms-submenu-item">
+                    <a href="#" class="wms-submenu-link">
+                      <i class="fas fa-user-clock wms-submenu-icon"></i>
+                      <span>Staff Performance</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- User Profile Section with Logout -->
+        <div class="wms-user-section">
+          <div class="wms-user-profile">
+            <div class="wms-user-avatar">
+              <i class="fas fa-user"></i>
+            </div>
+            <div class="wms-user-info">
+              <div class="wms-user-name">Alex Morgan</div>
+              <div class="wms-user-role">Operations Manager</div>
+            </div>
+            <div class="wms-user-status"></div>
+          </div>
+          <button class="wms-logout-btn" id="logoutBtn">
+            <i class="fas fa-sign-out-alt wms-logout-icon"></i>
+            <span>Log Out</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- Main Content Area -->
+      <main class="wms-main-content"></main>
+    </div>
+
+    <!-- Logout Confirmation Modal -->
+    <div class="wms-logout-modal" id="logoutModal">
+      <div class="wms-modal-content">
+        <div class="wms-modal-icon">
+          <i class="fas fa-sign-out-alt"></i>
+        </div>
+        <h3 class="wms-modal-title">Confirm Logout</h3>
+        <p class="wms-modal-text">
+          Are you sure you want to log out of Neo-WMS?
+        </p>
+        <div class="wms-modal-actions">
+          <button class="wms-modal-btn wms-modal-btn-cancel" id="cancelLogout">
+            Cancel
+          </button>
+          <button class="wms-modal-btn wms-modal-btn-logout" id="confirmLogout">
+            Log Out
+          </button>
+        </div>
+      </div>
+    </div>
+<script src="/javascript/main.js"></script>
+<script src="/javascript/logout.js"></script>
+  </body>
+</html>
