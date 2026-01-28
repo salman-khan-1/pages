@@ -1,0 +1,1705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProcureFlow Pro | Enterprise Procurement</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== ENTERPRISE DESIGN SYSTEM ===== */
+        :root {
+            --primary-blue: #0052CC;
+            --secondary-blue: #0065FF;
+            --success-green: #00875A;
+            --warning-orange: #FF991F;
+            --danger-red: #DE350B;
+            --neutral-dark: #172B4D;
+            --neutral-gray: #42526E;
+            --neutral-light: #F4F5F7;
+            --neutral-border: #DFE1E6;
+            --neutral-white: #FFFFFF;
+            --shadow-subtle: 0px 1px 1px rgba(9, 30, 66, 0.08);
+            --shadow-medium: 0px 3px 5px rgba(9, 30, 66, 0.16);
+            --shadow-elevated: 0px 8px 16px rgba(9, 30, 66, 0.12);
+            --transition-fast: 150ms cubic-bezier(0.2, 0, 0, 1);
+            --transition-medium: 200ms cubic-bezier(0.2, 0, 0, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'SF Pro', sans-serif;
+        }
+
+        body {
+            background: var(--neutral-light);
+            color: var(--neutral-dark);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* ===== LAYOUT ===== */
+        .app-container {
+            display: grid;
+            grid-template-rows: auto 1fr;
+            height: 100vh;
+            max-width: 100vw;
+            overflow: hidden;
+        }
+
+        /* ===== TOP BAR ===== */
+        .top-bar {
+            background: var(--neutral-white);
+            border-bottom: 1px solid var(--neutral-border);
+            padding: 12px 24px;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: 24px;
+            z-index: 100;
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .system-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .title-logo {
+            width: 32px;
+            height: 32px;
+            background: var(--primary-blue);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .title-text h1 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--neutral-dark);
+            line-height: 1.2;
+        }
+
+        .title-text .subtitle {
+            font-size: 12px;
+            color: var(--neutral-gray);
+            font-weight: 400;
+        }
+
+        .search-filter-bar {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            max-width: 800px;
+        }
+
+        .search-box {
+            flex: 1;
+            position: relative;
+            max-width: 400px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 8px 12px 8px 36px;
+            border: 1px solid var(--neutral-border);
+            border-radius: 4px;
+            font-size: 14px;
+            transition: var(--transition-fast);
+            background: var(--neutral-light);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 2px rgba(0, 82, 204, 0.2);
+            background: var(--neutral-white);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--neutral-gray);
+            font-size: 14px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            overflow: hidden;
+        }
+
+        /* ===== DATA TABLE SECTION ===== */
+        .data-section {
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            background: var(--neutral-white);
+            border-right: 1px solid var(--neutral-border);
+        }
+
+        /* ===== KPI METRICS ===== */
+        .kpi-metrics {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--neutral-border);
+            background: var(--neutral-white);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .metric-card {
+            padding: 12px;
+            border-radius: 6px;
+            background: var(--neutral-light);
+            border: 1px solid var(--neutral-border);
+            transition: var(--transition-fast);
+        }
+
+        .metric-card:hover {
+            border-color: var(--primary-blue);
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .metric-value {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--neutral-dark);
+            margin-bottom: 4px;
+        }
+
+        .metric-label {
+            font-size: 12px;
+            color: var(--neutral-gray);
+            font-weight: 500;
+        }
+
+        .metric-trend {
+            font-size: 11px;
+            margin-top: 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .trend-up { color: var(--success-green); }
+        .trend-down { color: var(--danger-red); }
+
+        /* ===== SELECTION BAR ===== */
+        .selection-bar {
+            padding: 12px 24px;
+            border-bottom: 1px solid var(--neutral-border);
+            background: rgba(0, 82, 204, 0.04);
+            display: none;
+        }
+
+        .selection-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .selected-count {
+            font-weight: 600;
+            color: var(--primary-blue);
+            font-size: 14px;
+        }
+
+        .selected-value {
+            font-size: 14px;
+            color: var(--neutral-gray);
+        }
+
+        .selection-actions {
+            display: flex;
+            gap: 8px;
+            margin-left: auto;
+        }
+
+        /* ===== ENTERPRISE DATA TABLE ===== */
+        .table-container {
+            flex: 1;
+            overflow: auto;
+            position: relative;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1200px;
+        }
+
+        .data-table thead {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .data-table th {
+            background: var(--neutral-light);
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 12px;
+            color: var(--neutral-gray);
+            border-bottom: 2px solid var(--neutral-border);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .data-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--neutral-border);
+            font-size: 14px;
+            color: var(--neutral-dark);
+            vertical-align: middle;
+        }
+
+        .data-table tbody tr {
+            transition: var(--transition-fast);
+        }
+
+        .data-table tbody tr:hover {
+            background: rgba(0, 82, 204, 0.02);
+        }
+
+        .data-table tbody tr.selected {
+            background: rgba(0, 82, 204, 0.04);
+        }
+
+        /* ===== TABLE COLUMNS ===== */
+        .col-checkbox { width: 40px; }
+        .col-id { width: 120px; }
+        .col-name { width: 250px; min-width: 200px; }
+        .col-category { width: 120px; }
+        .col-stock { width: 100px; }
+        .col-min { width: 100px; }
+        .col-usage { width: 120px; }
+        .col-days { width: 100px; }
+        .col-status { width: 100px; }
+        .col-suppliers { width: 200px; }
+        .col-actions { width: 100px; }
+
+        /* ===== CHECKBOX ===== */
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .enterprise-checkbox {
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--neutral-border);
+            border-radius: 3px;
+            background: var(--neutral-white);
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition-fast);
+        }
+
+        .enterprise-checkbox.checked {
+            background: var(--primary-blue);
+            border-color: var(--primary-blue);
+        }
+
+        .enterprise-checkbox.checked::after {
+            content: '✓';
+            position: absolute;
+            color: white;
+            font-size: 10px;
+            font-weight: 600;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* ===== STATUS BADGES ===== */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .status-critical {
+            background: rgba(222, 53, 11, 0.1);
+            color: var(--danger-red);
+            border: 1px solid rgba(222, 53, 11, 0.2);
+        }
+
+        .status-warning {
+            background: rgba(255, 153, 31, 0.1);
+            color: var(--warning-orange);
+            border: 1px solid rgba(255, 153, 31, 0.2);
+        }
+
+        .status-normal {
+            background: rgba(0, 135, 90, 0.1);
+            color: var(--success-green);
+            border: 1px solid rgba(0, 135, 90, 0.2);
+        }
+
+        /* ===== SUPPLIER TAGS ===== */
+        .supplier-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .supplier-tag {
+            padding: 2px 6px;
+            background: rgba(0, 82, 204, 0.08);
+            border-radius: 3px;
+            font-size: 11px;
+            color: var(--primary-blue);
+            font-weight: 500;
+            border: 1px solid rgba(0, 82, 204, 0.1);
+        }
+
+        .supplier-tag.best {
+            background: rgba(0, 135, 90, 0.1);
+            color: var(--success-green);
+            border-color: rgba(0, 135, 90, 0.2);
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 13px;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            white-space: nowrap;
+            background: transparent;
+        }
+
+        .btn-primary {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary-blue);
+            border-color: var(--secondary-blue);
+        }
+
+        .btn-secondary {
+            background: var(--neutral-white);
+            color: var(--neutral-gray);
+            border-color: var(--neutral-border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--neutral-light);
+            border-color: var(--neutral-gray);
+        }
+
+        .btn-success {
+            background: var(--success-green);
+            color: white;
+            border-color: var(--success-green);
+        }
+
+        .btn-success:hover {
+            background: #006644;
+            border-color: #006644;
+        }
+
+        .btn-danger {
+            background: var(--danger-red);
+            color: white;
+            border-color: var(--danger-red);
+        }
+
+        .btn-danger:hover {
+            background: #BF2600;
+            border-color: #BF2600;
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-blue);
+            border-color: var(--primary-blue);
+        }
+
+        .btn-outline:hover {
+            background: rgba(0, 82, 204, 0.08);
+        }
+
+        .btn-sm {
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+
+        .btn-icon {
+            padding: 6px;
+            width: 32px;
+            height: 32px;
+            justify-content: center;
+        }
+
+        /* ===== ACTION PANEL ===== */
+        .action-panel {
+            width: 400px;
+            background: var(--neutral-white);
+            border-left: 1px solid var(--neutral-border);
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-medium);
+            transition: transform 0.3s ease;
+        }
+
+        .panel-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--neutral-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--neutral-light);
+        }
+
+        .panel-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--neutral-dark);
+        }
+
+        .panel-close {
+            width: 28px;
+            height: 28px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            color: var(--neutral-gray);
+            transition: var(--transition-fast);
+        }
+
+        .panel-close:hover {
+            background: rgba(9, 30, 66, 0.08);
+        }
+
+        .panel-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .panel-footer {
+            padding: 16px 20px;
+            border-top: 1px solid var(--neutral-border);
+            background: var(--neutral-light);
+        }
+
+        /* ===== ORDER ITEM ===== */
+        .order-item {
+            background: var(--neutral-light);
+            border: 1px solid var(--neutral-border);
+            border-radius: 6px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .item-title {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--neutral-dark);
+            margin-bottom: 4px;
+        }
+
+        .item-subtitle {
+            font-size: 12px;
+            color: var(--neutral-gray);
+        }
+
+        /* ===== QUANTITY CONTROL ===== */
+        .quantity-section {
+            margin-bottom: 16px;
+        }
+
+        .section-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--neutral-dark);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .quantity-input {
+            width: 80px;
+            padding: 8px 12px;
+            border: 1px solid var(--neutral-border);
+            border-radius: 4px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--neutral-dark);
+            background: var(--neutral-white);
+        }
+
+        .quantity-input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 2px rgba(0, 82, 204, 0.2);
+        }
+
+        .quantity-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .qty-btn {
+            width: 24px;
+            height: 24px;
+            border: 1px solid var(--neutral-border);
+            background: var(--neutral-white);
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 12px;
+            color: var(--neutral-gray);
+            transition: var(--transition-fast);
+        }
+
+        .qty-btn:hover {
+            background: var(--neutral-light);
+            border-color: var(--neutral-gray);
+        }
+
+        /* ===== SUPPLIER SELECTION ===== */
+        .supplier-section {
+            margin-bottom: 16px;
+        }
+
+        .supplier-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .supplier-option {
+            padding: 12px;
+            border: 1px solid var(--neutral-border);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            background: var(--neutral-white);
+        }
+
+        .supplier-option:hover {
+            border-color: var(--primary-blue);
+            background: rgba(0, 82, 204, 0.02);
+        }
+
+        .supplier-option.selected {
+            border-color: var(--primary-blue);
+            background: rgba(0, 82, 204, 0.06);
+            box-shadow: 0 0 0 1px rgba(0, 82, 204, 0.2);
+        }
+
+        .supplier-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .supplier-name {
+            font-weight: 500;
+            font-size: 13px;
+            color: var(--neutral-dark);
+            margin-bottom: 2px;
+        }
+
+        .supplier-details {
+            font-size: 12px;
+            color: var(--neutral-gray);
+        }
+
+        .supplier-price {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--neutral-dark);
+        }
+
+        .best-badge {
+            display: inline-block;
+            padding: 2px 6px;
+            background: var(--success-green);
+            color: white;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        /* ===== ORDER SUMMARY ===== */
+        .order-summary {
+            background: var(--neutral-white);
+            border: 1px solid var(--neutral-border);
+            border-radius: 6px;
+            padding: 16px;
+            margin-top: 20px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed var(--neutral-border);
+            font-size: 13px;
+        }
+
+        .summary-row.total {
+            border-bottom: none;
+            border-top: 2px solid var(--neutral-border);
+            font-weight: 600;
+            margin-top: 8px;
+            padding-top: 12px;
+            color: var(--neutral-dark);
+        }
+
+        /* ===== UTILITY CLASSES ===== */
+        .text-sm { font-size: 12px; }
+        .text-gray { color: var(--neutral-gray); }
+        .text-success { color: var(--success-green); }
+        .text-danger { color: var(--danger-red); }
+        .font-medium { font-weight: 500; }
+        .font-semibold { font-weight: 600; }
+
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .ml-auto { margin-left: auto; }
+
+        .hidden { display: none; }
+
+        /* ===== LOADING ===== */
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--neutral-border);
+            border-top-color: var(--primary-blue);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1200px) {
+            .action-panel {
+                width: 350px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-panel {
+                position: fixed;
+                top: 0;
+                right: 0;
+                height: 100vh;
+                transform: translateX(100%);
+                z-index: 1000;
+            }
+            
+            .action-panel.open {
+                transform: translateX(0);
+            }
+            
+            .top-bar {
+                grid-template-columns: 1fr auto;
+                gap: 16px;
+            }
+            
+            .search-filter-bar {
+                order: 3;
+                grid-column: 1 / -1;
+                margin-top: 8px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .top-bar {
+                padding: 12px 16px;
+            }
+            
+            .table-container {
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- APP CONTAINER -->
+    <div class="app-container">
+        <!-- TOP BAR -->
+        <div class="top-bar">
+            <div class="system-title">
+                <div class="title-logo">PF</div>
+                <div class="title-text">
+                    <h1>ProcureFlow Pro</h1>
+                    <div class="subtitle">Enterprise Procurement System</div>
+                </div>
+            </div>
+            
+            <div class="search-filter-bar">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" 
+                           class="search-input" 
+                           placeholder="Search products, SKUs, suppliers..."
+                           id="searchInput"
+                           oninput="searchTable()">
+                </div>
+                
+                <div class="filter-buttons">
+                    <button class="btn btn-secondary btn-sm" onclick="filterByStatus('all')">
+                        All Items
+                    </button>
+                    <button class="btn btn-secondary btn-sm" onclick="filterByStatus('critical')">
+                        Critical
+                    </button>
+                    <button class="btn btn-secondary btn-sm" onclick="filterByStatus('warning')">
+                        Low Stock
+                    </button>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn btn-secondary btn-sm" onclick="exportData()">
+                    <i class="fas fa-download"></i> Export
+                </button>
+                <button class="btn btn-primary btn-sm" onclick="smartSelect()">
+                    <i class="fas fa-robot"></i> Smart Select
+                </button>
+                <button class="btn btn-success btn-sm" id="quickOrderBtn" onclick="openOrderPanel()" style="display: none;">
+                    <i class="fas fa-bolt"></i> Quick Order
+                </button>
+            </div>
+        </div>
+        
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <!-- DATA SECTION -->
+            <div class="data-section">
+                <!-- KPI METRICS -->
+                <div class="kpi-metrics">
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-value" id="totalItems">12</div>
+                            <div class="metric-label">Items to Reorder</div>
+                            <div class="metric-trend trend-up">
+                                <i class="fas fa-arrow-up"></i> 2 from yesterday
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value" id="totalValue">$45,820</div>
+                            <div class="metric-label">Estimated Cost</div>
+                            <div class="metric-trend trend-down">
+                                <i class="fas fa-arrow-down"></i> 5% savings
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value" id="avgDays">2.4</div>
+                            <div class="metric-label">Avg. Lead Time</div>
+                            <div class="metric-trend trend-down">
+                                <i class="fas fa-arrow-down"></i> 0.6d faster
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value" id="completionRate">94%</div>
+                            <div class="metric-label">Order Completion</div>
+                            <div class="metric-trend trend-up">
+                                <i class="fas fa-arrow-up"></i> 2% improvement
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- SELECTION BAR -->
+                <div class="selection-bar" id="selectionBar">
+                    <div class="selection-info">
+                        <span class="selected-count" id="selectedCount">0 items</span>
+                        <span class="selected-value">Total: $<span id="selectedTotal">0.00</span></span>
+                        <div class="selection-actions">
+                            <button class="btn btn-secondary btn-sm" onclick="clearSelection()">
+                                Clear
+                            </button>
+                            <button class="btn btn-success btn-sm" onclick="openOrderPanel()">
+                                <i class="fas fa-shopping-cart"></i> Review Order
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- DATA TABLE -->
+                <div class="table-container">
+                    <table class="data-table" id="dataTable">
+                        <thead>
+                            <tr>
+                                <th class="col-checkbox">
+                                    <div class="checkbox-container">
+                                        <div class="enterprise-checkbox" id="selectAll" onclick="toggleSelectAll()"></div>
+                                    </div>
+                                </th>
+                                <th class="col-id">SKU</th>
+                                <th class="col-name">Product Name</th>
+                                <th class="col-category">Category</th>
+                                <th class="col-stock">Current</th>
+                                <th class="col-min">Minimum</th>
+                                <th class="col-usage">Weekly Usage</th>
+                                <th class="col-days">Days Left</th>
+                                <th class="col-status">Status</th>
+                                <th class="col-suppliers">Available Suppliers</th>
+                                <th class="col-actions">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <!-- Items will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- ACTION PANEL -->
+            <div class="action-panel" id="actionPanel">
+                <div class="panel-header">
+                    <div class="panel-title">Create Purchase Order</div>
+                    <button class="panel-close" onclick="closeOrderPanel()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="panel-content" id="panelContent">
+                    <!-- Order items will be loaded here -->
+                </div>
+                
+                <div class="panel-footer">
+                    <div class="order-summary">
+                        <div class="summary-row">
+                            <span>Subtotal</span>
+                            <span id="summarySubtotal">$0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Shipping</span>
+                            <span id="summaryShipping">$0.00</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Tax (10%)</span>
+                            <span id="summaryTax">$0.00</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Total Order Value</span>
+                            <span id="summaryTotal">$0.00</span>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 12px; margin-top: 20px;">
+                        <button class="btn btn-secondary" style="flex: 1;" onclick="closeOrderPanel()">
+                            Cancel
+                        </button>
+                        <button class="btn btn-success" style="flex: 1;" onclick="submitPurchaseOrder()" id="submitBtn">
+                            <i class="fas fa-paper-plane"></i> Submit PO
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // ENTERPRISE SYSTEM STATE
+        // ============================================
+        const systemState = {
+            selectedItems: new Map(),
+            allItems: [],
+            suppliers: {
+                'S001': { id: 'S001', name: 'TechSupply Pro', rating: 4.8, delivery: '2-3 days', priceMultiplier: 1.0, shipping: 25, reliability: 97 },
+                'S002': { id: 'S002', name: 'OfficeWorks Inc.', rating: 4.6, delivery: '1-2 days', priceMultiplier: 1.05, shipping: 15, reliability: 94 },
+                'S003': { id: 'S003', name: 'Global Electronics', rating: 4.7, delivery: '3-5 days', priceMultiplier: 0.95, shipping: 30, reliability: 96 },
+                'S004': { id: 'S004', name: 'Office Depot', rating: 4.5, delivery: 'Next day', priceMultiplier: 1.1, shipping: 10, reliability: 92 },
+                'S005': { id: 'S005', name: 'Furniture Co.', rating: 4.4, delivery: '5-7 days', priceMultiplier: 0.9, shipping: 50, reliability: 90 }
+            }
+        };
+
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            loadSampleData();
+            renderTable();
+            
+            // Auto-select critical items for efficiency
+            setTimeout(() => {
+                smartSelect();
+                updateKPIMetrics();
+            }, 500);
+        });
+
+        function loadSampleData() {
+            systemState.allItems = [
+                {
+                    id: 'SKU-1001',
+                    name: 'Laptop Pro X1',
+                    category: 'Electronics',
+                    stock: 3,
+                    minStock: 15,
+                    weeklyUsage: 8,
+                    price: 1200,
+                    suppliers: ['S001', 'S002', 'S003'],
+                    controller: null,
+                    status: 'critical'
+                },
+                {
+                    id: 'SKU-1002',
+                    name: 'Office Chair Ergo',
+                    category: 'Furniture',
+                    stock: 2,
+                    minStock: 10,
+                    weeklyUsage: 5,
+                    price: 350,
+                    suppliers: ['S002', 'S005'],
+                    controller: null,
+                    status: 'critical'
+                },
+                {
+                    id: 'SKU-1003',
+                    name: 'Wireless Mouse MX3',
+                    category: 'Electronics',
+                    stock: 12,
+                    minStock: 25,
+                    weeklyUsage: 15,
+                    price: 45,
+                    suppliers: ['S001', 'S004'],
+                    controller: 'John Smith',
+                    status: 'warning'
+                },
+                {
+                    id: 'SKU-1004',
+                    name: '4K Monitor 27"',
+                    category: 'Electronics',
+                    stock: 5,
+                    minStock: 12,
+                    weeklyUsage: 6,
+                    price: 450,
+                    suppliers: ['S001', 'S002', 'S003'],
+                    controller: null,
+                    status: 'critical'
+                },
+                {
+                    id: 'SKU-1005',
+                    name: 'Desk Organizer Set',
+                    category: 'Office Supplies',
+                    stock: 8,
+                    minStock: 20,
+                    weeklyUsage: 12,
+                    price: 35,
+                    suppliers: ['S003', 'S004'],
+                    controller: 'Sarah Johnson',
+                    status: 'warning'
+                },
+                {
+                    id: 'SKU-1006',
+                    name: 'Network Switch 24-Port',
+                    category: 'Electronics',
+                    stock: 4,
+                    minStock: 8,
+                    weeklyUsage: 2,
+                    price: 280,
+                    suppliers: ['S001', 'S002'],
+                    controller: 'Mike Wilson',
+                    status: 'critical'
+                },
+                {
+                    id: 'SKU-1007',
+                    name: 'Wireless Keyboard',
+                    category: 'Electronics',
+                    stock: 9,
+                    minStock: 20,
+                    weeklyUsage: 10,
+                    price: 85,
+                    suppliers: ['S001', 'S004'],
+                    controller: null,
+                    status: 'warning'
+                },
+                {
+                    id: 'SKU-1008',
+                    name: 'Executive Desk',
+                    category: 'Furniture',
+                    stock: 3,
+                    minStock: 8,
+                    weeklyUsage: 2,
+                    price: 650,
+                    suppliers: ['S002', 'S005'],
+                    controller: 'Lisa Brown',
+                    status: 'critical'
+                }
+            ];
+        }
+
+        // ============================================
+        // DATA TABLE RENDERING
+        // ============================================
+        function renderTable() {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+            
+            systemState.allItems.forEach(item => {
+                const isSelected = systemState.selectedItems.has(item.id);
+                const daysLeft = Math.floor((item.stock / item.weeklyUsage) * 7);
+                
+                const row = document.createElement('tr');
+                if (isSelected) row.classList.add('selected');
+                
+                row.innerHTML = `
+                    <td>
+                        <div class="checkbox-container">
+                            <div class="enterprise-checkbox ${isSelected ? 'checked' : ''}" 
+                                 onclick="toggleItemSelection('${item.id}')"></div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="font-semibold">${item.id}</div>
+                        <div class="text-sm text-gray">${item.controller || 'Unassigned'}</div>
+                    </td>
+                    <td>
+                        <div class="font-medium">${item.name}</div>
+                        <div class="text-sm text-gray">${item.category}</div>
+                    </td>
+                    <td>${item.category}</td>
+                    <td>
+                        <div class="font-semibold ${item.status === 'critical' ? 'text-danger' : 'text-warning'}">
+                            ${item.stock}
+                        </div>
+                    </td>
+                    <td>${item.minStock}</td>
+                    <td>${item.weeklyUsage}/week</td>
+                    <td>
+                        <div class="font-semibold ${daysLeft < 7 ? 'text-danger' : 'text-warning'}">
+                            ${daysLeft}d
+                        </div>
+                    </td>
+                    <td>
+                        <span class="status-badge status-${item.status}">
+                            ${item.status === 'critical' ? 'Critical' : 'Low Stock'}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="supplier-tags">
+                            ${item.suppliers.map(supplierId => {
+                                const supplier = systemState.suppliers[supplierId];
+                                const isBest = getBestSupplier(item) === supplierId;
+                                return `<span class="supplier-tag ${isBest ? 'best' : ''}">${supplier.name.split(' ')[0]}</span>`;
+                            }).join('')}
+                        </div>
+                    </td>
+                    <td>
+                        <button class="btn btn-outline btn-sm" onclick="quickOrderSingle('${item.id}')">
+                            <i class="fas fa-bolt"></i> Order
+                        </button>
+                    </td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+            
+            updateSelectionUI();
+        }
+
+        // ============================================
+        // SELECTION MANAGEMENT
+        // ============================================
+        function toggleItemSelection(itemId) {
+            if (systemState.selectedItems.has(itemId)) {
+                systemState.selectedItems.delete(itemId);
+            } else {
+                const item = systemState.allItems.find(i => i.id === itemId);
+                if (item) {
+                    const bestSupplier = getBestSupplier(item);
+                    systemState.selectedItems.set(itemId, {
+                        ...item,
+                        selectedSupplier: bestSupplier,
+                        quantity: calculateOptimalQuantity(item)
+                    });
+                }
+            }
+            
+            renderTable();
+            updateSelectionUI();
+        }
+
+        function toggleSelectAll() {
+            const allSelected = systemState.selectedItems.size === systemState.allItems.length;
+            
+            if (allSelected) {
+                systemState.selectedItems.clear();
+            } else {
+                systemState.allItems.forEach(item => {
+                    if (!systemState.selectedItems.has(item.id)) {
+                        const bestSupplier = getBestSupplier(item);
+                        systemState.selectedItems.set(item.id, {
+                            ...item,
+                            selectedSupplier: bestSupplier,
+                            quantity: calculateOptimalQuantity(item)
+                        });
+                    }
+                });
+            }
+            
+            renderTable();
+            updateSelectionUI();
+        }
+
+        function smartSelect() {
+            systemState.selectedItems.clear();
+            
+            // Enterprise logic: select items based on urgency and business rules
+            systemState.allItems.forEach(item => {
+                const urgencyScore = calculateUrgencyScore(item);
+                
+                if (urgencyScore > 50) { // Threshold for automatic selection
+                    const bestSupplier = getBestSupplier(item);
+                    systemState.selectedItems.set(item.id, {
+                        ...item,
+                        selectedSupplier: bestSupplier,
+                        quantity: calculateOptimalQuantity(item)
+                    });
+                }
+            });
+            
+            renderTable();
+            updateSelectionUI();
+            showToast(`${systemState.selectedItems.size} items selected based on urgency`, 'success');
+        }
+
+        function calculateUrgencyScore(item) {
+            const stockRatio = (item.stock / item.minStock) * 100;
+            const daysCoverage = (item.stock / item.weeklyUsage) * 7;
+            const usageFactor = Math.min(item.weeklyUsage / 20, 1) * 100; // Normalize to 0-100
+            
+            // Critical items get highest score
+            let score = 100 - stockRatio;
+            
+            // Adjust based on days coverage
+            if (daysCoverage < 7) score += 30;
+            else if (daysCoverage < 14) score += 15;
+            
+            // Adjust based on usage
+            score += usageFactor * 0.3;
+            
+            // Unassigned items get priority
+            if (!item.controller) score += 20;
+            
+            return Math.min(score, 100);
+        }
+
+        function clearSelection() {
+            systemState.selectedItems.clear();
+            renderTable();
+            updateSelectionUI();
+            showToast('Selection cleared', 'info');
+        }
+
+        function updateSelectionUI() {
+            const count = systemState.selectedItems.size;
+            const selectionBar = document.getElementById('selectionBar');
+            const quickOrderBtn = document.getElementById('quickOrderBtn');
+            
+            if (count > 0) {
+                selectionBar.style.display = 'block';
+                quickOrderBtn.style.display = 'flex';
+                
+                document.getElementById('selectedCount').textContent = `${count} item${count !== 1 ? 's' : ''}`;
+                
+                // Calculate total value
+                let total = 0;
+                systemState.selectedItems.forEach(item => {
+                    const supplier = systemState.suppliers[item.selectedSupplier];
+                    if (supplier) {
+                        total += (item.price * supplier.priceMultiplier * item.quantity);
+                    }
+                });
+                
+                document.getElementById('selectedTotal').textContent = total.toFixed(2);
+            } else {
+                selectionBar.style.display = 'none';
+                quickOrderBtn.style.display = 'none';
+            }
+            
+            // Update select all checkbox
+            const selectAll = document.getElementById('selectAll');
+            const allSelected = count === systemState.allItems.length;
+            const someSelected = count > 0 && count < systemState.allItems.length;
+            
+            selectAll.classList.toggle('checked', allSelected);
+            selectAll.style.opacity = someSelected ? '0.6' : '1';
+        }
+
+        // ============================================
+        // BUSINESS LOGIC
+        // ============================================
+        function getBestSupplier(item) {
+            let bestSupplier = null;
+            let bestScore = -1;
+            
+            item.suppliers.forEach(supplierId => {
+                const supplier = systemState.suppliers[supplierId];
+                if (supplier) {
+                    // Enterprise scoring algorithm
+                    const priceScore = (1 / supplier.priceMultiplier) * 0.4;
+                    const deliveryDays = parseInt(supplier.delivery.split('-')[0]);
+                    const deliveryScore = (1 / deliveryDays) * 0.3;
+                    const reliabilityScore = (supplier.reliability / 100) * 0.2;
+                    const ratingScore = (supplier.rating / 5) * 0.1;
+                    
+                    const totalScore = priceScore + deliveryScore + reliabilityScore + ratingScore;
+                    
+                    if (totalScore > bestScore) {
+                        bestScore = totalScore;
+                        bestSupplier = supplierId;
+                    }
+                }
+            });
+            
+            return bestSupplier || item.suppliers[0];
+        }
+
+        function calculateOptimalQuantity(item) {
+            // Enterprise formula: cover 4 weeks of usage plus buffer
+            const weeksCoverage = 4;
+            const buffer = Math.ceil(item.weeklyUsage * 0.5); // 50% buffer
+            const required = item.minStock - item.stock;
+            
+            return Math.max(
+                required + Math.ceil(item.weeklyUsage * weeksCoverage) + buffer,
+                5 // Minimum order quantity
+            );
+        }
+
+        // ============================================
+        // ORDER PANEL
+        // ============================================
+        function openOrderPanel() {
+            if (systemState.selectedItems.size === 0) {
+                showToast('Please select items first', 'warning');
+                return;
+            }
+            
+            renderOrderPanel();
+            document.getElementById('actionPanel').classList.add('open');
+            updateOrderSummary();
+        }
+
+        function closeOrderPanel() {
+            document.getElementById('actionPanel').classList.remove('open');
+        }
+
+        function renderOrderPanel() {
+            const panelContent = document.getElementById('panelContent');
+            let html = '';
+            
+            systemState.selectedItems.forEach((item, itemId) => {
+                const supplier = systemState.suppliers[item.selectedSupplier];
+                const unitPrice = item.price * supplier.priceMultiplier;
+                const itemTotal = unitPrice * item.quantity;
+                const bestSupplier = getBestSupplier(item);
+                
+                html += `
+                    <div class="order-item" id="panel-item-${itemId}">
+                        <div class="item-header">
+                            <div>
+                                <div class="item-title">${item.name}</div>
+                                <div class="item-subtitle">
+                                    ${item.id} • ${item.category} • Stock: ${item.stock}/${item.minStock}
+                                </div>
+                            </div>
+                            <button class="btn btn-danger btn-sm" onclick="removeFromOrder('${itemId}')">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="quantity-section">
+                            <div class="section-label">
+                                <i class="fas fa-calculator"></i>
+                                Quantity to Order
+                            </div>
+                            <div class="quantity-control">
+                                <input type="number" 
+                                       class="quantity-input" 
+                                       value="${item.quantity}"
+                                       min="1"
+                                       max="1000"
+                                       onchange="updateOrderQuantity('${itemId}', this.value)"
+                                       id="order-qty-${itemId}">
+                                <div class="quantity-buttons">
+                                    <button class="qty-btn" onclick="adjustOrderQuantity('${itemId}', 1)">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                    <button class="qty-btn" onclick="adjustOrderQuantity('${itemId}', -1)">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="text-sm text-gray" style="margin-top: 6px;">
+                                Suggested: ${calculateOptimalQuantity(item)} • Weeks coverage: ${Math.round((item.quantity + item.stock - item.minStock) / item.weeklyUsage * 10) / 10}
+                            </div>
+                        </div>
+                        
+                        <div class="supplier-section">
+                            <div class="section-label">
+                                <i class="fas fa-truck"></i>
+                                Select Supplier
+                            </div>
+                            <div class="supplier-options">
+                                ${item.suppliers.map(supplierId => {
+                                    const s = systemState.suppliers[supplierId];
+                                    const isSelected = supplierId === item.selectedSupplier;
+                                    const isBest = supplierId === bestSupplier;
+                                    const price = (item.price * s.priceMultiplier).toFixed(2);
+                                    
+                                    return `
+                                        <div class="supplier-option ${isSelected ? 'selected' : ''}" 
+                                             onclick="selectOrderSupplier('${itemId}', '${supplierId}')">
+                                            <div class="supplier-info">
+                                                <div>
+                                                    <div class="supplier-name">
+                                                        ${s.name}
+                                                        ${isBest ? '<span class="best-badge">BEST</span>' : ''}
+                                                    </div>
+                                                    <div class="supplier-details">
+                                                        ${s.delivery} • ${s.rating}★ • ${s.reliability}% reliable
+                                                    </div>
+                                                </div>
+                                                <div class="supplier-price">$${price}</div>
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--neutral-border);">
+                            <div style="display: flex; justify-content: space-between; font-size: 13px;">
+                                <span class="text-gray">Item Total:</span>
+                                <span class="font-semibold">$${itemTotal.toFixed(2)}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            panelContent.innerHTML = html;
+        }
+
+        function selectOrderSupplier(itemId, supplierId) {
+            const item = systemState.selectedItems.get(itemId);
+            if (item) {
+                item.selectedSupplier = supplierId;
+                renderOrderPanel();
+                updateOrderSummary();
+            }
+        }
+
+        function updateOrderQuantity(itemId, value) {
+            const item = systemState.selectedItems.get(itemId);
+            if (item) {
+                let newQty = parseInt(value) || 1;
+                newQty = Math.max(1, Math.min(1000, newQty));
+                item.quantity = newQty;
+                updateOrderSummary();
+            }
+        }
+
+        function adjustOrderQuantity(itemId, delta) {
+            const item = systemState.selectedItems.get(itemId);
+            if (item) {
+                let newQty = item.quantity + delta;
+                newQty = Math.max(1, Math.min(1000, newQty));
+                item.quantity = newQty;
+                
+                const input = document.getElementById(`order-qty-${itemId}`);
+                if (input) input.value = newQty;
+                
+                updateOrderSummary();
+            }
+        }
+
+        function removeFromOrder(itemId) {
+            systemState.selectedItems.delete(itemId);
+            
+            if (systemState.selectedItems.size === 0) {
+                closeOrderPanel();
+                renderTable();
+                showToast('All items removed from order', 'info');
+            } else {
+                renderOrderPanel();
+                renderTable();
+                updateOrderSummary();
+            }
+        }
+
+        function updateOrderSummary() {
+            let subtotal = 0;
+            let shipping = 0;
+            
+            systemState.selectedItems.forEach(item => {
+                const supplier = systemState.suppliers[item.selectedSupplier];
+                if (supplier) {
+                    subtotal += (item.price * supplier.priceMultiplier * item.quantity);
+                    shipping += supplier.shipping;
+                }
+            });
+            
+            const tax = subtotal * 0.1;
+            const total = subtotal + shipping + tax;
+            
+            document.getElementById('summarySubtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('summaryShipping').textContent = `$${shipping.toFixed(2)}`;
+            document.getElementById('summaryTax').textContent = `$${tax.toFixed(2)}`;
+            document.getElementById('summaryTotal').textContent = `$${total.toFixed(2)}`;
+        }
+
+        // ============================================
+        // ORDER SUBMISSION
+        // ============================================
+        function submitPurchaseOrder() {
+            if (systemState.selectedItems.size === 0) {
+                showToast('No items to order', 'warning');
+                return;
+            }
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<div class="loading"></div> Processing...';
+            submitBtn.disabled = true;
+            
+            // Group by supplier for efficient ordering
+            const ordersBySupplier = {};
+            systemState.selectedItems.forEach(item => {
+                const supplierId = item.selectedSupplier;
+                if (!ordersBySupplier[supplierId]) {
+                    ordersBySupplier[supplierId] = [];
+                }
+                ordersBySupplier[supplierId].push(item);
+            });
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Generate PO numbers
+                const poNumbers = Object.keys(ordersBySupplier).map((supplierId, index) => {
+                    return `PO-${new Date().getFullYear()}${String(index + 1).padStart(4, '0')}`;
+                });
+                
+                showToast(`Purchase Orders created: ${poNumbers.join(', ')}`, 'success');
+                
+                // Reset state
+                systemState.selectedItems.clear();
+                closeOrderPanel();
+                renderTable();
+                updateKPIMetrics();
+                
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 1500);
+        }
+
+        function quickOrderSingle(itemId) {
+            const item = systemState.allItems.find(i => i.id === itemId);
+            if (item) {
+                systemState.selectedItems.clear();
+                
+                const bestSupplier = getBestSupplier(item);
+                systemState.selectedItems.set(itemId, {
+                    ...item,
+                    selectedSupplier: bestSupplier,
+                    quantity: calculateOptimalQuantity(item)
+                });
+                
+                renderTable();
+                updateSelectionUI();
+                openOrderPanel();
+            }
+        }
+
+        // ============================================
+        // UI UTILITIES
+        // ============================================
+        function searchTable() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const rows = document.querySelectorAll('#tableBody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        }
+
+        function filterByStatus(status) {
+            const rows = document.querySelectorAll('#tableBody tr');
+            
+            rows.forEach(row => {
+                const statusCell = row.querySelector('.status-badge');
+                if (status === 'all' || !statusCell) {
+                    row.style.display = '';
+                } else if (statusCell.classList.contains(`status-${status}`)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            
+            if (status !== 'all') {
+                showToast(`Showing ${status} items only`, 'info');
+            }
+        }
+
+        function exportData() {
+            showToast('Exporting data to Excel...', 'success');
+            // In production, this would generate and download an Excel file
+        }
+
+        function updateKPIMetrics() {
+            // Update KPI metrics based on current state
+            const totalValue = Array.from(systemState.selectedItems.values()).reduce((sum, item) => {
+                const supplier = systemState.suppliers[item.selectedSupplier];
+                return sum + (item.price * supplier.priceMultiplier * item.quantity);
+            }, 0);
+            
+            document.getElementById('totalValue').textContent = `$${Math.round(totalValue).toLocaleString()}`;
+        }
+
+        function showToast(message, type = 'info') {
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 24px;
+                right: 24px;
+                background: var(--neutral-white);
+                padding: 12px 16px;
+                border-radius: 6px;
+                box-shadow: var(--shadow-elevated);
+                border-left: 4px solid ${type === 'success' ? 'var(--success-green)' : 
+                                      type === 'warning' ? 'var(--warning-orange)' : 
+                                      'var(--primary-blue)'};
+                z-index: 10000;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                animation: slideIn 0.3s ease;
+                max-width: 400px;
+            `;
+            
+            const icon = type === 'success' ? 'check-circle' :
+                        type === 'warning' ? 'exclamation-triangle' : 'info-circle';
+            const iconColor = type === 'success' ? 'var(--success-green)' :
+                            type === 'warning' ? 'var(--warning-orange)' : 'var(--primary-blue)';
+            
+            toast.innerHTML = `
+                <i class="fas fa-${icon}" style="color: ${iconColor}; font-size: 16px;"></i>
+                <div style="flex: 1;">
+                    <div style="font-size: 14px; font-weight: 500; color: var(--neutral-dark);">
+                        ${message}
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.3s ease forwards';
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        document.body.removeChild(toast);
+                    }
+                }, 300);
+            }, 3000);
+            
+            // Add animation styles
+            if (!document.getElementById('toast-animations')) {
+                const style = document.createElement('style');
+                style.id = 'toast-animations';
+                style.textContent = `
+                    @keyframes slideIn {
+                        from { transform: translateX(100%); opacity: 0; }
+                        to { transform: translateX(0); opacity: 1; }
+                    }
+                    @keyframes slideOut {
+                        from { transform: translateX(0); opacity: 1; }
+                        to { transform: translateX(100%); opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+    </script>
+</body>
+</html>
