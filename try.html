@@ -37,39 +37,43 @@
             color: var(--neutral-dark);
             height: 100vh;
             overflow: hidden;
+            font-size: 13px;
         }
 
         /* ===== LAYOUT ===== */
         .app-container {
-            display: grid;
-            grid-template-rows: auto 1fr;
+            display: flex;
+            flex-direction: column;
             height: 100vh;
-            max-width: 100vw;
+            width: 100vw;
             overflow: hidden;
+            min-width: 320px;
         }
 
-        /* ===== TOP BAR ===== */
+        /* ===== COMPACT TOP BAR ===== */
         .top-bar {
             background: var(--neutral-white);
             border-bottom: 1px solid var(--neutral-border);
-            padding: 12px 24px;
-            display: grid;
-            grid-template-columns: auto 1fr auto;
+            padding: 8px 16px;
+            display: flex;
             align-items: center;
-            gap: 24px;
+            gap: 16px;
             z-index: 100;
             box-shadow: var(--shadow-subtle);
+            flex-shrink: 0;
+            min-height: 56px;
         }
 
         .system-title {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
+            min-width: 200px;
         }
 
         .title-logo {
-            width: 32px;
-            height: 32px;
+            width: 30px;
+            height: 30px;
             background: var(--primary-blue);
             border-radius: 6px;
             display: flex;
@@ -77,42 +81,57 @@
             justify-content: center;
             color: white;
             font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .title-text {
+            flex: 1;
+            min-width: 0;
         }
 
         .title-text h1 {
-            font-size: 20px;
+            font-size: 16px;
             font-weight: 600;
             color: var(--neutral-dark);
             line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .title-text .subtitle {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--neutral-gray);
             font-weight: 400;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .search-filter-bar {
+            flex: 1;
             display: flex;
-            gap: 12px;
+            gap: 10px;
             align-items: center;
-            max-width: 800px;
+            min-width: 0;
+            max-width: 600px;
         }
 
         .search-box {
             flex: 1;
+            min-width: 200px;
             position: relative;
-            max-width: 400px;
         }
 
         .search-input {
             width: 100%;
-            padding: 8px 12px 8px 36px;
+            padding: 7px 10px 7px 32px;
             border: 1px solid var(--neutral-border);
             border-radius: 4px;
-            font-size: 14px;
+            font-size: 13px;
             transition: var(--transition-fast);
             background: var(--neutral-light);
+            height: 32px;
         }
 
         .search-input:focus {
@@ -124,43 +143,47 @@
 
         .search-icon {
             position: absolute;
-            left: 12px;
+            left: 10px;
             top: 50%;
             transform: translateY(-50%);
             color: var(--neutral-gray);
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .filter-buttons {
             display: flex;
-            gap: 8px;
+            gap: 6px;
+            flex-shrink: 0;
         }
 
         .action-buttons {
             display: flex;
-            gap: 8px;
+            gap: 6px;
+            flex-shrink: 0;
         }
 
         /* ===== MAIN CONTENT ===== */
         .main-content {
-            display: grid;
-            grid-template-columns: 1fr auto;
+            flex: 1;
+            display: flex;
             overflow: hidden;
-            height: calc(100vh - 60px);
+            min-height: 0;
+            position: relative;
         }
 
         /* ===== DATA TABLE SECTION ===== */
         .data-section {
-            overflow: hidden;
+            flex: 1;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
             background: var(--neutral-white);
-            border-right: 1px solid var(--neutral-border);
+            min-width: 0;
         }
 
-        /* ===== KPI METRICS ===== */
+        /* ===== COMPACT KPI METRICS ===== */
         .kpi-metrics {
-            padding: 16px 24px;
+            padding: 12px 16px;
             border-bottom: 1px solid var(--neutral-border);
             background: var(--neutral-white);
             flex-shrink: 0;
@@ -169,15 +192,16 @@
         .metrics-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
+            gap: 12px;
         }
 
         .metric-card {
-            padding: 12px;
+            padding: 10px;
             border-radius: 6px;
             background: var(--neutral-light);
             border: 1px solid var(--neutral-border);
             transition: var(--transition-fast);
+            min-width: 0;
         }
 
         .metric-card:hover {
@@ -186,24 +210,31 @@
         }
 
         .metric-value {
-            font-size: 24px;
+            font-size: 18px;
             font-weight: 600;
             color: var(--neutral-dark);
-            margin-bottom: 4px;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .metric-label {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--neutral-gray);
             font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .metric-trend {
-            font-size: 11px;
-            margin-top: 4px;
+            font-size: 10px;
+            margin-top: 2px;
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 3px;
+            white-space: nowrap;
         }
 
         .trend-up { color: var(--success-green); }
@@ -211,46 +242,57 @@
 
         /* ===== SELECTION BAR ===== */
         .selection-bar {
-            padding: 12px 24px;
+            padding: 8px 16px;
             border-bottom: 1px solid var(--neutral-border);
             background: rgba(0, 82, 204, 0.04);
             display: none;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
         }
 
         .selection-info {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 12px;
+            flex: 1;
+            min-width: 0;
         }
 
         .selected-count {
             font-weight: 600;
             color: var(--primary-blue);
-            font-size: 14px;
+            font-size: 13px;
+            white-space: nowrap;
         }
 
         .selected-value {
-            font-size: 14px;
+            font-size: 13px;
             color: var(--neutral-gray);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .selection-actions {
             display: flex;
-            gap: 8px;
-            margin-left: auto;
+            gap: 6px;
+            flex-shrink: 0;
         }
 
-        /* ===== ENTERPRISE DATA TABLE ===== */
+        /* ===== COMPACT ENTERPRISE DATA TABLE ===== */
         .table-container {
             flex: 1;
             overflow: auto;
             position: relative;
+            min-height: 0;
         }
 
         .data-table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 1200px;
+            min-width: 1000px;
+            table-layout: fixed;
         }
 
         .data-table thead {
@@ -261,27 +303,34 @@
 
         .data-table th {
             background: var(--neutral-light);
-            padding: 12px 16px;
+            padding: 10px 12px;
             text-align: left;
             font-weight: 600;
-            font-size: 12px;
+            font-size: 11px;
             color: var(--neutral-gray);
             border-bottom: 2px solid var(--neutral-border);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
             white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            position: relative;
         }
 
         .data-table td {
-            padding: 12px 16px;
+            padding: 10px 12px;
             border-bottom: 1px solid var(--neutral-border);
-            font-size: 14px;
+            font-size: 13px;
             color: var(--neutral-dark);
             vertical-align: middle;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .data-table tbody tr {
             transition: var(--transition-fast);
+            height: 48px;
         }
 
         .data-table tbody tr:hover {
@@ -292,20 +341,20 @@
             background: rgba(0, 82, 204, 0.04);
         }
 
-        /* ===== TABLE COLUMNS ===== */
-        .col-checkbox { width: 40px; }
-        .col-id { width: 120px; }
-        .col-name { width: 250px; min-width: 200px; }
-        .col-category { width: 120px; }
-        .col-stock { width: 100px; }
-        .col-min { width: 100px; }
-        .col-usage { width: 120px; }
-        .col-days { width: 100px; }
-        .col-status { width: 100px; }
-        .col-suppliers { width: 200px; }
-        .col-actions { width: 100px; }
+        /* ===== COMPACT TABLE COLUMNS ===== */
+        .col-checkbox { width: 36px; min-width: 36px; }
+        .col-id { width: 100px; min-width: 100px; }
+        .col-name { width: 180px; min-width: 180px; }
+        .col-category { width: 90px; min-width: 90px; }
+        .col-stock { width: 80px; min-width: 80px; }
+        .col-min { width: 80px; min-width: 80px; }
+        .col-usage { width: 100px; min-width: 100px; }
+        .col-days { width: 80px; min-width: 80px; }
+        .col-status { width: 90px; min-width: 90px; }
+        .col-suppliers { width: 150px; min-width: 150px; }
+        .col-actions { width: 80px; min-width: 80px; }
 
-        /* ===== CHECKBOX ===== */
+        /* ===== COMPACT CHECKBOX ===== */
         .checkbox-container {
             display: flex;
             align-items: center;
@@ -321,6 +370,7 @@
             cursor: pointer;
             position: relative;
             transition: var(--transition-fast);
+            flex-shrink: 0;
         }
 
         .enterprise-checkbox.checked {
@@ -339,13 +389,13 @@
             transform: translate(-50%, -50%);
         }
 
-        /* ===== STATUS BADGES ===== */
+        /* ===== COMPACT STATUS BADGES ===== */
         .status-badge {
             display: inline-flex;
             align-items: center;
-            padding: 4px 8px;
+            padding: 3px 6px;
             border-radius: 3px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             white-space: nowrap;
         }
@@ -368,21 +418,22 @@
             border: 1px solid rgba(0, 135, 90, 0.2);
         }
 
-        /* ===== SUPPLIER TAGS ===== */
+        /* ===== COMPACT SUPPLIER TAGS ===== */
         .supplier-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 4px;
+            gap: 3px;
         }
 
         .supplier-tag {
-            padding: 2px 6px;
+            padding: 1px 4px;
             background: rgba(0, 82, 204, 0.08);
-            border-radius: 3px;
-            font-size: 11px;
+            border-radius: 2px;
+            font-size: 10px;
             color: var(--primary-blue);
             font-weight: 500;
             border: 1px solid rgba(0, 82, 204, 0.1);
+            white-space: nowrap;
         }
 
         .supplier-tag.best {
@@ -391,20 +442,21 @@
             border-color: rgba(0, 135, 90, 0.2);
         }
 
-        /* ===== BUTTONS ===== */
+        /* ===== COMPACT BUTTONS ===== */
         .btn {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
+            gap: 4px;
+            padding: 5px 10px;
             border: 1px solid transparent;
             border-radius: 4px;
             font-weight: 500;
-            font-size: 13px;
+            font-size: 12px;
             cursor: pointer;
             transition: var(--transition-fast);
             white-space: nowrap;
             background: transparent;
+            height: 28px;
         }
 
         .btn-primary {
@@ -440,17 +492,6 @@
             border-color: #006644;
         }
 
-        .btn-danger {
-            background: var(--danger-red);
-            color: white;
-            border-color: var(--danger-red);
-        }
-
-        .btn-danger:hover {
-            background: #BF2600;
-            border-color: #BF2600;
-        }
-
         .btn-outline {
             background: transparent;
             color: var(--primary-blue);
@@ -463,30 +504,33 @@
 
         .btn-sm {
             padding: 4px 8px;
-            font-size: 12px;
+            font-size: 11px;
+            height: 24px;
         }
 
         .btn-icon {
-            padding: 6px;
-            width: 32px;
-            height: 32px;
+            padding: 5px;
+            width: 28px;
+            height: 28px;
             justify-content: center;
         }
 
         /* ===== ACTION PANEL ===== */
         .action-panel {
-            width: 400px;
+            width: 380px;
             background: var(--neutral-white);
             border-left: 1px solid var(--neutral-border);
             display: flex;
             flex-direction: column;
             box-shadow: var(--shadow-medium);
             transition: transform 0.3s ease;
-            height: 100%;
+            flex-shrink: 0;
+            min-width: 380px;
+            position: relative;
         }
 
         .panel-header {
-            padding: 16px 20px;
+            padding: 12px 16px;
             border-bottom: 1px solid var(--neutral-border);
             display: flex;
             justify-content: space-between;
@@ -496,14 +540,15 @@
         }
 
         .panel-title {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 600;
             color: var(--neutral-dark);
+            white-space: nowrap;
         }
 
         .panel-close {
-            width: 28px;
-            height: 28px;
+            width: 26px;
+            height: 26px;
             border-radius: 4px;
             display: flex;
             align-items: center;
@@ -513,6 +558,7 @@
             cursor: pointer;
             color: var(--neutral-gray);
             transition: var(--transition-fast);
+            flex-shrink: 0;
         }
 
         .panel-close:hover {
@@ -522,24 +568,39 @@
         .panel-content {
             flex: 1;
             overflow-y: auto;
-            padding: 20px;
+            padding: 16px;
             min-height: 0;
+            scrollbar-width: thin;
+            scrollbar-color: var(--neutral-border) transparent;
+        }
+
+        .panel-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .panel-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .panel-content::-webkit-scrollbar-thumb {
+            background-color: var(--neutral-border);
+            border-radius: 3px;
         }
 
         .panel-footer {
-            padding: 16px 20px;
+            padding: 12px 16px;
             border-top: 1px solid var(--neutral-border);
             background: var(--neutral-light);
             flex-shrink: 0;
         }
 
-        /* ===== ORDER ITEM ===== */
+        /* ===== COMPACT ORDER ITEM ===== */
         .order-item {
             background: var(--neutral-light);
             border: 1px solid var(--neutral-border);
             border-radius: 6px;
-            padding: 16px;
-            margin-bottom: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
             position: relative;
         }
 
@@ -547,34 +608,41 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
+            gap: 8px;
         }
 
         .item-title {
             font-weight: 600;
-            font-size: 14px;
+            font-size: 13px;
             color: var(--neutral-dark);
-            margin-bottom: 4px;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .item-subtitle {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--neutral-gray);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        /* ===== QUANTITY CONTROL ===== */
+        /* ===== COMPACT QUANTITY CONTROL ===== */
         .quantity-section {
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
 
         .section-label {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             color: var(--neutral-dark);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
         }
 
         .quantity-control {
@@ -584,15 +652,16 @@
         }
 
         .quantity-input {
-            width: 80px;
-            padding: 8px 12px;
+            width: 70px;
+            padding: 6px 10px;
             border: 1px solid var(--neutral-border);
             border-radius: 4px;
             text-align: center;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
             color: var(--neutral-dark);
             background: var(--neutral-white);
+            height: 32px;
         }
 
         .quantity-input:focus {
@@ -604,12 +673,12 @@
         .quantity-buttons {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 3px;
         }
 
         .qty-btn {
-            width: 24px;
-            height: 24px;
+            width: 22px;
+            height: 22px;
             border: 1px solid var(--neutral-border);
             background: var(--neutral-white);
             border-radius: 3px;
@@ -617,7 +686,7 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 11px;
             color: var(--neutral-gray);
             transition: var(--transition-fast);
         }
@@ -627,19 +696,19 @@
             border-color: var(--neutral-gray);
         }
 
-        /* ===== SUPPLIER SELECTION ===== */
+        /* ===== COMPACT SUPPLIER SELECTION ===== */
         .supplier-section {
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
 
         .supplier-options {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
         }
 
         .supplier-option {
-            padding: 12px;
+            padding: 10px;
             border: 1px solid var(--neutral-border);
             border-radius: 4px;
             cursor: pointer;
@@ -662,90 +731,75 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 8px;
+            min-width: 0;
         }
 
         .supplier-name {
             font-weight: 500;
-            font-size: 13px;
+            font-size: 12px;
             color: var(--neutral-dark);
-            margin-bottom: 2px;
+            margin-bottom: 1px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .supplier-details {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--neutral-gray);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .supplier-price {
             font-weight: 600;
-            font-size: 14px;
+            font-size: 13px;
             color: var(--neutral-dark);
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .best-badge {
             display: inline-block;
-            padding: 2px 6px;
+            padding: 1px 5px;
             background: var(--success-green);
             color: white;
-            border-radius: 10px;
-            font-size: 10px;
+            border-radius: 8px;
+            font-size: 9px;
             font-weight: 600;
-            margin-left: 8px;
+            margin-left: 5px;
         }
 
-        /* ===== ORDER SUMMARY ===== */
+        /* ===== COMPACT ORDER SUMMARY ===== */
         .order-summary {
             background: var(--neutral-white);
             border: 1px solid var(--neutral-border);
             border-radius: 6px;
-            padding: 16px;
-            margin-top: 20px;
+            padding: 12px;
+            margin-top: 16px;
         }
 
         .summary-row {
             display: flex;
             justify-content: space-between;
-            padding: 8px 0;
+            padding: 6px 0;
             border-bottom: 1px dashed var(--neutral-border);
-            font-size: 13px;
+            font-size: 12px;
         }
 
         .summary-row.total {
             border-bottom: none;
             border-top: 2px solid var(--neutral-border);
             font-weight: 600;
-            margin-top: 8px;
-            padding-top: 12px;
+            margin-top: 6px;
+            padding-top: 8px;
             color: var(--neutral-dark);
         }
 
-        /* ===== REMOVE ITEM BUTTON ===== */
-        .remove-item-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            background: var(--neutral-white);
-            border: 1px solid var(--neutral-border);
-            color: var(--neutral-gray);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            transition: var(--transition-fast);
-        }
-
-        .remove-item-btn:hover {
-            background: var(--danger-red);
-            color: white;
-            border-color: var(--danger-red);
-        }
-
         /* ===== UTILITY CLASSES ===== */
-        .text-sm { font-size: 12px; }
+        .text-sm { font-size: 11px; }
         .text-gray { color: var(--neutral-gray); }
         .text-success { color: var(--success-green); }
         .text-danger { color: var(--danger-red); }
@@ -761,770 +815,1058 @@
 
         .hidden { display: none; }
 
-        /* ===== LOADING ===== */
-        .loading {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid var(--neutral-border);
-            border-top-color: var(--primary-blue);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+        /* ===== TOGGLE PANEL BUTTON ===== */
+        .panel-toggle {
+            position: absolute;
+            left: -32px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 32px;
+            height: 60px;
+            background: var(--neutral-white);
+            border: 1px solid var(--neutral-border);
+            border-right: none;
+            border-radius: 6px 0 0 6px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            box-shadow: var(--shadow-subtle);
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .panel-toggle:hover {
+            background: var(--neutral-light);
         }
 
-        /* ===== EMPTY STATE ===== */
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--neutral-gray);
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1400px) {
+            .action-panel {
+                width: 340px;
+                min-width: 340px;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
-        .empty-state i {
-            font-size: 48px;
-            margin-bottom: 16px;
-            opacity: 0.5;
+        @media (max-width: 1200px) {
+            .main-content {
+                position: relative;
+            }
+            
+            .action-panel {
+                position: absolute;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                transform: translateX(100%);
+                z-index: 1000;
+                box-shadow: var(--shadow-elevated);
+            }
+            
+            .action-panel.open {
+                transform: translateX(0);
+            }
+            
+            .panel-toggle {
+                display: flex;
+            }
+            
+            .col-name { width: 160px; min-width: 160px; }
+            .col-suppliers { width: 120px; min-width: 120px; }
         }
 
-        .empty-state p {
-            margin-bottom: 8px;
+        @media (max-width: 1024px) {
+            .top-bar {
+                flex-wrap: wrap;
+                gap: 12px;
+                height: auto;
+                padding: 10px;
+            }
+            
+            .search-filter-bar {
+                order: 3;
+                width: 100%;
+                margin-top: 4px;
+            }
+            
+            .system-title {
+                flex: 1;
+                min-width: 180px;
+            }
+            
+            .action-buttons {
+                flex: 1;
+                justify-content: flex-end;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .action-panel {
+                width: 100%;
+                min-width: 100%;
+            }
+            
+            .panel-toggle {
+                left: -28px;
+                height: 50px;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .data-table {
+                min-width: 900px;
+            }
+            
+            .col-name { width: 140px; min-width: 140px; }
+            .col-id { width: 90px; min-width: 90px; }
+            .col-suppliers { width: 100px; min-width: 100px; }
+        }
+
+        @media (max-width: 480px) {
+            .action-buttons .btn:not(.btn-icon) span {
+                display: none;
+            }
+            
+            .action-buttons .btn:not(.btn-icon) i {
+                margin-right: 0;
+            }
+            
+            .filter-buttons .btn span {
+                display: none;
+            }
+            
+            .system-title {
+                min-width: 160px;
+            }
+            
+            .search-box {
+                min-width: 150px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- APP CONTAINER -->
     <div class="app-container">
-        <!-- Top Bar -->
+        <!-- TOP BAR -->
         <div class="top-bar">
             <div class="system-title">
                 <div class="title-logo">PF</div>
                 <div class="title-text">
                     <h1>ProcureFlow Pro</h1>
-                    <div class="subtitle">Enterprise Procurement System</div>
+                    <div class="subtitle">Enterprise Procurement</div>
                 </div>
             </div>
-
+            
             <div class="search-filter-bar">
                 <div class="search-box">
                     <i class="fas fa-search search-icon"></i>
-                    <input type="text" class="search-input" placeholder="Search products, suppliers, or orders...">
+                    <input type="text" 
+                           class="search-input" 
+                           placeholder="Search products..."
+                           id="searchInput"
+                           oninput="searchTable()">
                 </div>
+                
                 <div class="filter-buttons">
-                    <button class="btn btn-secondary">
-                        <i class="fas fa-filter"></i> Filter
+                    <button class="btn btn-secondary btn-sm" onclick="filterByStatus('all')">
+                        <i class="fas fa-list"></i>
+                        <span>All</span>
                     </button>
-                    <button class="btn btn-secondary">
-                        <i class="fas fa-sort-amount-down"></i> Sort
+                    <button class="btn btn-secondary btn-sm" onclick="filterByStatus('critical')">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span>Critical</span>
                     </button>
                 </div>
             </div>
-
+            
             <div class="action-buttons">
-                <button class="btn btn-secondary">
-                    <i class="fas fa-bell"></i>
+                <button class="btn btn-secondary btn-sm" onclick="exportData()">
+                    <i class="fas fa-download"></i>
+                    <span>Export</span>
                 </button>
-                <button class="btn btn-secondary">
-                    <i class="fas fa-cog"></i>
+                <button class="btn btn-primary btn-sm" onclick="smartSelect()">
+                    <i class="fas fa-robot"></i>
+                    <span>Auto-Select</span>
+                </button>
+                <button class="btn btn-success btn-sm" id="quickOrderBtn" onclick="openOrderPanel()" style="display: none;">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Review Order</span>
                 </button>
             </div>
         </div>
-
-        <!-- Main Content -->
+        
+        <!-- MAIN CONTENT -->
         <div class="main-content">
-            <!-- Data Section -->
+            <!-- DATA SECTION -->
             <div class="data-section">
-                <!-- KPI Metrics -->
+                <!-- KPI METRICS -->
                 <div class="kpi-metrics">
                     <div class="metrics-grid">
                         <div class="metric-card">
-                            <div class="metric-value">156</div>
-                            <div class="metric-label">Total Products</div>
+                            <div class="metric-value" id="totalItems">12</div>
+                            <div class="metric-label">Items to Reorder</div>
                             <div class="metric-trend trend-up">
-                                <i class="fas fa-arrow-up"></i> 12% from last month
+                                <i class="fas fa-arrow-up"></i> 2 from yesterday
                             </div>
                         </div>
                         <div class="metric-card">
-                            <div class="metric-value">$128,450</div>
-                            <div class="metric-label">Monthly Spend</div>
+                            <div class="metric-value" id="totalValue">$45,820</div>
+                            <div class="metric-label">Estimated Cost</div>
                             <div class="metric-trend trend-down">
-                                <i class="fas fa-arrow-down"></i> 8% from last month
+                                <i class="fas fa-arrow-down"></i> 5% savings
                             </div>
                         </div>
                         <div class="metric-card">
-                            <div class="metric-value">24</div>
-                            <div class="metric-label">Critical Items</div>
-                            <div class="metric-trend trend-up">
-                                <i class="fas fa-exclamation-triangle"></i> 3 new
+                            <div class="metric-value" id="avgDays">2.4</div>
+                            <div class="metric-label">Avg. Lead Time</div>
+                            <div class="metric-trend trend-down">
+                                <i class="fas fa-arrow-down"></i> 0.6d faster
                             </div>
                         </div>
                         <div class="metric-card">
-                            <div class="metric-value">94%</div>
-                            <div class="metric-label">Supplier Score</div>
+                            <div class="metric-value" id="completionRate">94%</div>
+                            <div class="metric-label">Order Completion</div>
                             <div class="metric-trend trend-up">
                                 <i class="fas fa-arrow-up"></i> 2% improvement
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Selection Bar -->
+                
+                <!-- SELECTION BAR -->
                 <div class="selection-bar" id="selectionBar">
                     <div class="selection-info">
-                        <span class="selected-count" id="selectedCount">0 items selected</span>
-                        <span class="selected-value" id="selectedValue">Total value: $0.00</span>
+                        <span class="selected-count" id="selectedCount">0 items</span>
+                        <span class="selected-value">Total: $<span id="selectedTotal">0.00</span></span>
                         <div class="selection-actions">
-                            <button class="btn btn-outline btn-sm" id="clearSelection">
-                                <i class="fas fa-times"></i> Clear
+                            <button class="btn btn-secondary btn-sm" onclick="clearSelection()">
+                                Clear
                             </button>
-                            <button class="btn btn-primary btn-sm" id="addToOrder">
-                                <i class="fas fa-cart-plus"></i> Add to Order
+                            <button class="btn btn-success btn-sm" onclick="openOrderPanel()">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span>Review</span>
                             </button>
                         </div>
                     </div>
                 </div>
-
-                <!-- Data Table -->
+                
+                <!-- DATA TABLE -->
                 <div class="table-container">
-                    <table class="data-table">
+                    <table class="data-table" id="dataTable">
                         <thead>
                             <tr>
                                 <th class="col-checkbox">
                                     <div class="checkbox-container">
-                                        <div class="enterprise-checkbox" id="selectAll"></div>
+                                        <div class="enterprise-checkbox" id="selectAll" onclick="toggleSelectAll()"></div>
                                     </div>
                                 </th>
-                                <th class="col-id">Product ID</th>
+                                <th class="col-id">SKU</th>
                                 <th class="col-name">Product Name</th>
                                 <th class="col-category">Category</th>
-                                <th class="col-stock">Current Stock</th>
-                                <th class="col-min">Min Required</th>
-                                <th class="col-usage">Monthly Usage</th>
+                                <th class="col-stock">Current</th>
+                                <th class="col-min">Minimum</th>
+                                <th class="col-usage">Weekly Usage</th>
                                 <th class="col-days">Days Left</th>
                                 <th class="col-status">Status</th>
-                                <th class="col-suppliers">Recommended Suppliers</th>
+                                <th class="col-suppliers">Suppliers</th>
                                 <th class="col-actions">Actions</th>
                             </tr>
                         </thead>
                         <tbody id="tableBody">
-                            <!-- Rows will be populated by JavaScript -->
+                            <!-- Items will be populated here -->
                         </tbody>
                     </table>
                 </div>
             </div>
-
-            <!-- Action Panel -->
+            
+            <!-- ACTION PANEL -->
             <div class="action-panel" id="actionPanel">
+                <div class="panel-toggle" onclick="toggleOrderPanel()">
+                    <i class="fas fa-chevron-left" id="panelToggleIcon"></i>
+                </div>
+                
                 <div class="panel-header">
-                    <div class="panel-title">Purchase Order</div>
-                    <button class="panel-close" id="closePanel">
+                    <div class="panel-title">Create Purchase Order</div>
+                    <button class="panel-close" onclick="closeOrderPanel()">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
-
+                
                 <div class="panel-content" id="panelContent">
-                    <!-- Order items will be dynamically added here -->
-                    <div class="empty-state" id="emptyState">
-                        <i class="fas fa-shopping-cart"></i>
-                        <p>Your order is empty</p>
-                        <p class="text-sm">Select items from the table to add to your order</p>
-                    </div>
+                    <!-- Order items will be loaded here -->
                 </div>
-
+                
                 <div class="panel-footer">
                     <div class="order-summary">
                         <div class="summary-row">
-                            <span>Items</span>
-                            <span id="totalItems">0</span>
+                            <span>Subtotal</span>
+                            <span id="summarySubtotal">$0.00</span>
                         </div>
                         <div class="summary-row">
-                            <span>Subtotal</span>
-                            <span id="subtotal">$0.00</span>
+                            <span>Shipping</span>
+                            <span id="summaryShipping">$0.00</span>
                         </div>
                         <div class="summary-row">
                             <span>Tax (10%)</span>
-                            <span id="tax">$0.00</span>
+                            <span id="summaryTax">$0.00</span>
                         </div>
                         <div class="summary-row total">
-                            <span>Total</span>
-                            <span id="totalAmount">$0.00</span>
+                            <span>Total Order Value</span>
+                            <span id="summaryTotal">$0.00</span>
                         </div>
                     </div>
-                    <button class="btn btn-success w-100 mt-3" id="placeOrder" disabled>
-                        <i class="fas fa-paper-plane"></i> Place Order ($0.00)
-                    </button>
+                    
+                    <div style="display: flex; gap: 10px; margin-top: 16px;">
+                        <button class="btn btn-secondary" style="flex: 1;" onclick="closeOrderPanel()">
+                            Cancel
+                        </button>
+                        <button class="btn btn-success" style="flex: 1;" onclick="submitPurchaseOrder()" id="submitBtn">
+                            <i class="fas fa-paper-plane"></i> Submit PO
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Sample data for the table
-        const products = [
-            {
-                id: "PR-2024-001",
-                name: "Stainless Steel Valves",
-                category: "Industrial",
-                stock: 42,
-                min: 100,
-                usage: 58,
-                days: 22,
-                status: "critical",
-                suppliers: [
-                    { name: "SteelWorks Inc.", price: 125.00, delivery: "2 days", rating: "best" },
-                    { name: "MetalCraft Corp", price: 132.50, delivery: "3 days", rating: "good" },
-                    { name: "Precision Parts", price: 140.00, delivery: "1 day", rating: "good" }
-                ]
-            },
-            {
-                id: "PR-2024-002",
-                name: "Electrical Conduits",
-                category: "Electrical",
-                stock: 185,
-                min: 150,
-                usage: 45,
-                days: 123,
-                status: "normal",
-                suppliers: [
-                    { name: "VoltTech Ltd", price: 34.99, delivery: "1 day", rating: "best" },
-                    { name: "PowerFlow Systems", price: 36.50, delivery: "2 days", rating: "good" }
-                ]
-            },
-            {
-                id: "PR-2024-003",
-                name: "Safety Helmets",
-                category: "Safety",
-                stock: 72,
-                min: 200,
-                usage: 128,
-                days: 17,
-                status: "warning",
-                suppliers: [
-                    { name: "SafeGuard Pro", price: 24.99, delivery: "1 day", rating: "best" },
-                    { name: "WorkSafe Solutions", price: 26.75, delivery: "2 days", rating: "good" }
-                ]
-            },
-            {
-                id: "PR-2024-004",
-                name: "Hydraulic Pumps",
-                category: "Industrial",
-                stock: 15,
-                min: 50,
-                usage: 35,
-                days: 13,
-                status: "critical",
-                suppliers: [
-                    { name: "FluidPower Co", price: 450.00, delivery: "5 days", rating: "best" },
-                    { name: "HydroTech Inc", price: 475.00, delivery: "3 days", rating: "good" }
-                ]
-            },
-            {
-                id: "PR-2024-005",
-                name: "PVC Pipes (4-inch)",
-                category: "Plumbing",
-                stock: 320,
-                min: 250,
-                usage: 90,
-                days: 107,
-                status: "normal",
-                suppliers: [
-                    { name: "PipeMasters LLC", price: 12.99, delivery: "1 day", rating: "best" },
-                    { name: "AquaFlow Systems", price: 13.25, delivery: "2 days", rating: "good" }
-                ]
+        // ============================================
+        // ENTERPRISE SYSTEM STATE
+        // ============================================
+        const systemState = {
+            selectedItems: new Map(),
+            allItems: [],
+            suppliers: {
+                'S001': { id: 'S001', name: 'TechSupply Pro', rating: 4.8, delivery: '2-3 days', priceMultiplier: 1.0, shipping: 25, reliability: 97 },
+                'S002': { id: 'S002', name: 'OfficeWorks Inc.', rating: 4.6, delivery: '1-2 days', priceMultiplier: 1.05, shipping: 15, reliability: 94 },
+                'S003': { id: 'S003', name: 'Global Electronics', rating: 4.7, delivery: '3-5 days', priceMultiplier: 0.95, shipping: 30, reliability: 96 },
+                'S004': { id: 'S004', name: 'Office Depot', rating: 4.5, delivery: 'Next day', priceMultiplier: 1.1, shipping: 10, reliability: 92 },
+                'S005': { id: 'S005', name: 'Furniture Co.', rating: 4.4, delivery: '5-7 days', priceMultiplier: 0.9, shipping: 50, reliability: 90 }
             }
-        ];
+        };
 
-        // Order data structure
-        let orderItems = [];
-        let selectedProducts = new Set();
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            loadSampleData();
+            renderTable();
+            
+            // Auto-select critical items for efficiency
+            setTimeout(() => {
+                smartSelect();
+                updateKPIMetrics();
+            }, 500);
+            
+            // Adjust panel toggle icon on load
+            updatePanelToggleIcon();
+            
+            // Add resize listener for responsive adjustments
+            window.addEventListener('resize', handleResize);
+        });
 
-        // DOM Elements
-        const tableBody = document.getElementById('tableBody');
-        const panelContent = document.getElementById('panelContent');
-        const emptyState = document.getElementById('emptyState');
-        const selectionBar = document.getElementById('selectionBar');
-        const selectedCount = document.getElementById('selectedCount');
-        const selectedValue = document.getElementById('selectedValue');
-        const selectAllCheckbox = document.getElementById('selectAll');
-        const clearSelectionBtn = document.getElementById('clearSelection');
-        const addToOrderBtn = document.getElementById('addToOrder');
-        const actionPanel = document.getElementById('actionPanel');
-        const closePanelBtn = document.getElementById('closePanel');
-        const totalItemsSpan = document.getElementById('totalItems');
-        const subtotalSpan = document.getElementById('subtotal');
-        const taxSpan = document.getElementById('tax');
-        const totalAmountSpan = document.getElementById('totalAmount');
-        const placeOrderBtn = document.getElementById('placeOrder');
-
-        // Initialize table
-        function initializeTable() {
-            tableBody.innerHTML = '';
-            products.forEach((product, index) => {
-                const row = document.createElement('tr');
-                row.dataset.id = product.id;
-                
-                // Calculate days left
-                const daysLeft = Math.floor((product.stock / product.usage) * 30);
-                
-                // Determine status
-                let statusClass = 'status-normal';
-                let statusText = 'Normal';
-                if (product.status === 'critical' || daysLeft < 14) {
-                    statusClass = 'status-critical';
-                    statusText = 'Critical';
-                } else if (product.status === 'warning' || daysLeft < 30) {
-                    statusClass = 'status-warning';
-                    statusText = 'Warning';
+        function loadSampleData() {
+            systemState.allItems = [
+                {
+                    id: 'SKU-1001',
+                    name: 'Laptop Pro X1',
+                    category: 'Electronics',
+                    stock: 3,
+                    minStock: 15,
+                    weeklyUsage: 8,
+                    price: 1200,
+                    suppliers: ['S001', 'S002', 'S003'],
+                    controller: null,
+                    status: 'critical'
+                },
+                {
+                    id: 'SKU-1002',
+                    name: 'Office Chair Ergo',
+                    category: 'Furniture',
+                    stock: 2,
+                    minStock: 10,
+                    weeklyUsage: 5,
+                    price: 350,
+                    suppliers: ['S002', 'S005'],
+                    controller: null,
+                    status: 'critical'
+                },
+                {
+                    id: 'SKU-1003',
+                    name: 'Wireless Mouse MX3',
+                    category: 'Electronics',
+                    stock: 12,
+                    minStock: 25,
+                    weeklyUsage: 15,
+                    price: 45,
+                    suppliers: ['S001', 'S004'],
+                    controller: 'John Smith',
+                    status: 'warning'
+                },
+                {
+                    id: 'SKU-1004',
+                    name: '4K Monitor 27"',
+                    category: 'Electronics',
+                    stock: 5,
+                    minStock: 12,
+                    weeklyUsage: 6,
+                    price: 450,
+                    suppliers: ['S001', 'S002', 'S003'],
+                    controller: null,
+                    status: 'critical'
+                },
+                {
+                    id: 'SKU-1005',
+                    name: 'Desk Organizer Set',
+                    category: 'Office Supplies',
+                    stock: 8,
+                    minStock: 20,
+                    weeklyUsage: 12,
+                    price: 35,
+                    suppliers: ['S003', 'S004'],
+                    controller: 'Sarah Johnson',
+                    status: 'warning'
+                },
+                {
+                    id: 'SKU-1006',
+                    name: 'Network Switch 24-Port',
+                    category: 'Electronics',
+                    stock: 4,
+                    minStock: 8,
+                    weeklyUsage: 2,
+                    price: 280,
+                    suppliers: ['S001', 'S002'],
+                    controller: 'Mike Wilson',
+                    status: 'critical'
+                },
+                {
+                    id: 'SKU-1007',
+                    name: 'Wireless Keyboard',
+                    category: 'Electronics',
+                    stock: 9,
+                    minStock: 20,
+                    weeklyUsage: 10,
+                    price: 85,
+                    suppliers: ['S001', 'S004'],
+                    controller: null,
+                    status: 'warning'
+                },
+                {
+                    id: 'SKU-1008',
+                    name: 'Executive Desk',
+                    category: 'Furniture',
+                    stock: 3,
+                    minStock: 8,
+                    weeklyUsage: 2,
+                    price: 650,
+                    suppliers: ['S002', 'S005'],
+                    controller: 'Lisa Brown',
+                    status: 'critical'
                 }
+            ];
+        }
+
+        // ============================================
+        // DATA TABLE RENDERING
+        // ============================================
+        function renderTable() {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+            
+            systemState.allItems.forEach(item => {
+                const isSelected = systemState.selectedItems.has(item.id);
+                const daysLeft = Math.floor((item.stock / item.weeklyUsage) * 7);
                 
-                // Supplier tags
-                const supplierTags = product.suppliers.map(supplier => 
-                    `<span class="supplier-tag ${supplier.rating === 'best' ? 'best' : ''}">${supplier.name}</span>`
-                ).join('');
+                const row = document.createElement('tr');
+                if (isSelected) row.classList.add('selected');
                 
                 row.innerHTML = `
                     <td>
                         <div class="checkbox-container">
-                            <div class="enterprise-checkbox" data-id="${product.id}"></div>
+                            <div class="enterprise-checkbox ${isSelected ? 'checked' : ''}" 
+                                 onclick="toggleItemSelection('${item.id}')"></div>
                         </div>
                     </td>
-                    <td>${product.id}</td>
                     <td>
-                        <div class="font-semibold">${product.name}</div>
-                        <div class="text-sm text-gray">${product.category}</div>
-                    </td>
-                    <td>${product.category}</td>
-                    <td>${product.stock}</td>
-                    <td>${product.min}</td>
-                    <td>${product.usage}/month</td>
-                    <td>${daysLeft} days</td>
-                    <td><span class="status-badge ${statusClass}">${statusText}</span></td>
-                    <td>
-                        <div class="supplier-tags">${supplierTags}</div>
+                        <div class="font-semibold" title="${item.id}">${item.id}</div>
+                        <div class="text-sm text-gray" title="${item.controller || 'Unassigned'}">
+                            ${item.controller || 'Unassigned'}
+                        </div>
                     </td>
                     <td>
-                        <button class="btn btn-outline btn-sm add-to-order-btn" data-id="${product.id}">
-                            <i class="fas fa-cart-plus"></i> Add
+                        <div class="font-medium" title="${item.name}">${item.name}</div>
+                        <div class="text-sm text-gray" title="${item.category}">${item.category}</div>
+                    </td>
+                    <td title="${item.category}">${item.category}</td>
+                    <td>
+                        <div class="font-semibold ${item.status === 'critical' ? 'text-danger' : 'text-warning'}" title="${item.stock}">
+                            ${item.stock}
+                        </div>
+                    </td>
+                    <td title="${item.minStock}">${item.minStock}</td>
+                    <td title="${item.weeklyUsage}/week">${item.weeklyUsage}/week</td>
+                    <td>
+                        <div class="font-semibold ${daysLeft < 7 ? 'text-danger' : 'text-warning'}" title="${daysLeft} days">
+                            ${daysLeft}d
+                        </div>
+                    </td>
+                    <td>
+                        <span class="status-badge status-${item.status}" title="${item.status === 'critical' ? 'Critical' : 'Low Stock'}">
+                            ${item.status === 'critical' ? 'Critical' : 'Low Stock'}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="supplier-tags">
+                            ${item.suppliers.map(supplierId => {
+                                const supplier = systemState.suppliers[supplierId];
+                                const isBest = getBestSupplier(item) === supplierId;
+                                const supplierName = supplier.name.split(' ')[0];
+                                return `<span class="supplier-tag ${isBest ? 'best' : ''}" title="${supplier.name}">${supplierName}</span>`;
+                            }).join('')}
+                        </div>
+                    </td>
+                    <td>
+                        <button class="btn btn-outline btn-sm" onclick="quickOrderSingle('${item.id}')" title="Quick order">
+                            <i class="fas fa-bolt"></i>
                         </button>
                     </td>
                 `;
-                tableBody.appendChild(row);
+                
+                tbody.appendChild(row);
             });
             
-            // Add event listeners
-            tableBody.querySelectorAll('.enterprise-checkbox').forEach(checkbox => {
-                checkbox.addEventListener('click', toggleProductSelection);
-            });
-            
-            tableBody.querySelectorAll('.add-to-order-btn').forEach(btn => {
-                btn.addEventListener('click', addToOrderFromButton);
-            });
+            updateSelectionUI();
         }
 
-        // Toggle product selection
-        function toggleProductSelection(e) {
-            const checkbox = e.currentTarget;
-            const productId = checkbox.dataset.id;
-            
-            checkbox.classList.toggle('checked');
-            const row = checkbox.closest('tr');
-            row.classList.toggle('selected');
-            
-            if (checkbox.classList.contains('checked')) {
-                selectedProducts.add(productId);
+        // ============================================
+        // SELECTION MANAGEMENT
+        // ============================================
+        function toggleItemSelection(itemId) {
+            if (systemState.selectedItems.has(itemId)) {
+                systemState.selectedItems.delete(itemId);
             } else {
-                selectedProducts.delete(productId);
+                const item = systemState.allItems.find(i => i.id === itemId);
+                if (item) {
+                    const bestSupplier = getBestSupplier(item);
+                    systemState.selectedItems.set(itemId, {
+                        ...item,
+                        selectedSupplier: bestSupplier,
+                        quantity: calculateOptimalQuantity(item)
+                    });
+                }
             }
             
-            updateSelectionBar();
-            updateSelectAllCheckbox();
+            renderTable();
+            updateSelectionUI();
         }
 
-        // Update selection bar
-        function updateSelectionBar() {
-            const count = selectedProducts.size;
+        function toggleSelectAll() {
+            const allSelected = systemState.selectedItems.size === systemState.allItems.length;
             
-            if (count > 0) {
-                selectionBar.style.display = 'block';
-                selectedCount.textContent = `${count} item${count > 1 ? 's' : ''} selected`;
-                
-                // Calculate total value
-                let totalValue = 0;
-                selectedProducts.forEach(productId => {
-                    const product = products.find(p => p.id === productId);
-                    if (product) {
-                        totalValue += product.suppliers[0].price;
+            if (allSelected) {
+                systemState.selectedItems.clear();
+            } else {
+                systemState.allItems.forEach(item => {
+                    if (!systemState.selectedItems.has(item.id)) {
+                        const bestSupplier = getBestSupplier(item);
+                        systemState.selectedItems.set(item.id, {
+                            ...item,
+                            selectedSupplier: bestSupplier,
+                            quantity: calculateOptimalQuantity(item)
+                        });
                     }
                 });
-                selectedValue.textContent = `Total value: $${totalValue.toFixed(2)}`;
+            }
+            
+            renderTable();
+            updateSelectionUI();
+        }
+
+        function smartSelect() {
+            systemState.selectedItems.clear();
+            
+            // Enterprise logic: select items based on urgency and business rules
+            systemState.allItems.forEach(item => {
+                const urgencyScore = calculateUrgencyScore(item);
+                
+                if (urgencyScore > 50) { // Threshold for automatic selection
+                    const bestSupplier = getBestSupplier(item);
+                    systemState.selectedItems.set(item.id, {
+                        ...item,
+                        selectedSupplier: bestSupplier,
+                        quantity: calculateOptimalQuantity(item)
+                    });
+                }
+            });
+            
+            renderTable();
+            updateSelectionUI();
+            showToast(`${systemState.selectedItems.size} items selected based on urgency`, 'success');
+        }
+
+        function calculateUrgencyScore(item) {
+            const stockRatio = (item.stock / item.minStock) * 100;
+            const daysCoverage = (item.stock / item.weeklyUsage) * 7;
+            const usageFactor = Math.min(item.weeklyUsage / 20, 1) * 100;
+            
+            let score = 100 - stockRatio;
+            
+            if (daysCoverage < 7) score += 30;
+            else if (daysCoverage < 14) score += 15;
+            
+            score += usageFactor * 0.3;
+            
+            if (!item.controller) score += 20;
+            
+            return Math.min(score, 100);
+        }
+
+        function clearSelection() {
+            systemState.selectedItems.clear();
+            renderTable();
+            updateSelectionUI();
+            showToast('Selection cleared', 'info');
+        }
+
+        function updateSelectionUI() {
+            const count = systemState.selectedItems.size;
+            const selectionBar = document.getElementById('selectionBar');
+            const quickOrderBtn = document.getElementById('quickOrderBtn');
+            
+            if (count > 0) {
+                selectionBar.style.display = 'flex';
+                quickOrderBtn.style.display = 'flex';
+                
+                document.getElementById('selectedCount').textContent = `${count} item${count !== 1 ? 's' : ''}`;
+                
+                let total = 0;
+                systemState.selectedItems.forEach(item => {
+                    const supplier = systemState.suppliers[item.selectedSupplier];
+                    if (supplier) {
+                        total += (item.price * supplier.priceMultiplier * item.quantity);
+                    }
+                });
+                
+                document.getElementById('selectedTotal').textContent = total.toFixed(2);
             } else {
                 selectionBar.style.display = 'none';
+                quickOrderBtn.style.display = 'none';
             }
-        }
-
-        // Update select all checkbox
-        function updateSelectAllCheckbox() {
-            const allCheckboxes = tableBody.querySelectorAll('.enterprise-checkbox');
-            const checkedCheckboxes = tableBody.querySelectorAll('.enterprise-checkbox.checked');
             
-            if (allCheckboxes.length === checkedCheckboxes.length) {
-                selectAllCheckbox.classList.add('checked');
-            } else {
-                selectAllCheckbox.classList.remove('checked');
-            }
+            const selectAll = document.getElementById('selectAll');
+            const allSelected = count === systemState.allItems.length;
+            const someSelected = count > 0 && count < systemState.allItems.length;
+            
+            selectAll.classList.toggle('checked', allSelected);
+            selectAll.style.opacity = someSelected ? '0.6' : '1';
         }
 
-        // Add to order from selection
-        function addToOrderFromSelection() {
-            selectedProducts.forEach(productId => {
-                addToOrder(productId);
+        // ============================================
+        // BUSINESS LOGIC
+        // ============================================
+        function getBestSupplier(item) {
+            let bestSupplier = null;
+            let bestScore = -1;
+            
+            item.suppliers.forEach(supplierId => {
+                const supplier = systemState.suppliers[supplierId];
+                if (supplier) {
+                    const priceScore = (1 / supplier.priceMultiplier) * 0.4;
+                    const deliveryDays = parseInt(supplier.delivery.split('-')[0]);
+                    const deliveryScore = (1 / deliveryDays) * 0.3;
+                    const reliabilityScore = (supplier.reliability / 100) * 0.2;
+                    const ratingScore = (supplier.rating / 5) * 0.1;
+                    
+                    const totalScore = priceScore + deliveryScore + reliabilityScore + ratingScore;
+                    
+                    if (totalScore > bestScore) {
+                        bestScore = totalScore;
+                        bestSupplier = supplierId;
+                    }
+                }
             });
             
-            // Clear selection
-            selectedProducts.clear();
-            tableBody.querySelectorAll('.enterprise-checkbox.checked').forEach(checkbox => {
-                checkbox.classList.remove('checked');
-                checkbox.closest('tr').classList.remove('selected');
-            });
-            updateSelectionBar();
+            return bestSupplier || item.suppliers[0];
+        }
+
+        function calculateOptimalQuantity(item) {
+            const weeksCoverage = 4;
+            const buffer = Math.ceil(item.weeklyUsage * 0.5);
+            const required = item.minStock - item.stock;
             
-            // Show panel
-            actionPanel.style.display = 'flex';
+            return Math.max(
+                required + Math.ceil(item.weeklyUsage * weeksCoverage) + buffer,
+                5
+            );
         }
 
-        // Add to order from button
-        function addToOrderFromButton(e) {
-            const productId = e.currentTarget.dataset.id;
-            addToOrder(productId);
-            actionPanel.style.display = 'flex';
-        }
-
-        // Add product to order
-        function addToOrder(productId) {
-            // Check if already in order
-            if (orderItems.find(item => item.productId === productId)) {
-                // Update quantity if already exists
-                const existingItem = orderItems.find(item => item.productId === productId);
-                existingItem.quantity += 1;
-                updateOrderItem(existingItem);
-                updateOrderSummary();
+        // ============================================
+        // ORDER PANEL
+        // ============================================
+        function openOrderPanel() {
+            if (systemState.selectedItems.size === 0) {
+                showToast('Please select items first', 'warning');
                 return;
             }
             
-            const product = products.find(p => p.id === productId);
-            if (!product) return;
-            
-            const orderItem = {
-                id: Date.now().toString(),
-                productId: product.id,
-                name: product.name,
-                quantity: 1,
-                supplier: product.suppliers[0],
-                price: product.suppliers[0].price
-            };
-            
-            orderItems.push(orderItem);
-            renderOrderItem(orderItem);
+            renderOrderPanel();
+            document.getElementById('actionPanel').classList.add('open');
             updateOrderSummary();
-            
-            // Hide empty state
-            emptyState.style.display = 'none';
+            updatePanelToggleIcon();
         }
 
-        // Render order item
-        function renderOrderItem(item) {
-            const orderItemDiv = document.createElement('div');
-            orderItemDiv.className = 'order-item';
-            orderItemDiv.dataset.id = item.id;
+        function toggleOrderPanel() {
+            const panel = document.getElementById('actionPanel');
+            panel.classList.toggle('open');
+            updatePanelToggleIcon();
+        }
+
+        function closeOrderPanel() {
+            document.getElementById('actionPanel').classList.remove('open');
+            updatePanelToggleIcon();
+        }
+
+        function updatePanelToggleIcon() {
+            const panel = document.getElementById('actionPanel');
+            const icon = document.getElementById('panelToggleIcon');
+            if (panel.classList.contains('open')) {
+                icon.className = 'fas fa-chevron-right';
+            } else {
+                icon.className = 'fas fa-chevron-left';
+            }
+        }
+
+        function renderOrderPanel() {
+            const panelContent = document.getElementById('panelContent');
+            let html = '';
             
-            orderItemDiv.innerHTML = `
-                <button class="remove-item-btn" data-id="${item.id}">
-                    <i class="fas fa-times"></i>
-                </button>
-                <div class="item-header">
-                    <div>
-                        <div class="item-title">${item.name}</div>
-                        <div class="item-subtitle">Product ID: ${item.productId}</div>
-                    </div>
-                </div>
+            systemState.selectedItems.forEach((item, itemId) => {
+                const supplier = systemState.suppliers[item.selectedSupplier];
+                const unitPrice = item.price * supplier.priceMultiplier;
+                const itemTotal = unitPrice * item.quantity;
+                const bestSupplier = getBestSupplier(item);
                 
-                <div class="quantity-section">
-                    <div class="section-label">
-                        <i class="fas fa-boxes"></i> Quantity
-                    </div>
-                    <div class="quantity-control">
-                        <input type="number" 
-                               class="quantity-input" 
-                               value="${item.quantity}" 
-                               min="1" 
-                               max="999"
-                               data-id="${item.id}">
-                        <div class="quantity-buttons">
-                            <button class="qty-btn increase-btn" data-id="${item.id}">
-                                <i class="fas fa-chevron-up"></i>
-                            </button>
-                            <button class="qty-btn decrease-btn" data-id="${item.id}">
-                                <i class="fas fa-chevron-down"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="supplier-section">
-                    <div class="section-label">
-                        <i class="fas fa-truck"></i> Supplier
-                    </div>
-                    <div class="supplier-options" data-id="${item.id}">
-                        ${products.find(p => p.id === item.productId).suppliers.map(supplier => `
-                            <div class="supplier-option ${supplier.name === item.supplier.name ? 'selected' : ''}" 
-                                 data-price="${supplier.price}"
-                                 data-supplier="${supplier.name}">
-                                <div class="supplier-info">
-                                    <div>
-                                        <div class="supplier-name">
-                                            ${supplier.name}
-                                            ${supplier.rating === 'best' ? '<span class="best-badge">Best</span>' : ''}
-                                        </div>
-                                        <div class="supplier-details">Delivery: ${supplier.delivery}</div>
-                                    </div>
-                                    <div class="supplier-price">$${supplier.price.toFixed(2)}</div>
+                html += `
+                    <div class="order-item" id="panel-item-${itemId}">
+                        <div class="item-header">
+                            <div style="flex: 1; min-width: 0;">
+                                <div class="item-title" title="${item.name}">${item.name}</div>
+                                <div class="item-subtitle" title="${item.id} • ${item.category} • Stock: ${item.stock}/${item.minStock}">
+                                    ${item.id} • ${item.category} • Stock: ${item.stock}/${item.minStock}
                                 </div>
                             </div>
-                        `).join('')}
+                            <button class="btn btn-secondary btn-sm" onclick="removeFromOrder('${itemId}')" title="Remove item">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="quantity-section">
+                            <div class="section-label">
+                                <i class="fas fa-calculator"></i>
+                                Quantity
+                            </div>
+                            <div class="quantity-control">
+                                <input type="number" 
+                                       class="quantity-input" 
+                                       value="${item.quantity}"
+                                       min="1"
+                                       max="1000"
+                                       onchange="updateOrderQuantity('${itemId}', this.value)"
+                                       id="order-qty-${itemId}">
+                                <div class="quantity-buttons">
+                                    <button class="qty-btn" onclick="adjustOrderQuantity('${itemId}', 1)" title="Increase">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                    <button class="qty-btn" onclick="adjustOrderQuantity('${itemId}', -1)" title="Decrease">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="text-sm text-gray" style="margin-top: 4px;">
+                                Suggested: ${calculateOptimalQuantity(item)} • Weeks: ${Math.round((item.quantity + item.stock - item.minStock) / item.weeklyUsage * 10) / 10}
+                            </div>
+                        </div>
+                        
+                        <div class="supplier-section">
+                            <div class="section-label">
+                                <i class="fas fa-truck"></i>
+                                Supplier
+                            </div>
+                            <div class="supplier-options">
+                                ${item.suppliers.map(supplierId => {
+                                    const s = systemState.suppliers[supplierId];
+                                    const isSelected = supplierId === item.selectedSupplier;
+                                    const isBest = supplierId === bestSupplier;
+                                    const price = (item.price * s.priceMultiplier).toFixed(2);
+                                    
+                                    return `
+                                        <div class="supplier-option ${isSelected ? 'selected' : ''}" 
+                                             onclick="selectOrderSupplier('${itemId}', '${supplierId}')"
+                                             title="${s.name} • ${s.delivery} • ${s.rating}★ • ${s.reliability}% reliable • $${price}">
+                                            <div class="supplier-info">
+                                                <div style="flex: 1; min-width: 0;">
+                                                    <div class="supplier-name">
+                                                        ${s.name.split(' ')[0]}
+                                                        ${isBest ? '<span class="best-badge">BEST</span>' : ''}
+                                                    </div>
+                                                    <div class="supplier-details">
+                                                        ${s.delivery} • ${s.rating}★
+                                                    </div>
+                                                </div>
+                                                <div class="supplier-price">$${price}</div>
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--neutral-border);">
+                            <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                                <span class="text-gray">Item Total:</span>
+                                <span class="font-semibold">$${itemTotal.toFixed(2)}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            panelContent.innerHTML = html;
+        }
+
+        function selectOrderSupplier(itemId, supplierId) {
+            const item = systemState.selectedItems.get(itemId);
+            if (item) {
+                item.selectedSupplier = supplierId;
+                renderOrderPanel();
+                updateOrderSummary();
+            }
+        }
+
+        function updateOrderQuantity(itemId, value) {
+            const item = systemState.selectedItems.get(itemId);
+            if (item) {
+                let newQty = parseInt(value) || 1;
+                newQty = Math.max(1, Math.min(1000, newQty));
+                item.quantity = newQty;
+                updateOrderSummary();
+            }
+        }
+
+        function adjustOrderQuantity(itemId, delta) {
+            const item = systemState.selectedItems.get(itemId);
+            if (item) {
+                let newQty = item.quantity + delta;
+                newQty = Math.max(1, Math.min(1000, newQty));
+                item.quantity = newQty;
+                
+                const input = document.getElementById(`order-qty-${itemId}`);
+                if (input) input.value = newQty;
+                
+                updateOrderSummary();
+            }
+        }
+
+        function removeFromOrder(itemId) {
+            systemState.selectedItems.delete(itemId);
+            
+            if (systemState.selectedItems.size === 0) {
+                closeOrderPanel();
+                renderTable();
+                showToast('All items removed from order', 'info');
+            } else {
+                renderOrderPanel();
+                renderTable();
+                updateOrderSummary();
+            }
+        }
+
+        function updateOrderSummary() {
+            let subtotal = 0;
+            let shipping = 0;
+            
+            systemState.selectedItems.forEach(item => {
+                const supplier = systemState.suppliers[item.selectedSupplier];
+                if (supplier) {
+                    subtotal += (item.price * supplier.priceMultiplier * item.quantity);
+                    shipping += supplier.shipping;
+                }
+            });
+            
+            const tax = subtotal * 0.1;
+            const total = subtotal + shipping + tax;
+            
+            document.getElementById('summarySubtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('summaryShipping').textContent = `$${shipping.toFixed(2)}`;
+            document.getElementById('summaryTax').textContent = `$${tax.toFixed(2)}`;
+            document.getElementById('summaryTotal').textContent = `$${total.toFixed(2)}`;
+        }
+
+        // ============================================
+        // ORDER SUBMISSION
+        // ============================================
+        function submitPurchaseOrder() {
+            if (systemState.selectedItems.size === 0) {
+                showToast('No items to order', 'warning');
+                return;
+            }
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<div class="loading"></div>';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                const poNumbers = ['PO-2024001', 'PO-2024002'];
+                showToast(`Purchase Orders created: ${poNumbers.join(', ')}`, 'success');
+                
+                systemState.selectedItems.clear();
+                closeOrderPanel();
+                renderTable();
+                updateKPIMetrics();
+                
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 1500);
+        }
+
+        function quickOrderSingle(itemId) {
+            const item = systemState.allItems.find(i => i.id === itemId);
+            if (item) {
+                systemState.selectedItems.clear();
+                
+                const bestSupplier = getBestSupplier(item);
+                systemState.selectedItems.set(itemId, {
+                    ...item,
+                    selectedSupplier: bestSupplier,
+                    quantity: calculateOptimalQuantity(item)
+                });
+                
+                renderTable();
+                updateSelectionUI();
+                openOrderPanel();
+            }
+        }
+
+        // ============================================
+        // UI UTILITIES
+        // ============================================
+        function searchTable() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const rows = document.querySelectorAll('#tableBody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        }
+
+        function filterByStatus(status) {
+            const rows = document.querySelectorAll('#tableBody tr');
+            
+            rows.forEach(row => {
+                const statusCell = row.querySelector('.status-badge');
+                if (status === 'all' || !statusCell) {
+                    row.style.display = '';
+                } else if (statusCell.classList.contains(`status-${status}`)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            
+            if (status !== 'all') {
+                showToast(`Showing ${status} items only`, 'info');
+            }
+        }
+
+        function exportData() {
+            showToast('Exporting data to Excel...', 'success');
+        }
+
+        function updateKPIMetrics() {
+            const totalValue = Array.from(systemState.selectedItems.values()).reduce((sum, item) => {
+                const supplier = systemState.suppliers[item.selectedSupplier];
+                return sum + (item.price * supplier.priceMultiplier * item.quantity);
+            }, 0);
+            
+            document.getElementById('totalValue').textContent = `$${Math.round(totalValue).toLocaleString()}`;
+        }
+
+        function handleResize() {
+            updatePanelToggleIcon();
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 16px;
+                right: 16px;
+                background: var(--neutral-white);
+                padding: 10px 14px;
+                border-radius: 6px;
+                box-shadow: var(--shadow-elevated);
+                border-left: 4px solid ${type === 'success' ? 'var(--success-green)' : 
+                                      type === 'warning' ? 'var(--warning-orange)' : 
+                                      'var(--primary-blue)'};
+                z-index: 10000;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                animation: slideIn 0.3s ease;
+                max-width: 300px;
+                font-size: 13px;
+            `;
+            
+            const icon = type === 'success' ? 'check-circle' :
+                        type === 'warning' ? 'exclamation-triangle' : 'info-circle';
+            const iconColor = type === 'success' ? 'var(--success-green)' :
+                            type === 'warning' ? 'var(--warning-orange)' : 'var(--primary-blue)';
+            
+            toast.innerHTML = `
+                <i class="fas fa-${icon}" style="color: ${iconColor}; font-size: 14px;"></i>
+                <div style="flex: 1;">
+                    <div style="font-size: 13px; font-weight: 500; color: var(--neutral-dark);">
+                        ${message}
                     </div>
                 </div>
             `;
             
-            // Insert before empty state or at the end
-            if (emptyState.style.display !== 'none') {
-                panelContent.insertBefore(orderItemDiv, emptyState);
-            } else {
-                panelContent.appendChild(orderItemDiv);
-            }
+            document.body.appendChild(toast);
             
-            // Add event listeners
-            orderItemDiv.querySelector('.remove-item-btn').addEventListener('click', removeOrderItem);
-            orderItemDiv.querySelector('.quantity-input').addEventListener('change', updateQuantity);
-            orderItemDiv.querySelector('.increase-btn').addEventListener('click', increaseQuantity);
-            orderItemDiv.querySelector('.decrease-btn').addEventListener('click', decreaseQuantity);
-            orderItemDiv.querySelectorAll('.supplier-option').forEach(option => {
-                option.addEventListener('click', selectSupplier);
-            });
-        }
-
-        // Update existing order item
-        function updateOrderItem(item) {
-            const orderItemDiv = panelContent.querySelector(`.order-item[data-id="${item.id}"]`);
-            if (orderItemDiv) {
-                const quantityInput = orderItemDiv.querySelector('.quantity-input');
-                quantityInput.value = item.quantity;
-                
-                // Update supplier selection
-                orderItemDiv.querySelectorAll('.supplier-option').forEach(option => {
-                    option.classList.toggle('selected', 
-                        option.dataset.supplier === item.supplier.name);
-                });
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.3s ease forwards';
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        document.body.removeChild(toast);
+                    }
+                }, 300);
+            }, 3000);
+            
+            if (!document.getElementById('toast-animations')) {
+                const style = document.createElement('style');
+                style.id = 'toast-animations';
+                style.textContent = `
+                    @keyframes slideIn {
+                        from { transform: translateX(100%); opacity: 0; }
+                        to { transform: translateX(0); opacity: 1; }
+                    }
+                    @keyframes slideOut {
+                        from { transform: translateX(0); opacity: 1; }
+                        to { transform: translateX(100%); opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
             }
         }
-
-        // Remove order item
-        function removeOrderItem(e) {
-            const itemId = e.currentTarget.dataset.id;
-            const orderItemDiv = panelContent.querySelector(`.order-item[data-id="${itemId}"]`);
-            
-            if (orderItemDiv) {
-                orderItemDiv.remove();
-            }
-            
-            // Remove from orderItems array
-            orderItems = orderItems.filter(item => item.id !== itemId);
-            
-            // Show empty state if no items
-            if (orderItems.length === 0) {
-                emptyState.style.display = 'block';
-            }
-            
-            updateOrderSummary();
-        }
-
-        // Update quantity
-        function updateQuantity(e) {
-            const itemId = e.currentTarget.dataset.id;
-            const quantity = parseInt(e.currentTarget.value) || 1;
-            
-            const orderItem = orderItems.find(item => item.id === itemId);
-            if (orderItem) {
-                orderItem.quantity = Math.max(1, quantity);
-                updateOrderSummary();
-            }
-        }
-
-        // Increase quantity
-        function increaseQuantity(e) {
-            const itemId = e.currentTarget.dataset.id;
-            const orderItem = orderItems.find(item => item.id === itemId);
-            
-            if (orderItem) {
-                orderItem.quantity += 1;
-                const quantityInput = panelContent.querySelector(`.quantity-input[data-id="${itemId}"]`);
-                if (quantityInput) {
-                    quantityInput.value = orderItem.quantity;
-                }
-                updateOrderSummary();
-            }
-        }
-
-        // Decrease quantity
-        function decreaseQuantity(e) {
-            const itemId = e.currentTarget.dataset.id;
-            const orderItem = orderItems.find(item => item.id === itemId);
-            
-            if (orderItem && orderItem.quantity > 1) {
-                orderItem.quantity -= 1;
-                const quantityInput = panelContent.querySelector(`.quantity-input[data-id="${itemId}"]`);
-                if (quantityInput) {
-                    quantityInput.value = orderItem.quantity;
-                }
-                updateOrderSummary();
-            }
-        }
-
-        // Select supplier
-        function selectSupplier(e) {
-            const option = e.currentTarget;
-            const supplierOptions = option.closest('.supplier-options');
-            const itemId = supplierOptions.dataset.id;
-            
-            // Update UI
-            supplierOptions.querySelectorAll('.supplier-option').forEach(opt => {
-                opt.classList.remove('selected');
-            });
-            option.classList.add('selected');
-            
-            // Update order item
-            const orderItem = orderItems.find(item => item.id === itemId);
-            if (orderItem) {
-                const product = products.find(p => p.id === orderItem.productId);
-                const supplier = product.suppliers.find(s => s.name === option.dataset.supplier);
-                if (supplier) {
-                    orderItem.supplier = supplier;
-                    orderItem.price = supplier.price;
-                    updateOrderSummary();
-                }
-            }
-        }
-
-        // Update order summary
-        function updateOrderSummary() {
-            let totalItems = 0;
-            let subtotal = 0;
-            
-            orderItems.forEach(item => {
-                totalItems += item.quantity;
-                subtotal += item.quantity * item.price;
-            });
-            
-            const tax = subtotal * 0.10;
-            const total = subtotal + tax;
-            
-            // Update DOM
-            totalItemsSpan.textContent = totalItems;
-            subtotalSpan.textContent = `$${subtotal.toFixed(2)}`;
-            taxSpan.textContent = `$${tax.toFixed(2)}`;
-            totalAmountSpan.textContent = `$${total.toFixed(2)}`;
-            
-            // Update place order button
-            placeOrderBtn.disabled = orderItems.length === 0;
-            placeOrderBtn.innerHTML = `<i class="fas fa-paper-plane"></i> Place Order ($${total.toFixed(2)})`;
-        }
-
-        // Clear selection
-        function clearSelection() {
-            selectedProducts.clear();
-            tableBody.querySelectorAll('.enterprise-checkbox.checked').forEach(checkbox => {
-                checkbox.classList.remove('checked');
-                checkbox.closest('tr').classList.remove('selected');
-            });
-            updateSelectionBar();
-            updateSelectAllCheckbox();
-        }
-
-        // Select all products
-        function selectAllProducts() {
-            const isChecked = selectAllCheckbox.classList.contains('checked');
-            
-            tableBody.querySelectorAll('.enterprise-checkbox').forEach(checkbox => {
-                const productId = checkbox.dataset.id;
-                const row = checkbox.closest('tr');
-                
-                if (isChecked) {
-                    checkbox.classList.add('checked');
-                    row.classList.add('selected');
-                    selectedProducts.add(productId);
-                } else {
-                    checkbox.classList.remove('checked');
-                    row.classList.remove('selected');
-                    selectedProducts.delete(productId);
-                }
-            });
-            
-            updateSelectionBar();
-        }
-
-        // Close panel
-        function closePanel() {
-            actionPanel.style.display = 'none';
-        }
-
-        // Place order
-        function placeOrder() {
-            if (orderItems.length === 0) return;
-            
-            alert(`Order placed successfully!\nTotal: $${parseFloat(totalAmountSpan.textContent.replace('$', '')).toFixed(2)}\nItems: ${orderItems.length}`);
-            
-            // Clear order
-            orderItems = [];
-            panelContent.innerHTML = '';
-            panelContent.appendChild(emptyState);
-            emptyState.style.display = 'block';
-            updateOrderSummary();
-            closePanel();
-        }
-
-        // Event Listeners
-        selectAllCheckbox.addEventListener('click', selectAllProducts);
-        clearSelectionBtn.addEventListener('click', clearSelection);
-        addToOrderBtn.addEventListener('click', addToOrderFromSelection);
-        closePanelBtn.addEventListener('click', closePanel);
-        placeOrderBtn.addEventListener('click', placeOrder);
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            initializeTable();
-            updateOrderSummary();
-        });
-
-        // Ensure panel-content scrolls properly
-        function adjustPanelHeight() {
-            const panelContent = document.getElementById('panelContent');
-            const panelHeader = document.querySelector('.panel-header');
-            const panelFooter = document.querySelector('.panel-footer');
-            
-            if (panelContent && panelHeader && panelFooter) {
-                const headerHeight = panelHeader.offsetHeight;
-                const footerHeight = panelFooter.offsetHeight;
-                const windowHeight = window.innerHeight;
-                
-                panelContent.style.maxHeight = `${windowHeight - headerHeight - footerHeight - 40}px`;
-            }
-        }
-
-        // Adjust on resize
-        window.addEventListener('resize', adjustPanelHeight);
-        
-        // Initial adjustment
-        setTimeout(adjustPanelHeight, 100);
     </script>
 </body>
 </html>
