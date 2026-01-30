@@ -8,247 +8,393 @@
     <style>
         /* ===== ENTERPRISE DESIGN SYSTEM ===== */
         :root {
+            --primary-gradient: linear-gradient(135deg, #0052CC 0%, #0065FF 100%);
+            --secondary-gradient: linear-gradient(135deg, #0065FF 0%, #0080FF 100%);
+            --success-gradient: linear-gradient(135deg, #00875A 0%, #00A86B 100%);
+            --warning-gradient: linear-gradient(135deg, #FF991F 0%, #FFB347 100%);
+            --danger-gradient: linear-gradient(135deg, #DE350B 0%, #FF5630 100%);
+            
             --primary-blue: #0052CC;
             --secondary-blue: #0065FF;
             --success-green: #00875A;
             --warning-orange: #FF991F;
             --danger-red: #DE350B;
-            --neutral-dark: #172B4D;
-            --neutral-gray: #42526E;
-            --neutral-light: #F4F5F7;
-            --neutral-border: #DFE1E6;
-            --neutral-white: #FFFFFF;
+            
+            --neutral-900: #091E42;
+            --neutral-800: #172B4D;
+            --neutral-700: #253858;
+            --neutral-600: #344563;
+            --neutral-500: #42526E;
+            --neutral-400: #6B778C;
+            --neutral-300: #8993A4;
+            --neutral-200: #C1C7D0;
+            --neutral-100: #DFE1E6;
+            --neutral-50: #F4F5F7;
+            --neutral-0: #FFFFFF;
+            
             --shadow-subtle: 0px 1px 1px rgba(9, 30, 66, 0.08);
             --shadow-medium: 0px 3px 5px rgba(9, 30, 66, 0.16);
             --shadow-elevated: 0px 8px 16px rgba(9, 30, 66, 0.12);
+            --shadow-deep: 0px 12px 24px rgba(9, 30, 66, 0.16);
+            
             --transition-fast: 150ms cubic-bezier(0.2, 0, 0, 1);
             --transition-medium: 200ms cubic-bezier(0.2, 0, 0, 1);
+            --transition-smooth: 300ms cubic-bezier(0.2, 0, 0, 1);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'SF Pro', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', 'SF Pro', sans-serif;
         }
 
         body {
-            background: var(--neutral-light);
-            color: var(--neutral-dark);
+            background: var(--neutral-50);
+            color: var(--neutral-800);
             height: 100vh;
             overflow: hidden;
+            font-size: 13px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         /* ===== LAYOUT ===== */
         .app-container {
-            display: grid;
-            grid-template-rows: auto 1fr;
+            display: flex;
+            flex-direction: column;
             height: 100vh;
-            max-width: 100vw;
+            width: 100vw;
             overflow: hidden;
+            min-width: 320px;
         }
 
-        /* ===== TOP BAR ===== */
+        /* ===== COMPACT TOP BAR ===== */
         .top-bar {
-            background: var(--neutral-white);
-            border-bottom: 1px solid var(--neutral-border);
-            padding: 12px 24px;
-            display: grid;
-            grid-template-columns: auto 1fr auto;
+            background: var(--neutral-0);
+            border-bottom: 1px solid var(--neutral-100);
+            padding: 8px 16px;
+            display: flex;
             align-items: center;
-            gap: 24px;
+            gap: 12px;
             z-index: 100;
             box-shadow: var(--shadow-subtle);
+            flex-shrink: 0;
+            min-height: 56px;
         }
 
         .system-title {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
+            min-width: 160px;
         }
 
         .title-logo {
             width: 32px;
             height: 32px;
-            background: var(--primary-blue);
-            border-radius: 6px;
+            background: var(--primary-gradient);
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-weight: 600;
+            color: var(--neutral-0);
+            font-weight: 700;
+            flex-shrink: 0;
+            box-shadow: 0 2px 4px rgba(0, 82, 204, 0.2);
+        }
+
+        .title-text {
+            flex: 1;
+            min-width: 0;
         }
 
         .title-text h1 {
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--neutral-dark);
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--neutral-900);
             line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            letter-spacing: -0.2px;
         }
 
         .title-text .subtitle {
-            font-size: 12px;
-            color: var(--neutral-gray);
-            font-weight: 400;
+            font-size: 11px;
+            color: var(--neutral-500);
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            letter-spacing: 0.2px;
         }
 
         .search-filter-bar {
+            flex: 1;
             display: flex;
-            gap: 12px;
+            gap: 8px;
             align-items: center;
-            max-width: 800px;
+            min-width: 0;
+            max-width: 500px;
         }
 
         .search-box {
             flex: 1;
+            min-width: 160px;
             position: relative;
-            max-width: 400px;
         }
 
         .search-input {
             width: 100%;
-            padding: 8px 12px 8px 36px;
-            border: 1px solid var(--neutral-border);
-            border-radius: 4px;
-            font-size: 14px;
+            padding: 6px 10px 6px 32px;
+            border: 1px solid var(--neutral-100);
+            border-radius: 6px;
+            font-size: 13px;
             transition: var(--transition-fast);
-            background: var(--neutral-light);
+            background: var(--neutral-50);
+            height: 32px;
+            color: var(--neutral-800);
         }
 
         .search-input:focus {
             outline: none;
             border-color: var(--primary-blue);
-            box-shadow: 0 0 0 2px rgba(0, 82, 204, 0.2);
-            background: var(--neutral-white);
+            box-shadow: 0 0 0 3px rgba(0, 82, 204, 0.15);
+            background: var(--neutral-0);
         }
 
         .search-icon {
             position: absolute;
-            left: 12px;
+            left: 10px;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--neutral-gray);
-            font-size: 14px;
+            color: var(--neutral-400);
+            font-size: 13px;
         }
 
         .filter-buttons {
             display: flex;
-            gap: 8px;
+            gap: 6px;
+            flex-shrink: 0;
         }
 
         .action-buttons {
             display: flex;
-            gap: 8px;
+            gap: 6px;
+            flex-shrink: 0;
         }
 
         /* ===== MAIN CONTENT ===== */
         .main-content {
-            display: grid;
-            grid-template-columns: 1fr auto;
+            flex: 1;
+            display: flex;
             overflow: hidden;
+            min-height: 0;
+            position: relative;
+            background: var(--neutral-50);
         }
 
         /* ===== DATA TABLE SECTION ===== */
         .data-section {
-            overflow: hidden;
+            flex: 1;
             display: flex;
             flex-direction: column;
-            background: var(--neutral-white);
-            border-right: 1px solid var(--neutral-border);
+            overflow: hidden;
+            background: var(--neutral-0);
+            min-width: 0;
         }
 
-        /* ===== KPI METRICS ===== */
+        /* ===== ULTRA-COMPACT METRICS ===== */
         .kpi-metrics {
-            padding: 16px 24px;
-            border-bottom: 1px solid var(--neutral-border);
-            background: var(--neutral-white);
+            padding: 10px 16px 8px 16px;
+            background: var(--neutral-0);
+            flex-shrink: 0;
+            border-bottom: 1px solid var(--neutral-100);
         }
 
         .metrics-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
+            gap: 8px;
         }
 
         .metric-card {
-            padding: 12px;
-            border-radius: 6px;
-            background: var(--neutral-light);
-            border: 1px solid var(--neutral-border);
-            transition: var(--transition-fast);
+            padding: 10px;
+            border-radius: 8px;
+            background: var(--neutral-0);
+            border: 1px solid var(--neutral-100);
+            transition: var(--transition-smooth);
+            min-width: 0;
+            cursor: default;
+            position: relative;
+            overflow: hidden;
+            height: 64px;
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
         }
 
         .metric-card:hover {
             border-color: var(--primary-blue);
-            box-shadow: var(--shadow-subtle);
+            box-shadow: var(--shadow-medium);
+            transform: translateY(-1px);
+        }
+
+        .metric-card:hover::before {
+            opacity: 0.05;
+        }
+
+        .metric-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .metric-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
         }
 
         .metric-value {
-            font-size: 24px;
-            font-weight: 600;
-            color: var(--neutral-dark);
-            margin-bottom: 4px;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--neutral-900);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.2;
+            letter-spacing: -0.3px;
         }
 
         .metric-label {
-            font-size: 12px;
-            color: var(--neutral-gray);
-            font-weight: 500;
+            font-size: 10px;
+            color: var(--neutral-500);
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
         }
 
         .metric-trend {
-            font-size: 11px;
-            margin-top: 4px;
+            font-size: 9px;
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 3px;
+            white-space: nowrap;
+            font-weight: 600;
         }
 
-        .trend-up { color: var(--success-green); }
-        .trend-down { color: var(--danger-red); }
+        .trend-icon {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 7px;
+        }
+
+        .trend-up { 
+            color: var(--success-green);
+        }
+        
+        .trend-up .trend-icon {
+            background: rgba(0, 135, 90, 0.1);
+            color: var(--success-green);
+        }
+        
+        .trend-down { 
+            color: var(--danger-red);
+        }
+        
+        .trend-down .trend-icon {
+            background: rgba(222, 53, 11, 0.1);
+            color: var(--danger-red);
+        }
 
         /* ===== SELECTION BAR ===== */
         .selection-bar {
-            padding: 12px 24px;
-            border-bottom: 1px solid var(--neutral-border);
+            padding: 8px 16px;
+            border-bottom: 1px solid var(--neutral-100);
             background: rgba(0, 82, 204, 0.04);
             display: none;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+            animation: slideDown 0.2s ease;
+            min-height: 48px;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .selection-info {
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 10px;
+            flex: 1;
+            min-width: 0;
         }
 
         .selected-count {
-            font-weight: 600;
+            font-weight: 700;
             color: var(--primary-blue);
-            font-size: 14px;
+            font-size: 13px;
+            white-space: nowrap;
         }
 
         .selected-value {
-            font-size: 14px;
-            color: var(--neutral-gray);
+            font-size: 13px;
+            color: var(--neutral-500);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .selection-actions {
             display: flex;
-            gap: 8px;
-            margin-left: auto;
+            gap: 6px;
+            flex-shrink: 0;
         }
 
-        /* ===== ENTERPRISE DATA TABLE ===== */
+        /* ===== RESPONSIVE DATA TABLE ===== */
         .table-container {
             flex: 1;
             overflow: auto;
             position: relative;
+            min-height: 0;
+            background: var(--neutral-0);
         }
 
         .data-table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 1200px;
+            table-layout: auto;
         }
 
         .data-table thead {
@@ -258,28 +404,37 @@
         }
 
         .data-table th {
-            background: var(--neutral-light);
-            padding: 12px 16px;
+            background: var(--neutral-50);
+            padding: 10px 12px;
             text-align: left;
-            font-weight: 600;
-            font-size: 12px;
-            color: var(--neutral-gray);
-            border-bottom: 2px solid var(--neutral-border);
+            font-weight: 700;
+            font-size: 11px;
+            color: var(--neutral-500);
+            border-bottom: 1px solid var(--neutral-100);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.4px;
             white-space: nowrap;
+            position: relative;
+            min-width: 80px;
         }
 
         .data-table td {
-            padding: 12px 16px;
-            border-bottom: 1px solid var(--neutral-border);
-            font-size: 14px;
-            color: var(--neutral-dark);
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--neutral-100);
+            font-size: 13px;
+            color: var(--neutral-800);
             vertical-align: middle;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transition: var(--transition-fast);
+            min-width: 80px;
         }
 
         .data-table tbody tr {
             transition: var(--transition-fast);
+            height: 48px;
+            position: relative;
         }
 
         .data-table tbody tr:hover {
@@ -290,20 +445,30 @@
             background: rgba(0, 82, 204, 0.04);
         }
 
-        /* ===== TABLE COLUMNS ===== */
-        .col-checkbox { width: 40px; }
-        .col-id { width: 120px; }
-        .col-name { width: 250px; min-width: 200px; }
-        .col-category { width: 120px; }
-        .col-stock { width: 100px; }
-        .col-min { width: 100px; }
-        .col-usage { width: 120px; }
-        .col-days { width: 100px; }
-        .col-status { width: 100px; }
-        .col-suppliers { width: 200px; }
-        .col-actions { width: 100px; }
+        .data-table tbody tr.selected::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--primary-blue);
+        }
 
-        /* ===== CHECKBOX ===== */
+        /* ===== RESPONSIVE TABLE COLUMNS ===== */
+        .col-checkbox { width: 50px; min-width: 50px; max-width: 50px; }
+        .col-id { width: 110px; min-width: 110px; max-width: 110px; }
+        .col-name { width: 180px; min-width: 150px; }
+        .col-category { width: 100px; min-width: 80px; }
+        .col-stock { width: 90px; min-width: 80px; }
+        .col-min { width: 90px; min-width: 80px; }
+        .col-usage { width: 110px; min-width: 100px; }
+        .col-days { width: 90px; min-width: 80px; }
+        .col-status { width: 100px; min-width: 90px; }
+        .col-suppliers { width: 160px; min-width: 120px; }
+        .col-actions { width: 80px; min-width: 80px; max-width: 80px; }
+
+        /* ===== COMPACT CHECKBOX ===== */
         .checkbox-container {
             display: flex;
             align-items: center;
@@ -313,12 +478,18 @@
         .enterprise-checkbox {
             width: 16px;
             height: 16px;
-            border: 2px solid var(--neutral-border);
-            border-radius: 3px;
-            background: var(--neutral-white);
+            border: 2px solid var(--neutral-200);
+            border-radius: 4px;
+            background: var(--neutral-0);
             cursor: pointer;
             position: relative;
             transition: var(--transition-fast);
+            flex-shrink: 0;
+        }
+
+        .enterprise-checkbox:hover {
+            border-color: var(--primary-blue);
+            background: rgba(0, 82, 204, 0.05);
         }
 
         .enterprise-checkbox.checked {
@@ -329,124 +500,147 @@
         .enterprise-checkbox.checked::after {
             content: '✓';
             position: absolute;
-            color: white;
+            color: var(--neutral-0);
             font-size: 10px;
-            font-weight: 600;
+            font-weight: 700;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
         }
 
-        /* ===== STATUS BADGES ===== */
+        /* ===== COMPACT STATUS BADGES ===== */
         .status-badge {
             display: inline-flex;
             align-items: center;
             padding: 4px 8px;
-            border-radius: 3px;
-            font-size: 12px;
-            font-weight: 600;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
             white-space: nowrap;
+            letter-spacing: 0.3px;
         }
 
         .status-critical {
-            background: rgba(222, 53, 11, 0.1);
-            color: var(--danger-red);
-            border: 1px solid rgba(222, 53, 11, 0.2);
+            background: var(--danger-gradient);
+            color: var(--neutral-0);
+            box-shadow: 0 1px 2px rgba(222, 53, 11, 0.2);
         }
 
         .status-warning {
-            background: rgba(255, 153, 31, 0.1);
-            color: var(--warning-orange);
-            border: 1px solid rgba(255, 153, 31, 0.2);
+            background: var(--warning-gradient);
+            color: var(--neutral-0);
+            box-shadow: 0 1px 2px rgba(255, 153, 31, 0.2);
         }
 
         .status-normal {
-            background: rgba(0, 135, 90, 0.1);
-            color: var(--success-green);
-            border: 1px solid rgba(0, 135, 90, 0.2);
+            background: var(--success-gradient);
+            color: var(--neutral-0);
+            box-shadow: 0 1px 2px rgba(0, 135, 90, 0.2);
         }
 
-        /* ===== SUPPLIER TAGS ===== */
+        /* ===== COMPACT SUPPLIER TAGS ===== */
         .supplier-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 4px;
+            gap: 3px;
         }
 
         .supplier-tag {
             padding: 2px 6px;
             background: rgba(0, 82, 204, 0.08);
-            border-radius: 3px;
-            font-size: 11px;
+            border-radius: 4px;
+            font-size: 10px;
             color: var(--primary-blue);
-            font-weight: 500;
+            font-weight: 600;
             border: 1px solid rgba(0, 82, 204, 0.1);
+            white-space: nowrap;
+            transition: var(--transition-fast);
+        }
+
+        .supplier-tag:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-subtle);
         }
 
         .supplier-tag.best {
-            background: rgba(0, 135, 90, 0.1);
-            color: var(--success-green);
-            border-color: rgba(0, 135, 90, 0.2);
+            background: var(--success-gradient);
+            color: var(--neutral-0);
+            border-color: transparent;
         }
 
-        /* ===== BUTTONS ===== */
+        /* ===== COMPACT BUTTONS ===== */
         .btn {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             padding: 6px 12px;
             border: 1px solid transparent;
-            border-radius: 4px;
-            font-weight: 500;
-            font-size: 13px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 12px;
             cursor: pointer;
             transition: var(--transition-fast);
             white-space: nowrap;
             background: transparent;
+            height: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: currentColor;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .btn:hover::before {
+            opacity: 0.1;
+        }
+
+        .btn > * {
+            position: relative;
+            z-index: 1;
         }
 
         .btn-primary {
-            background: var(--primary-blue);
-            color: white;
-            border-color: var(--primary-blue);
+            background: var(--primary-gradient);
+            color: var(--neutral-0);
+            border-color: transparent;
+            box-shadow: 0 2px 4px rgba(0, 82, 204, 0.2);
         }
 
         .btn-primary:hover {
-            background: var(--secondary-blue);
-            border-color: var(--secondary-blue);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 82, 204, 0.3);
         }
 
         .btn-secondary {
-            background: var(--neutral-white);
-            color: var(--neutral-gray);
-            border-color: var(--neutral-border);
+            background: var(--neutral-0);
+            color: var(--neutral-700);
+            border-color: var(--neutral-200);
         }
 
         .btn-secondary:hover {
-            background: var(--neutral-light);
-            border-color: var(--neutral-gray);
+            background: var(--neutral-50);
+            border-color: var(--neutral-300);
         }
 
         .btn-success {
-            background: var(--success-green);
-            color: white;
-            border-color: var(--success-green);
+            background: var(--success-gradient);
+            color: var(--neutral-0);
+            border-color: transparent;
+            box-shadow: 0 2px 4px rgba(0, 135, 90, 0.2);
         }
 
         .btn-success:hover {
-            background: #006644;
-            border-color: #006644;
-        }
-
-        .btn-danger {
-            background: var(--danger-red);
-            color: white;
-            border-color: var(--danger-red);
-        }
-
-        .btn-danger:hover {
-            background: #BF2600;
-            border-color: #BF2600;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 135, 90, 0.3);
         }
 
         .btn-outline {
@@ -457,11 +651,14 @@
 
         .btn-outline:hover {
             background: rgba(0, 82, 204, 0.08);
+            transform: translateY(-1px);
         }
 
         .btn-sm {
             padding: 4px 8px;
-            font-size: 12px;
+            font-size: 11px;
+            height: 28px;
+            border-radius: 4px;
         }
 
         .btn-icon {
@@ -469,105 +666,190 @@
             width: 32px;
             height: 32px;
             justify-content: center;
+            border-radius: 6px;
         }
 
-        /* ===== ACTION PANEL ===== */
+        /* ===== COMPACT ACTION PANEL ===== */
         .action-panel {
-            width: 400px;
-            background: var(--neutral-white);
-            border-left: 1px solid var(--neutral-border);
+            width: 380px;
+            background: var(--neutral-0);
+            border-left: 1px solid var(--neutral-100);
             display: flex;
             flex-direction: column;
             box-shadow: var(--shadow-medium);
-            transition: transform 0.3s ease;
+            transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1);
+            flex-shrink: 0;
+            min-width: 380px;
+            position: relative;
+            z-index: 50;
         }
 
         .panel-header {
-            padding: 16px 20px;
-            border-bottom: 1px solid var(--neutral-border);
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--neutral-100);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: var(--neutral-light);
+            background: var(--neutral-0);
+            flex-shrink: 0;
+            min-height: 56px;
         }
 
         .panel-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--neutral-dark);
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--neutral-900);
+            white-space: nowrap;
+            letter-spacing: -0.2px;
         }
 
         .panel-close {
-            width: 28px;
-            height: 28px;
-            border-radius: 4px;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
             background: transparent;
             border: none;
             cursor: pointer;
-            color: var(--neutral-gray);
+            color: var(--neutral-400);
             transition: var(--transition-fast);
+            flex-shrink: 0;
         }
 
         .panel-close:hover {
-            background: rgba(9, 30, 66, 0.08);
+            background: var(--neutral-100);
+            color: var(--neutral-700);
+            transform: rotate(90deg);
         }
 
         .panel-content {
             flex: 1;
             overflow-y: auto;
-            padding: 20px;
-        }
-
-        .panel-footer {
-            padding: 16px 20px;
-            border-top: 1px solid var(--neutral-border);
-            background: var(--neutral-light);
-        }
-
-        /* ===== ORDER ITEM ===== */
-        .order-item {
-            background: var(--neutral-light);
-            border: 1px solid var(--neutral-border);
-            border-radius: 6px;
             padding: 16px;
-            margin-bottom: 12px;
+            min-height: 0;
+            scrollbar-width: thin;
+            scrollbar-color: var(--neutral-200) transparent;
+            background: var(--neutral-50);
+            max-height: calc(100vh - 200px);
+        }
+
+        .panel-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .panel-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .panel-content::-webkit-scrollbar-thumb {
+            background-color: var(--neutral-200);
+            border-radius: 3px;
+        }
+
+        .panel-content::-webkit-scrollbar-thumb:hover {
+            background-color: var(--neutral-300);
+        }
+
+        /* ===== ULTRA-COMPACT ORDER ITEM ===== */
+        .order-item {
+            background: var(--neutral-0);
+            border: 1px solid var(--neutral-100);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+            position: relative;
+            transition: var(--transition-smooth);
+            box-shadow: var(--shadow-subtle);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .order-item:hover {
+            border-color: var(--neutral-200);
+            box-shadow: var(--shadow-medium);
+            transform: translateY(-1px);
         }
 
         .item-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
+            gap: 8px;
         }
 
         .item-title {
-            font-weight: 600;
-            font-size: 14px;
-            color: var(--neutral-dark);
-            margin-bottom: 4px;
+            font-weight: 700;
+            font-size: 13px;
+            color: var(--neutral-900);
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.3;
         }
 
         .item-subtitle {
-            font-size: 12px;
-            color: var(--neutral-gray);
+            font-size: 11px;
+            color: var(--neutral-500);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-weight: 500;
         }
 
-        /* ===== QUANTITY CONTROL ===== */
+        .item-remove {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: 1px solid var(--neutral-100);
+            cursor: pointer;
+            color: var(--neutral-400);
+            transition: var(--transition-fast);
+            flex-shrink: 0;
+        }
+
+        .item-remove:hover {
+            background: rgba(222, 53, 11, 0.1);
+            border-color: var(--danger-red);
+            color: var(--danger-red);
+            transform: rotate(90deg);
+        }
+
+        /* ===== COMPACT QUANTITY CONTROL ===== */
         .quantity-section {
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
 
         .section-label {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--neutral-dark);
-            margin-bottom: 8px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--neutral-700);
+            margin-bottom: 6px;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
+        }
+
+        .section-label i {
+            color: var(--primary-blue);
+            font-size: 11px;
         }
 
         .quantity-control {
@@ -577,221 +859,470 @@
         }
 
         .quantity-input {
-            width: 80px;
-            padding: 8px 12px;
-            border: 1px solid var(--neutral-border);
-            border-radius: 4px;
+            width: 70px;
+            padding: 6px 8px;
+            border: 1px solid var(--neutral-100);
+            border-radius: 6px;
             text-align: center;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--neutral-dark);
-            background: var(--neutral-white);
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--neutral-900);
+            background: var(--neutral-0);
+            height: 32px;
+            transition: var(--transition-fast);
         }
 
         .quantity-input:focus {
             outline: none;
             border-color: var(--primary-blue);
-            box-shadow: 0 0 0 2px rgba(0, 82, 204, 0.2);
+            box-shadow: 0 0 0 3px rgba(0, 82, 204, 0.15);
         }
 
         .quantity-buttons {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 3px;
         }
 
         .qty-btn {
-            width: 24px;
-            height: 24px;
-            border: 1px solid var(--neutral-border);
-            background: var(--neutral-white);
-            border-radius: 3px;
+            width: 22px;
+            height: 22px;
+            border: 1px solid var(--neutral-100);
+            background: var(--neutral-0);
+            border-radius: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-size: 12px;
-            color: var(--neutral-gray);
+            font-size: 10px;
+            color: var(--neutral-600);
             transition: var(--transition-fast);
         }
 
         .qty-btn:hover {
-            background: var(--neutral-light);
-            border-color: var(--neutral-gray);
+            background: var(--neutral-50);
+            border-color: var(--neutral-300);
+            color: var(--neutral-900);
         }
 
-        /* ===== SUPPLIER SELECTION ===== */
+        .quantity-hint {
+            font-size: 10px;
+            color: var(--neutral-500);
+            margin-top: 4px;
+            font-weight: 500;
+        }
+
+        /* ===== COMPACT SUPPLIER SELECTION ===== */
         .supplier-section {
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
 
         .supplier-options {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
         }
 
         .supplier-option {
-            padding: 12px;
-            border: 1px solid var(--neutral-border);
-            border-radius: 4px;
+            padding: 10px;
+            border: 1px solid var(--neutral-100);
+            border-radius: 6px;
             cursor: pointer;
-            transition: var(--transition-fast);
-            background: var(--neutral-white);
+            transition: var(--transition-smooth);
+            background: var(--neutral-0);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .supplier-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--primary-blue);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .supplier-option:hover {
-            border-color: var(--primary-blue);
-            background: rgba(0, 82, 204, 0.02);
+            border-color: var(--neutral-200);
+            transform: translateX(1px);
+            box-shadow: var(--shadow-subtle);
         }
 
         .supplier-option.selected {
             border-color: var(--primary-blue);
-            background: rgba(0, 82, 204, 0.06);
-            box-shadow: 0 0 0 1px rgba(0, 82, 204, 0.2);
+            background: rgba(0, 82, 204, 0.04);
+            box-shadow: 0 0 0 1px rgba(0, 82, 204, 0.1);
+        }
+
+        .supplier-option.selected::before {
+            opacity: 1;
         }
 
         .supplier-info {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 8px;
+            min-width: 0;
         }
 
         .supplier-name {
-            font-weight: 500;
-            font-size: 13px;
-            color: var(--neutral-dark);
+            font-weight: 600;
+            font-size: 12px;
+            color: var(--neutral-800);
             margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .supplier-details {
-            font-size: 12px;
-            color: var(--neutral-gray);
+            font-size: 10px;
+            color: var(--neutral-500);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-weight: 500;
         }
 
         .supplier-price {
-            font-weight: 600;
-            font-size: 14px;
-            color: var(--neutral-dark);
+            font-weight: 700;
+            font-size: 13px;
+            color: var(--neutral-900);
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .best-badge {
             display: inline-block;
-            padding: 2px 6px;
-            background: var(--success-green);
-            color: white;
-            border-radius: 10px;
-            font-size: 10px;
-            font-weight: 600;
-            margin-left: 8px;
+            padding: 1px 5px;
+            background: var(--success-gradient);
+            color: var(--neutral-0);
+            border-radius: 8px;
+            font-size: 8px;
+            font-weight: 700;
+            margin-left: 5px;
+            vertical-align: middle;
         }
 
-        /* ===== ORDER SUMMARY ===== */
+        /* ===== COMPACT ORDER SUMMARY ===== */
         .order-summary {
-            background: var(--neutral-white);
-            border: 1px solid var(--neutral-border);
-            border-radius: 6px;
-            padding: 16px;
-            margin-top: 20px;
+            background: var(--neutral-50);
+            border: 1px solid var(--neutral-100);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
         }
 
         .summary-row {
             display: flex;
             justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px dashed var(--neutral-border);
-            font-size: 13px;
+            padding: 6px 0;
+            font-size: 12px;
+            border-bottom: 1px solid var(--neutral-100);
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
         }
 
         .summary-row.total {
-            border-bottom: none;
-            border-top: 2px solid var(--neutral-border);
-            font-weight: 600;
-            margin-top: 8px;
-            padding-top: 12px;
-            color: var(--neutral-dark);
+            border-top: 2px solid var(--neutral-200);
+            font-weight: 700;
+            margin-top: 6px;
+            padding-top: 8px;
+            color: var(--neutral-900);
+            font-size: 13px;
         }
 
-        /* ===== UTILITY CLASSES ===== */
-        .text-sm { font-size: 12px; }
-        .text-gray { color: var(--neutral-gray); }
-        .text-success { color: var(--success-green); }
-        .text-danger { color: var(--danger-red); }
-        .font-medium { font-weight: 500; }
-        .font-semibold { font-weight: 600; }
-
-        .flex { display: flex; }
-        .items-center { align-items: center; }
-        .justify-between { justify-content: space-between; }
-        .gap-2 { gap: 8px; }
-        .gap-4 { gap: 16px; }
-        .ml-auto { margin-left: auto; }
-
-        .hidden { display: none; }
-
-        /* ===== LOADING ===== */
-        .loading {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid var(--neutral-border);
-            border-top-color: var(--primary-blue);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
+        /* ===== COMPACT PANEL FOOTER ===== */
+        .panel-footer {
+            padding: 12px 16px;
+            border-top: 1px solid var(--neutral-100);
+            background: var(--neutral-0);
+            flex-shrink: 0;
+            box-shadow: 0 -1px 4px rgba(9, 30, 66, 0.05);
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        /* ===== TOGGLE PANEL BUTTON ===== */
+        .panel-toggle {
+            position: absolute;
+            left: -32px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 32px;
+            height: 60px;
+            background: var(--neutral-0);
+            border: 1px solid var(--neutral-100);
+            border-right: none;
+            border-radius: 8px 0 0 8px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            box-shadow: var(--shadow-medium);
+            transition: var(--transition-fast);
         }
 
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 1200px) {
+        .panel-toggle:hover {
+            background: var(--neutral-50);
+            transform: translateY(-50%) translateX(-2px);
+        }
+
+        /* ===== RESPONSIVE ADJUSTMENTS ===== */
+        @media (max-width: 1400px) {
             .action-panel {
-                width: 350px;
+                width: 360px;
+                min-width: 360px;
             }
+            
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .col-name { width: 160px; min-width: 140px; }
+            .col-suppliers { width: 140px; min-width: 100px; }
+            .col-category { width: 90px; min-width: 70px; }
+            .col-status { width: 90px; min-width: 80px; }
         }
 
-        @media (max-width: 1024px) {
+        @media (max-width: 1200px) {
             .main-content {
-                grid-template-columns: 1fr;
+                position: relative;
             }
             
             .action-panel {
-                position: fixed;
-                top: 0;
+                position: absolute;
                 right: 0;
-                height: 100vh;
+                top: 0;
+                bottom: 0;
                 transform: translateX(100%);
                 z-index: 1000;
+                box-shadow: var(--shadow-deep);
+                width: 340px;
+                min-width: 340px;
             }
             
             .action-panel.open {
                 transform: translateX(0);
             }
             
+            .panel-toggle {
+                display: flex;
+            }
+            
+            /* Adjust table columns for medium screens */
+            .col-name { width: 150px; min-width: 130px; }
+            .col-id { width: 100px; min-width: 90px; }
+            .col-suppliers { width: 120px; min-width: 90px; }
+            .col-category { width: 80px; min-width: 70px; }
+            .col-stock { width: 80px; min-width: 70px; }
+            .col-min { width: 80px; min-width: 70px; }
+            .col-usage { width: 100px; min-width: 90px; }
+        }
+
+        @media (max-width: 1024px) {
             .top-bar {
-                grid-template-columns: 1fr auto;
-                gap: 16px;
+                flex-wrap: wrap;
+                gap: 10px;
+                height: auto;
+                padding: 10px;
+                min-height: 60px;
             }
             
             .search-filter-bar {
                 order: 3;
-                grid-column: 1 / -1;
-                margin-top: 8px;
+                width: 100%;
+                margin-top: 2px;
+                max-width: 100%;
+            }
+            
+            .system-title {
+                flex: 1;
+                min-width: 150px;
+            }
+            
+            .action-buttons {
+                flex: 1;
+                justify-content: flex-end;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 6px;
+            }
+            
+            .metric-card {
+                padding: 8px;
+                height: 60px;
+            }
+            
+            .metric-value {
+                font-size: 16px;
+            }
+            
+            .metric-label {
+                font-size: 9px;
             }
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
+            .action-panel {
+                width: 320px;
+                min-width: 320px;
+            }
+            
             .metrics-grid {
                 grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+            
+            /* Further compact table columns */
+            .col-name { width: 140px; min-width: 120px; }
+            .col-id { width: 90px; min-width: 80px; }
+            .col-suppliers { width: 110px; min-width: 80px; }
+            .col-category { display: none; } /* Hide category on smaller screens */
+            .col-status { width: 85px; min-width: 75px; }
+            .col-actions { width: 70px; min-width: 70px; max-width: 70px; }
+        }
+
+        @media (max-width: 768px) {
+            .action-panel {
+                width: 100%;
+                min-width: 100%;
+            }
+            
+            .panel-toggle {
+                left: -28px;
+                height: 50px;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 6px;
+            }
+            
+            .metric-card {
+                height: 56px;
+                padding: 6px;
+            }
+            
+            .metric-value {
+                font-size: 15px;
+            }
+            
+            /* Hide less important columns on mobile */
+            .col-category { display: none; }
+            .col-min { display: none; }
+            .col-suppliers { width: 100px; min-width: 80px; }
+            .col-usage { width: 90px; min-width: 80px; }
+            .col-days { width: 80px; min-width: 70px; }
+        }
+
+        @media (max-width: 640px) {
+            .action-buttons .btn:not(.btn-icon) span {
+                display: none;
+            }
+            
+            .action-buttons .btn:not(.btn-icon) i {
+                margin-right: 0;
+            }
+            
+            .filter-buttons .btn span {
+                display: none;
+            }
+            
+            .system-title {
+                min-width: 140px;
+            }
+            
+            .search-box {
+                min-width: 120px;
+            }
+            
+            .panel-header,
+            .panel-footer {
+                padding: 10px 12px;
+                min-height: 48px;
+            }
+            
+            .panel-content {
+                padding: 12px;
+            }
+            
+            /* Adjust table for very small screens */
+            .col-checkbox { width: 45px; min-width: 45px; max-width: 45px; }
+            .col-name { width: 120px; min-width: 100px; }
+            .col-stock { width: 70px; min-width: 60px; }
+            .col-status { width: 80px; min-width: 70px; }
+            .col-actions { width: 60px; min-width: 60px; max-width: 60px; }
+        }
+
+        @media (max-width: 480px) {
+            .metrics-grid {
+                grid-template-columns: 1fr;
+                gap: 6px;
+            }
+            
+            .metric-card {
+                height: 52px;
             }
             
             .top-bar {
-                padding: 12px 16px;
+                padding: 8px;
+                gap: 8px;
+            }
+            
+            .search-input {
+                padding: 6px 8px 6px 30px;
+                font-size: 12px;
+            }
+            
+            .search-icon {
+                left: 8px;
+                font-size: 12px;
+            }
+            
+            /* Hide more columns on very small screens */
+            .col-suppliers { display: none; }
+            .col-usage { display: none; }
+            .col-name { width: 100px; min-width: 80px; }
+        }
+
+        /* Print styles */
+        @media print {
+            .top-bar,
+            .panel-toggle,
+            .action-panel,
+            .selection-bar,
+            .kpi-metrics,
+            .col-checkbox,
+            .col-actions {
+                display: none !important;
+            }
+            
+            .main-content {
+                overflow: visible !important;
+                height: auto !important;
+            }
+            
+            .data-section {
+                width: 100% !important;
+                border: none !important;
             }
             
             .table-container {
-                overflow-x: auto;
+                overflow: visible !important;
+            }
+            
+            .data-table {
+                width: 100% !important;
+                table-layout: auto !important;
             }
         }
     </style>
@@ -805,7 +1336,7 @@
                 <div class="title-logo">PF</div>
                 <div class="title-text">
                     <h1>ProcureFlow Pro</h1>
-                    <div class="subtitle">Enterprise Procurement System</div>
+                    <div class="subtitle">Enterprise Procurement</div>
                 </div>
             </div>
             
@@ -814,33 +1345,35 @@
                     <i class="fas fa-search search-icon"></i>
                     <input type="text" 
                            class="search-input" 
-                           placeholder="Search products, SKUs, suppliers..."
+                           placeholder="Search products..."
                            id="searchInput"
                            oninput="searchTable()">
                 </div>
                 
                 <div class="filter-buttons">
                     <button class="btn btn-secondary btn-sm" onclick="filterByStatus('all')">
-                        All Items
+                        <i class="fas fa-list"></i>
+                        <span>All</span>
                     </button>
                     <button class="btn btn-secondary btn-sm" onclick="filterByStatus('critical')">
-                        Critical
-                    </button>
-                    <button class="btn btn-secondary btn-sm" onclick="filterByStatus('warning')">
-                        Low Stock
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span>Critical</span>
                     </button>
                 </div>
             </div>
             
             <div class="action-buttons">
                 <button class="btn btn-secondary btn-sm" onclick="exportData()">
-                    <i class="fas fa-download"></i> Export
+                    <i class="fas fa-download"></i>
+                    <span>Export</span>
                 </button>
                 <button class="btn btn-primary btn-sm" onclick="smartSelect()">
-                    <i class="fas fa-robot"></i> Smart Select
+                    <i class="fas fa-robot"></i>
+                    <span>Auto-Select</span>
                 </button>
                 <button class="btn btn-success btn-sm" id="quickOrderBtn" onclick="openOrderPanel()" style="display: none;">
-                    <i class="fas fa-bolt"></i> Quick Order
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Review Order</span>
                 </button>
             </div>
         </div>
@@ -849,35 +1382,55 @@
         <div class="main-content">
             <!-- DATA SECTION -->
             <div class="data-section">
-                <!-- KPI METRICS -->
+                <!-- ULTRA-COMPACT KPI METRICS -->
                 <div class="kpi-metrics">
                     <div class="metrics-grid">
                         <div class="metric-card">
-                            <div class="metric-value" id="totalItems">12</div>
-                            <div class="metric-label">Items to Reorder</div>
-                            <div class="metric-trend trend-up">
-                                <i class="fas fa-arrow-up"></i> 2 from yesterday
+                            <div class="metric-content">
+                                <div class="metric-header">
+                                    <div class="metric-label">Items to Reorder</div>
+                                    <div class="metric-trend trend-up">
+                                        <span class="trend-icon"><i class="fas fa-arrow-up"></i></span>
+                                        2 from yesterday
+                                    </div>
+                                </div>
+                                <div class="metric-value" id="totalItems">12</div>
                             </div>
                         </div>
                         <div class="metric-card">
-                            <div class="metric-value" id="totalValue">$45,820</div>
-                            <div class="metric-label">Estimated Cost</div>
-                            <div class="metric-trend trend-down">
-                                <i class="fas fa-arrow-down"></i> 5% savings
+                            <div class="metric-content">
+                                <div class="metric-header">
+                                    <div class="metric-label">Estimated Cost</div>
+                                    <div class="metric-trend trend-down">
+                                        <span class="trend-icon"><i class="fas fa-arrow-down"></i></span>
+                                        5% savings
+                                    </div>
+                                </div>
+                                <div class="metric-value" id="totalValue">$45,820</div>
                             </div>
                         </div>
                         <div class="metric-card">
-                            <div class="metric-value" id="avgDays">2.4</div>
-                            <div class="metric-label">Avg. Lead Time</div>
-                            <div class="metric-trend trend-down">
-                                <i class="fas fa-arrow-down"></i> 0.6d faster
+                            <div class="metric-content">
+                                <div class="metric-header">
+                                    <div class="metric-label">Avg. Lead Time</div>
+                                    <div class="metric-trend trend-down">
+                                        <span class="trend-icon"><i class="fas fa-arrow-down"></i></span>
+                                        0.6d faster
+                                    </div>
+                                </div>
+                                <div class="metric-value" id="avgDays">2.4</div>
                             </div>
                         </div>
                         <div class="metric-card">
-                            <div class="metric-value" id="completionRate">94%</div>
-                            <div class="metric-label">Order Completion</div>
-                            <div class="metric-trend trend-up">
-                                <i class="fas fa-arrow-up"></i> 2% improvement
+                            <div class="metric-content">
+                                <div class="metric-header">
+                                    <div class="metric-label">Order Completion</div>
+                                    <div class="metric-trend trend-up">
+                                        <span class="trend-icon"><i class="fas fa-arrow-up"></i></span>
+                                        2% improvement
+                                    </div>
+                                </div>
+                                <div class="metric-value" id="completionRate">94%</div>
                             </div>
                         </div>
                     </div>
@@ -893,13 +1446,14 @@
                                 Clear
                             </button>
                             <button class="btn btn-success btn-sm" onclick="openOrderPanel()">
-                                <i class="fas fa-shopping-cart"></i> Review Order
+                                <i class="fas fa-shopping-cart"></i>
+                                <span>Review</span>
                             </button>
                         </div>
                     </div>
                 </div>
                 
-                <!-- DATA TABLE -->
+                <!-- RESPONSIVE DATA TABLE -->
                 <div class="table-container">
                     <table class="data-table" id="dataTable">
                         <thead>
@@ -917,7 +1471,7 @@
                                 <th class="col-usage">Weekly Usage</th>
                                 <th class="col-days">Days Left</th>
                                 <th class="col-status">Status</th>
-                                <th class="col-suppliers">Available Suppliers</th>
+                                <th class="col-suppliers">Suppliers</th>
                                 <th class="col-actions">Actions</th>
                             </tr>
                         </thead>
@@ -928,8 +1482,12 @@
                 </div>
             </div>
             
-            <!-- ACTION PANEL -->
+            <!-- COMPACT ACTION PANEL -->
             <div class="action-panel" id="actionPanel">
+                <div class="panel-toggle" onclick="toggleOrderPanel()">
+                    <i class="fas fa-chevron-left" id="panelToggleIcon"></i>
+                </div>
+                
                 <div class="panel-header">
                     <div class="panel-title">Create Purchase Order</div>
                     <button class="panel-close" onclick="closeOrderPanel()">
@@ -939,9 +1497,14 @@
                 
                 <div class="panel-content" id="panelContent">
                     <!-- Order items will be loaded here -->
+                    <div style="text-align: center; padding: 40px 20px; color: var(--neutral-400);" id="emptyPanelMessage">
+                        <i class="fas fa-shopping-cart" style="font-size: 48px; margin-bottom: 16px; opacity: 0.5;"></i>
+                        <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">No items selected</div>
+                        <div style="font-size: 12px;">Select items from the table to create a purchase order</div>
+                    </div>
                 </div>
                 
-                <div class="panel-footer">
+                <div class="panel-footer" id="panelFooter" style="display: none;">
                     <div class="order-summary">
                         <div class="summary-row">
                             <span>Subtotal</span>
@@ -961,7 +1524,7 @@
                         </div>
                     </div>
                     
-                    <div style="display: flex; gap: 12px; margin-top: 20px;">
+                    <div style="display: flex; gap: 10px; margin-top: 12px;">
                         <button class="btn btn-secondary" style="flex: 1;" onclick="closeOrderPanel()">
                             Cancel
                         </button>
@@ -1002,6 +1565,18 @@
                 smartSelect();
                 updateKPIMetrics();
             }, 500);
+            
+            // Adjust panel toggle icon on load
+            updatePanelToggleIcon();
+            
+            // Add resize listener for responsive adjustments
+            window.addEventListener('resize', handleResize);
+            
+            // Initialize empty panel state
+            updatePanelFooterVisibility();
+            
+            // Adjust table columns on initial load
+            adjustTableColumns();
         });
 
         function loadSampleData() {
@@ -1106,6 +1681,86 @@
         }
 
         // ============================================
+        // RESPONSIVE TABLE FUNCTIONS
+        // ============================================
+        function adjustTableColumns() {
+            const width = window.innerWidth;
+            const table = document.getElementById('dataTable');
+            const headers = table.querySelectorAll('th');
+            const cells = table.querySelectorAll('td');
+            
+            // Hide/show columns based on screen size
+            if (width <= 480) {
+                // Very small screens
+                hideColumn('col-category');
+                hideColumn('col-min');
+                hideColumn('col-suppliers');
+                hideColumn('col-usage');
+            } else if (width <= 768) {
+                // Small screens
+                hideColumn('col-category');
+                hideColumn('col-min');
+            } else if (width <= 900) {
+                // Medium screens
+                hideColumn('col-category');
+            } else {
+                // Large screens - show all columns
+                showAllColumns();
+            }
+            
+            // Adjust column widths dynamically
+            adjustColumnWidths(width);
+        }
+
+        function hideColumn(className) {
+            const elements = document.querySelectorAll(`.${className}`);
+            elements.forEach(el => {
+                el.style.display = 'none';
+            });
+        }
+
+        function showColumn(className) {
+            const elements = document.querySelectorAll(`.${className}`);
+            elements.forEach(el => {
+                el.style.display = '';
+            });
+        }
+
+        function showAllColumns() {
+            const columns = ['col-checkbox', 'col-id', 'col-name', 'col-category', 
+                           'col-stock', 'col-min', 'col-usage', 'col-days', 
+                           'col-status', 'col-suppliers', 'col-actions'];
+            columns.forEach(col => showColumn(col));
+        }
+
+        function adjustColumnWidths(width) {
+            // Dynamic width adjustments based on screen size
+            if (width <= 480) {
+                setColumnWidth('col-name', '120px');
+                setColumnWidth('col-id', '90px');
+                setColumnWidth('col-stock', '60px');
+                setColumnWidth('col-days', '70px');
+            } else if (width <= 768) {
+                setColumnWidth('col-name', '140px');
+                setColumnWidth('col-id', '100px');
+                setColumnWidth('col-stock', '70px');
+                setColumnWidth('col-days', '80px');
+            } else if (width <= 1200) {
+                setColumnWidth('col-name', '160px');
+                setColumnWidth('col-id', '110px');
+                setColumnWidth('col-suppliers', '140px');
+            }
+        }
+
+        function setColumnWidth(className, width) {
+            const elements = document.querySelectorAll(`.${className}`);
+            elements.forEach(el => {
+                el.style.width = width;
+                el.style.minWidth = width;
+            });
+        }
+
+        // ============================================
         // DATA TABLE RENDERING
         // ============================================
         function renderTable() {
@@ -1120,50 +1775,53 @@
                 if (isSelected) row.classList.add('selected');
                 
                 row.innerHTML = `
-                    <td>
+                    <td class="col-checkbox">
                         <div class="checkbox-container">
                             <div class="enterprise-checkbox ${isSelected ? 'checked' : ''}" 
                                  onclick="toggleItemSelection('${item.id}')"></div>
                         </div>
                     </td>
-                    <td>
-                        <div class="font-semibold">${item.id}</div>
-                        <div class="text-sm text-gray">${item.controller || 'Unassigned'}</div>
+                    <td class="col-id">
+                        <div class="font-bold" title="${item.id}">${item.id}</div>
+                        <div class="text-sm text-gray" title="${item.controller || 'Unassigned'}">
+                            ${item.controller || 'Unassigned'}
+                        </div>
                     </td>
-                    <td>
-                        <div class="font-medium">${item.name}</div>
-                        <div class="text-sm text-gray">${item.category}</div>
+                    <td class="col-name">
+                        <div class="font-semibold" title="${item.name}">${item.name}</div>
+                        <div class="text-sm text-gray" title="${item.category}">${item.category}</div>
                     </td>
-                    <td>${item.category}</td>
-                    <td>
-                        <div class="font-semibold ${item.status === 'critical' ? 'text-danger' : 'text-warning'}">
+                    <td class="col-category" title="${item.category}">${item.category}</td>
+                    <td class="col-stock">
+                        <div class="font-bold ${item.status === 'critical' ? 'text-danger' : 'text-warning'}" title="${item.stock}">
                             ${item.stock}
                         </div>
                     </td>
-                    <td>${item.minStock}</td>
-                    <td>${item.weeklyUsage}/week</td>
-                    <td>
-                        <div class="font-semibold ${daysLeft < 7 ? 'text-danger' : 'text-warning'}">
+                    <td class="col-min" title="${item.minStock}">${item.minStock}</td>
+                    <td class="col-usage" title="${item.weeklyUsage}/week">${item.weeklyUsage}/week</td>
+                    <td class="col-days">
+                        <div class="font-bold ${daysLeft < 7 ? 'text-danger' : 'text-warning'}" title="${daysLeft} days">
                             ${daysLeft}d
                         </div>
                     </td>
-                    <td>
-                        <span class="status-badge status-${item.status}">
+                    <td class="col-status">
+                        <span class="status-badge status-${item.status}" title="${item.status === 'critical' ? 'Critical' : 'Low Stock'}">
                             ${item.status === 'critical' ? 'Critical' : 'Low Stock'}
                         </span>
                     </td>
-                    <td>
+                    <td class="col-suppliers">
                         <div class="supplier-tags">
                             ${item.suppliers.map(supplierId => {
                                 const supplier = systemState.suppliers[supplierId];
                                 const isBest = getBestSupplier(item) === supplierId;
-                                return `<span class="supplier-tag ${isBest ? 'best' : ''}">${supplier.name.split(' ')[0]}</span>`;
+                                const supplierName = supplier.name.split(' ')[0];
+                                return `<span class="supplier-tag ${isBest ? 'best' : ''}" title="${supplier.name}">${supplierName}</span>`;
                             }).join('')}
                         </div>
                     </td>
-                    <td>
-                        <button class="btn btn-outline btn-sm" onclick="quickOrderSingle('${item.id}')">
-                            <i class="fas fa-bolt"></i> Order
+                    <td class="col-actions">
+                        <button class="btn btn-outline btn-sm" onclick="quickOrderSingle('${item.id}')" title="Quick order">
+                            <i class="fas fa-bolt"></i>
                         </button>
                     </td>
                 `;
@@ -1172,6 +1830,7 @@
             });
             
             updateSelectionUI();
+            adjustTableColumns(); // Re-adjust columns after rendering
         }
 
         // ============================================
@@ -1194,6 +1853,7 @@
             
             renderTable();
             updateSelectionUI();
+            updatePanelFooterVisibility();
         }
 
         function toggleSelectAll() {
@@ -1216,6 +1876,7 @@
             
             renderTable();
             updateSelectionUI();
+            updatePanelFooterVisibility();
         }
 
         function smartSelect() {
@@ -1237,25 +1898,22 @@
             
             renderTable();
             updateSelectionUI();
+            updatePanelFooterVisibility();
             showToast(`${systemState.selectedItems.size} items selected based on urgency`, 'success');
         }
 
         function calculateUrgencyScore(item) {
             const stockRatio = (item.stock / item.minStock) * 100;
             const daysCoverage = (item.stock / item.weeklyUsage) * 7;
-            const usageFactor = Math.min(item.weeklyUsage / 20, 1) * 100; // Normalize to 0-100
+            const usageFactor = Math.min(item.weeklyUsage / 20, 1) * 100;
             
-            // Critical items get highest score
             let score = 100 - stockRatio;
             
-            // Adjust based on days coverage
             if (daysCoverage < 7) score += 30;
             else if (daysCoverage < 14) score += 15;
             
-            // Adjust based on usage
             score += usageFactor * 0.3;
             
-            // Unassigned items get priority
             if (!item.controller) score += 20;
             
             return Math.min(score, 100);
@@ -1265,6 +1923,7 @@
             systemState.selectedItems.clear();
             renderTable();
             updateSelectionUI();
+            updatePanelFooterVisibility();
             showToast('Selection cleared', 'info');
         }
 
@@ -1274,12 +1933,11 @@
             const quickOrderBtn = document.getElementById('quickOrderBtn');
             
             if (count > 0) {
-                selectionBar.style.display = 'block';
+                selectionBar.style.display = 'flex';
                 quickOrderBtn.style.display = 'flex';
                 
                 document.getElementById('selectedCount').textContent = `${count} item${count !== 1 ? 's' : ''}`;
                 
-                // Calculate total value
                 let total = 0;
                 systemState.selectedItems.forEach(item => {
                     const supplier = systemState.suppliers[item.selectedSupplier];
@@ -1294,7 +1952,6 @@
                 quickOrderBtn.style.display = 'none';
             }
             
-            // Update select all checkbox
             const selectAll = document.getElementById('selectAll');
             const allSelected = count === systemState.allItems.length;
             const someSelected = count > 0 && count < systemState.allItems.length;
@@ -1313,7 +1970,6 @@
             item.suppliers.forEach(supplierId => {
                 const supplier = systemState.suppliers[supplierId];
                 if (supplier) {
-                    // Enterprise scoring algorithm
                     const priceScore = (1 / supplier.priceMultiplier) * 0.4;
                     const deliveryDays = parseInt(supplier.delivery.split('-')[0]);
                     const deliveryScore = (1 / deliveryDays) * 0.3;
@@ -1333,14 +1989,13 @@
         }
 
         function calculateOptimalQuantity(item) {
-            // Enterprise formula: cover 4 weeks of usage plus buffer
             const weeksCoverage = 4;
-            const buffer = Math.ceil(item.weeklyUsage * 0.5); // 50% buffer
+            const buffer = Math.ceil(item.weeklyUsage * 0.5);
             const required = item.minStock - item.stock;
             
             return Math.max(
                 required + Math.ceil(item.weeklyUsage * weeksCoverage) + buffer,
-                5 // Minimum order quantity
+                5
             );
         }
 
@@ -1356,14 +2011,66 @@
             renderOrderPanel();
             document.getElementById('actionPanel').classList.add('open');
             updateOrderSummary();
+            updatePanelToggleIcon();
+            updatePanelFooterVisibility();
+            
+            // Ensure panel content is visible
+            setTimeout(() => {
+                const panelContent = document.querySelector('.panel-content');
+                if (panelContent) {
+                    panelContent.scrollTop = 0;
+                }
+            }, 100);
+        }
+
+        function toggleOrderPanel() {
+            const panel = document.getElementById('actionPanel');
+            panel.classList.toggle('open');
+            updatePanelToggleIcon();
         }
 
         function closeOrderPanel() {
             document.getElementById('actionPanel').classList.remove('open');
+            updatePanelToggleIcon();
+        }
+
+        function updatePanelToggleIcon() {
+            const panel = document.getElementById('actionPanel');
+            const icon = document.getElementById('panelToggleIcon');
+            if (panel.classList.contains('open')) {
+                icon.className = 'fas fa-chevron-right';
+            } else {
+                icon.className = 'fas fa-chevron-left';
+            }
+        }
+
+        function updatePanelFooterVisibility() {
+            const panelFooter = document.getElementById('panelFooter');
+            const emptyPanelMessage = document.getElementById('emptyPanelMessage');
+            
+            if (systemState.selectedItems.size === 0) {
+                panelFooter.style.display = 'none';
+                emptyPanelMessage.style.display = 'block';
+            } else {
+                panelFooter.style.display = 'block';
+                emptyPanelMessage.style.display = 'none';
+            }
         }
 
         function renderOrderPanel() {
             const panelContent = document.getElementById('panelContent');
+            
+            if (systemState.selectedItems.size === 0) {
+                panelContent.innerHTML = `
+                    <div style="text-align: center; padding: 40px 20px; color: var(--neutral-400);">
+                        <i class="fas fa-shopping-cart" style="font-size: 48px; margin-bottom: 16px; opacity: 0.5;"></i>
+                        <div style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">No items selected</div>
+                        <div style="font-size: 12px;">Select items from the table to create a purchase order</div>
+                    </div>
+                `;
+                return;
+            }
+            
             let html = '';
             
             systemState.selectedItems.forEach((item, itemId) => {
@@ -1375,13 +2082,13 @@
                 html += `
                     <div class="order-item" id="panel-item-${itemId}">
                         <div class="item-header">
-                            <div>
-                                <div class="item-title">${item.name}</div>
-                                <div class="item-subtitle">
+                            <div style="flex: 1; min-width: 0;">
+                                <div class="item-title" title="${item.name}">${item.name}</div>
+                                <div class="item-subtitle" title="${item.id} • ${item.category} • Stock: ${item.stock}/${item.minStock}">
                                     ${item.id} • ${item.category} • Stock: ${item.stock}/${item.minStock}
                                 </div>
                             </div>
-                            <button class="btn btn-danger btn-sm" onclick="removeFromOrder('${itemId}')">
+                            <button class="item-remove" onclick="removeFromOrder('${itemId}')" title="Remove item">
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
@@ -1389,7 +2096,7 @@
                         <div class="quantity-section">
                             <div class="section-label">
                                 <i class="fas fa-calculator"></i>
-                                Quantity to Order
+                                Quantity
                             </div>
                             <div class="quantity-control">
                                 <input type="number" 
@@ -1400,15 +2107,15 @@
                                        onchange="updateOrderQuantity('${itemId}', this.value)"
                                        id="order-qty-${itemId}">
                                 <div class="quantity-buttons">
-                                    <button class="qty-btn" onclick="adjustOrderQuantity('${itemId}', 1)">
+                                    <button class="qty-btn" onclick="adjustOrderQuantity('${itemId}', 1)" title="Increase">
                                         <i class="fas fa-plus"></i>
                                     </button>
-                                    <button class="qty-btn" onclick="adjustOrderQuantity('${itemId}', -1)">
+                                    <button class="qty-btn" onclick="adjustOrderQuantity('${itemId}', -1)" title="Decrease">
                                         <i class="fas fa-minus"></i>
                                     </button>
                                 </div>
                             </div>
-                            <div class="text-sm text-gray" style="margin-top: 6px;">
+                            <div class="quantity-hint">
                                 Suggested: ${calculateOptimalQuantity(item)} • Weeks coverage: ${Math.round((item.quantity + item.stock - item.minStock) / item.weeklyUsage * 10) / 10}
                             </div>
                         </div>
@@ -1416,7 +2123,7 @@
                         <div class="supplier-section">
                             <div class="section-label">
                                 <i class="fas fa-truck"></i>
-                                Select Supplier
+                                Supplier
                             </div>
                             <div class="supplier-options">
                                 ${item.suppliers.map(supplierId => {
@@ -1427,11 +2134,12 @@
                                     
                                     return `
                                         <div class="supplier-option ${isSelected ? 'selected' : ''}" 
-                                             onclick="selectOrderSupplier('${itemId}', '${supplierId}')">
+                                             onclick="selectOrderSupplier('${itemId}', '${supplierId}')"
+                                             title="${s.name} • ${s.delivery} • ${s.rating}★ • ${s.reliability}% reliable • $${price}">
                                             <div class="supplier-info">
-                                                <div>
+                                                <div style="flex: 1; min-width: 0;">
                                                     <div class="supplier-name">
-                                                        ${s.name}
+                                                        ${s.name.split(' ')[0]}
                                                         ${isBest ? '<span class="best-badge">BEST</span>' : ''}
                                                     </div>
                                                     <div class="supplier-details">
@@ -1446,10 +2154,10 @@
                             </div>
                         </div>
                         
-                        <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--neutral-border);">
-                            <div style="display: flex; justify-content: space-between; font-size: 13px;">
+                        <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--neutral-100);">
+                            <div style="display: flex; justify-content: space-between; font-size: 12px;">
                                 <span class="text-gray">Item Total:</span>
-                                <span class="font-semibold">$${itemTotal.toFixed(2)}</span>
+                                <span class="font-bold">$${itemTotal.toFixed(2)}</span>
                             </div>
                         </div>
                     </div>
@@ -1498,11 +2206,13 @@
             if (systemState.selectedItems.size === 0) {
                 closeOrderPanel();
                 renderTable();
+                updatePanelFooterVisibility();
                 showToast('All items removed from order', 'info');
             } else {
                 renderOrderPanel();
                 renderTable();
                 updateOrderSummary();
+                updatePanelFooterVisibility();
             }
         }
 
@@ -1538,33 +2248,18 @@
             
             const submitBtn = document.getElementById('submitBtn');
             const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<div class="loading"></div> Processing...';
+            submitBtn.innerHTML = '<div class="loading"></div>';
             submitBtn.disabled = true;
             
-            // Group by supplier for efficient ordering
-            const ordersBySupplier = {};
-            systemState.selectedItems.forEach(item => {
-                const supplierId = item.selectedSupplier;
-                if (!ordersBySupplier[supplierId]) {
-                    ordersBySupplier[supplierId] = [];
-                }
-                ordersBySupplier[supplierId].push(item);
-            });
-            
-            // Simulate API call
             setTimeout(() => {
-                // Generate PO numbers
-                const poNumbers = Object.keys(ordersBySupplier).map((supplierId, index) => {
-                    return `PO-${new Date().getFullYear()}${String(index + 1).padStart(4, '0')}`;
-                });
-                
+                const poNumbers = ['PO-2024001', 'PO-2024002'];
                 showToast(`Purchase Orders created: ${poNumbers.join(', ')}`, 'success');
                 
-                // Reset state
                 systemState.selectedItems.clear();
                 closeOrderPanel();
                 renderTable();
                 updateKPIMetrics();
+                updatePanelFooterVisibility();
                 
                 submitBtn.innerHTML = originalText;
                 submitBtn.disabled = false;
@@ -1585,6 +2280,7 @@
                 
                 renderTable();
                 updateSelectionUI();
+                updatePanelFooterVisibility();
                 openOrderPanel();
             }
         }
@@ -1623,11 +2319,9 @@
 
         function exportData() {
             showToast('Exporting data to Excel...', 'success');
-            // In production, this would generate and download an Excel file
         }
 
         function updateKPIMetrics() {
-            // Update KPI metrics based on current state
             const totalValue = Array.from(systemState.selectedItems.values()).reduce((sum, item) => {
                 const supplier = systemState.suppliers[item.selectedSupplier];
                 return sum + (item.price * supplier.priceMultiplier * item.quantity);
@@ -1636,26 +2330,32 @@
             document.getElementById('totalValue').textContent = `$${Math.round(totalValue).toLocaleString()}`;
         }
 
+        function handleResize() {
+            updatePanelToggleIcon();
+            adjustTableColumns();
+        }
+
         function showToast(message, type = 'info') {
-            // Create toast element
             const toast = document.createElement('div');
             toast.style.cssText = `
                 position: fixed;
-                bottom: 24px;
-                right: 24px;
-                background: var(--neutral-white);
-                padding: 12px 16px;
-                border-radius: 6px;
-                box-shadow: var(--shadow-elevated);
+                bottom: 20px;
+                right: 20px;
+                background: var(--neutral-0);
+                padding: 10px 14px;
+                border-radius: 8px;
+                box-shadow: var(--shadow-deep);
                 border-left: 4px solid ${type === 'success' ? 'var(--success-green)' : 
                                       type === 'warning' ? 'var(--warning-orange)' : 
                                       'var(--primary-blue)'};
                 z-index: 10000;
                 display: flex;
                 align-items: center;
-                gap: 12px;
-                animation: slideIn 0.3s ease;
-                max-width: 400px;
+                gap: 10px;
+                animation: slideInRight 0.3s cubic-bezier(0.2, 0, 0, 1);
+                max-width: 300px;
+                font-size: 13px;
+                backdrop-filter: blur(10px);
             `;
             
             const icon = type === 'success' ? 'check-circle' :
@@ -1664,9 +2364,9 @@
                             type === 'warning' ? 'var(--warning-orange)' : 'var(--primary-blue)';
             
             toast.innerHTML = `
-                <i class="fas fa-${icon}" style="color: ${iconColor}; font-size: 16px;"></i>
+                <i class="fas fa-${icon}" style="color: ${iconColor}; font-size: 14px;"></i>
                 <div style="flex: 1;">
-                    <div style="font-size: 14px; font-weight: 500; color: var(--neutral-dark);">
+                    <div style="font-size: 13px; font-weight: 600; color: var(--neutral-900); line-height: 1.4;">
                         ${message}
                     </div>
                 </div>
@@ -1675,7 +2375,7 @@
             document.body.appendChild(toast);
             
             setTimeout(() => {
-                toast.style.animation = 'slideOut 0.3s ease forwards';
+                toast.style.animation = 'slideOutRight 0.3s cubic-bezier(0.2, 0, 0, 1) forwards';
                 setTimeout(() => {
                     if (toast.parentNode) {
                         document.body.removeChild(toast);
@@ -1683,16 +2383,15 @@
                 }, 300);
             }, 3000);
             
-            // Add animation styles
             if (!document.getElementById('toast-animations')) {
                 const style = document.createElement('style');
                 style.id = 'toast-animations';
                 style.textContent = `
-                    @keyframes slideIn {
+                    @keyframes slideInRight {
                         from { transform: translateX(100%); opacity: 0; }
                         to { transform: translateX(0); opacity: 1; }
                     }
-                    @keyframes slideOut {
+                    @keyframes slideOutRight {
                         from { transform: translateX(0); opacity: 1; }
                         to { transform: translateX(100%); opacity: 0; }
                     }
