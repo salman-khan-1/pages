@@ -165,7 +165,7 @@
             flex-shrink: 0;
         }
 
-        /* ===== COMPACT FILTERS BAR ===== */
+        /* ===== ADVANCED FILTERS BAR ===== */
         .filters-bar {
             padding: 6px 12px;
             background: var(--neo-secondary-bg);
@@ -175,6 +175,7 @@
             gap: 10px;
             flex-shrink: 0;
             min-height: 36px;
+            flex-wrap: wrap;
         }
 
         .filter-group {
@@ -188,6 +189,269 @@
             font-weight: 500;
             color: var(--neo-text-light);
             white-space: nowrap;
+        }
+
+        /* Advanced Filter Button */
+        .advanced-filter-btn {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 10px;
+            background: var(--neo-secondary-bg);
+            border: 1px solid var(--neo-border-light);
+            border-radius: 6px;
+            color: var(--neo-text-dark);
+            font-size: 11px;
+            cursor: pointer;
+            transition: var(--neo-transition);
+            white-space: nowrap;
+        }
+
+        .advanced-filter-btn:hover {
+            background: #f0f4ff;
+            border-color: var(--neo-accent-blue);
+        }
+
+        .active-filter-badges {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .filter-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            background: rgba(0, 153, 255, 0.1);
+            border: 1px solid var(--neo-border-light);
+            border-radius: 12px;
+            font-size: 10px;
+            color: var(--neo-accent-blue);
+            white-space: nowrap;
+        }
+
+        .filter-badge .remove-btn {
+            cursor: pointer;
+            color: var(--neo-text-light);
+            font-size: 10px;
+            transition: var(--neo-transition);
+        }
+
+        .filter-badge .remove-btn:hover {
+            color: var(--neo-accent-red);
+        }
+
+        /* Advanced Filter Modal */
+        .filter-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .filter-modal.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .filter-modal-content {
+            background: var(--neo-secondary-bg);
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--neo-shadow-medium);
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+
+        .filter-modal.open .filter-modal-content {
+            transform: translateY(0);
+        }
+
+        .filter-modal-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--neo-border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .filter-modal-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--neo-text-dark);
+        }
+
+        .filter-modal-close {
+            background: transparent;
+            border: none;
+            color: var(--neo-text-light);
+            cursor: pointer;
+            font-size: 16px;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--neo-transition);
+        }
+
+        .filter-modal-close:hover {
+            background: rgba(0, 153, 255, 0.08);
+            color: var(--neo-accent-blue);
+        }
+
+        .filter-modal-body {
+            padding: 20px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .filter-section {
+            margin-bottom: 20px;
+        }
+
+        .filter-section-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--neo-text-dark);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .filter-section-title i {
+            color: var(--neo-accent-blue);
+            font-size: 11px;
+        }
+
+        .filter-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .filter-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 6px 8px;
+            border-radius: 6px;
+            transition: var(--neo-transition);
+        }
+
+        .filter-checkbox:hover {
+            background: rgba(0, 153, 255, 0.05);
+        }
+
+        .filter-checkbox input[type="checkbox"] {
+            display: none;
+        }
+
+        .filter-checkbox-custom {
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--neo-border-light);
+            border-radius: 4px;
+            background: var(--neo-secondary-bg);
+            position: relative;
+            transition: var(--neo-transition);
+            flex-shrink: 0;
+        }
+
+        .filter-checkbox input[type="checkbox"]:checked + .filter-checkbox-custom {
+            background: var(--neo-accent-blue);
+            border-color: var(--neo-accent-blue);
+        }
+
+        .filter-checkbox input[type="checkbox"]:checked + .filter-checkbox-custom::after {
+            content: '✓';
+            position: absolute;
+            color: white;
+            font-size: 10px;
+            font-weight: 600;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .filter-checkbox-label {
+            font-size: 12px;
+            color: var(--neo-text-dark);
+            flex: 1;
+        }
+
+        .range-filter {
+            padding: 10px 0;
+        }
+
+        .range-inputs {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .range-input {
+            width: 80px;
+            padding: 6px 8px;
+            border: 1px solid var(--neo-border-light);
+            border-radius: 6px;
+            font-size: 12px;
+            text-align: center;
+            background: var(--neo-secondary-bg);
+        }
+
+        .range-input:focus {
+            outline: none;
+            border-color: var(--neo-accent-blue);
+        }
+
+        .range-separator {
+            color: var(--neo-text-light);
+            font-size: 12px;
+        }
+
+        .range-slider {
+            width: 100%;
+            height: 4px;
+            background: var(--neo-border-light);
+            border-radius: 2px;
+            margin-top: 10px;
+            position: relative;
+        }
+
+        .range-slider-fill {
+            position: absolute;
+            height: 100%;
+            background: var(--neo-accent-blue);
+            border-radius: 2px;
+        }
+
+        .filter-modal-footer {
+            padding: 16px 20px;
+            border-top: 1px solid var(--neo-border-light);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
         }
 
         /* ===== MAIN CONTENT ===== */
@@ -377,6 +641,22 @@
             color: white;
             font-size: 10px;
             font-weight: 600;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .enterprise-checkbox.indeterminate {
+            background: var(--neo-accent-blue);
+            border-color: var(--neo-accent-blue);
+        }
+
+        .enterprise-checkbox.indeterminate::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 2px;
+            background: white;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -1129,11 +1409,11 @@
                 </div>
                 
                 <div class="filter-buttons">
-                    <button class="btn btn-secondary btn-sm" onclick="filterByStatus('all')">
-                        <i class="fas fa-list"></i>
+                    <button class="btn btn-secondary btn-sm" onclick="resetFilters()">
+                        <i class="fas fa-filter"></i>
                         <span>All</span>
                     </button>
-                    <button class="btn btn-secondary btn-sm" onclick="filterByStatus('critical')">
+                    <button class="btn btn-secondary btn-sm" onclick="quickFilter('critical')">
                         <i class="fas fa-exclamation-circle"></i>
                         <span>Critical</span>
                     </button>
@@ -1156,11 +1436,11 @@
             </div>
         </div>
         
-        <!-- FILTERS BAR -->
+        <!-- ADVANCED FILTERS BAR -->
         <div class="filters-bar">
             <div class="filter-group">
                 <span class="filter-label">Warehouse:</span>
-                <select class="compact-select" id="warehouseFilter" onchange="filterByWarehouse()">
+                <select class="compact-select" id="warehouseFilter" onchange="applyWarehouseFilter()">
                     <option value="all">All Warehouses</option>
                     <option value="main">Main Warehouse</option>
                     <option value="west">West Warehouse</option>
@@ -1171,7 +1451,7 @@
             
             <div class="filter-group">
                 <span class="filter-label">Category:</span>
-                <select class="compact-select" id="categoryFilter" onchange="filterByCategory()">
+                <select class="compact-select" id="categoryFilter" onchange="applyCategoryFilter()">
                     <option value="all">All Categories</option>
                     <option value="electronics">Electronics</option>
                     <option value="furniture">Furniture</option>
@@ -1179,14 +1459,127 @@
                 </select>
             </div>
             
+            <div class="filter-group">
+                <button class="advanced-filter-btn" onclick="openAdvancedFilters()">
+                    <i class="fas fa-sliders-h"></i>
+                    <span>Advanced Filters</span>
+                </button>
+            </div>
+            
+            <div class="active-filter-badges" id="activeFilterBadges">
+                <!-- Active filter badges will appear here -->
+            </div>
+            
             <div class="filter-group ml-auto">
                 <span class="filter-label">Sort by:</span>
-                <select class="compact-select" id="sortFilter" onchange="sortTable()">
+                <select class="compact-select" id="sortFilter" onchange="applySorting()">
                     <option value="status">Status</option>
                     <option value="days">Days Left</option>
                     <option value="stock">Stock Level</option>
                     <option value="name">Name</option>
                 </select>
+            </div>
+        </div>
+        
+        <!-- ADVANCED FILTER MODAL -->
+        <div class="filter-modal" id="advancedFilterModal">
+            <div class="filter-modal-content">
+                <div class="filter-modal-header">
+                    <div class="filter-modal-title">Advanced Filters</div>
+                    <button class="filter-modal-close" onclick="closeAdvancedFilters()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="filter-modal-body">
+                    <div class="filter-section">
+                        <div class="filter-section-title">
+                            <i class="fas fa-box"></i>
+                            Stock Level
+                        </div>
+                        <div class="range-filter">
+                            <div class="range-inputs">
+                                <input type="number" class="range-input" id="stockMin" placeholder="Min" min="0" max="1000">
+                                <span class="range-separator">to</span>
+                                <input type="number" class="range-input" id="stockMax" placeholder="Max" min="0" max="1000">
+                            </div>
+                            <div class="range-slider">
+                                <div class="range-slider-fill" id="stockSliderFill"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <div class="filter-section-title">
+                            <i class="fas fa-calendar"></i>
+                            Days Left
+                        </div>
+                        <div class="filter-options">
+                            <label class="filter-checkbox">
+                                <input type="checkbox" id="filterDaysCritical" value="critical">
+                                <div class="filter-checkbox-custom"></div>
+                                <span class="filter-checkbox-label">Critical (&lt; 7 days)</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" id="filterDaysWarning" value="warning">
+                                <div class="filter-checkbox-custom"></div>
+                                <span class="filter-checkbox-label">Warning (7-14 days)</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" id="filterDaysNormal" value="normal">
+                                <div class="filter-checkbox-custom"></div>
+                                <span class="filter-checkbox-label">Normal (&gt; 14 days)</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <div class="filter-section-title">
+                            <i class="fas fa-tags"></i>
+                            Item Status
+                        </div>
+                        <div class="filter-options">
+                            <label class="filter-checkbox">
+                                <input type="checkbox" id="filterStatusCritical" value="critical">
+                                <div class="filter-checkbox-custom"></div>
+                                <span class="filter-checkbox-label">Critical Status</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" id="filterStatusWarning" value="warning">
+                                <div class="filter-checkbox-custom"></div>
+                                <span class="filter-checkbox-label">Warning Status</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <div class="filter-section-title">
+                            <i class="fas fa-truck"></i>
+                            Supplier Availability
+                        </div>
+                        <div class="filter-options">
+                            <label class="filter-checkbox">
+                                <input type="checkbox" id="filterSupplierMultiple" value="multiple">
+                                <div class="filter-checkbox-custom"></div>
+                                <span class="filter-checkbox-label">Multiple Suppliers</span>
+                            </label>
+                            <label class="filter-checkbox">
+                                <input type="checkbox" id="filterSupplierSingle" value="single">
+                                <div class="filter-checkbox-custom"></div>
+                                <span class="filter-checkbox-label">Single Supplier</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="filter-modal-footer">
+                    <button class="btn btn-secondary" onclick="closeAdvancedFilters()">
+                        Cancel
+                    </button>
+                    <button class="btn btn-primary" onclick="applyAdvancedFilters()">
+                        Apply Filters
+                    </button>
+                </div>
             </div>
         </div>
         
@@ -1299,112 +1692,398 @@
         const systemState = {
             selectedItems: new Map(),
             allItems: [],
+            filteredItems: [],
+            currentFilters: {
+                warehouse: 'all',
+                category: 'all',
+                search: '',
+                stockRange: { min: 0, max: 1000 },
+                daysFilters: [],
+                statusFilters: [],
+                supplierFilters: []
+            },
+            sortBy: 'status',
             suppliers: {
                 'S001': { id: 'S001', name: 'TechSupply Pro', rating: 4.8, delivery: '2-3 days', priceMultiplier: 1.0, shipping: 25, reliability: 97 },
                 'S002': { id: 'S002', name: 'OfficeWorks Inc.', rating: 4.6, delivery: '1-2 days', priceMultiplier: 1.05, shipping: 15, reliability: 94 },
                 'S003': { id: 'S003', name: 'Global Electronics', rating: 4.7, delivery: '3-5 days', priceMultiplier: 0.95, shipping: 30, reliability: 96 },
                 'S004': { id: 'S004', name: 'Office Depot', rating: 4.5, delivery: 'Next day', priceMultiplier: 1.1, shipping: 10, reliability: 92 },
                 'S005': { id: 'S005', name: 'Furniture Co.', rating: 4.4, delivery: '5-7 days', priceMultiplier: 0.9, shipping: 50, reliability: 90 }
-            },
-            warehouses: ['Main', 'West', 'East', 'North'],
-            categories: ['Electronics', 'Furniture', 'Office Supplies']
+            }
         };
 
         // ============================================
-        // RESIZE FUNCTIONALITY
+        // ADVANCED FILTERING SYSTEM
         // ============================================
-        let isResizing = false;
-        let startX = 0;
-        let startWidth = 0;
-
-        function initializeResize() {
-            const panel = document.getElementById('actionPanel');
-            const resizeHandle = document.getElementById('panelResizeHandle');
-            
-            if (!panel || !resizeHandle) return;
-            
-            resizeHandle.addEventListener('mousedown', startResize);
-            document.addEventListener('mousemove', doResize);
-            document.addEventListener('mouseup', stopResize);
-            
-            // Touch events for mobile
-            resizeHandle.addEventListener('touchstart', startResizeTouch);
-            document.addEventListener('touchmove', doResizeTouch);
-            document.addEventListener('touchend', stopResize);
+        function applyWarehouseFilter() {
+            const warehouse = document.getElementById('warehouseFilter').value;
+            systemState.currentFilters.warehouse = warehouse;
+            applyAllFilters();
+            updateActiveFilterBadges();
         }
 
-        function startResize(e) {
-            e.preventDefault();
-            isResizing = true;
-            startX = e.clientX;
-            startWidth = parseInt(getComputedStyle(document.getElementById('actionPanel')).width, 10);
-            
-            document.getElementById('actionPanel').classList.add('resizing');
-            document.getElementById('panelResizeHandle').classList.add('resizing');
-            
-            document.body.style.cursor = 'col-resize';
-            document.body.style.userSelect = 'none';
+        function applyCategoryFilter() {
+            const category = document.getElementById('categoryFilter').value;
+            systemState.currentFilters.category = category;
+            applyAllFilters();
+            updateActiveFilterBadges();
         }
 
-        function startResizeTouch(e) {
-            e.preventDefault();
-            if (e.touches.length !== 1) return;
-            
-            isResizing = true;
-            startX = e.touches[0].clientX;
-            startWidth = parseInt(getComputedStyle(document.getElementById('actionPanel')).width, 10);
-            
-            document.getElementById('actionPanel').classList.add('resizing');
-            document.getElementById('panelResizeHandle').classList.add('resizing');
-            
-            document.body.style.cursor = 'col-resize';
-            document.body.style.userSelect = 'none';
+        function openAdvancedFilters() {
+            document.getElementById('advancedFilterModal').classList.add('open');
+            // Initialize range inputs with current values
+            const stockMin = document.getElementById('stockMin');
+            const stockMax = document.getElementById('stockMax');
+            stockMin.value = systemState.currentFilters.stockRange.min || '';
+            stockMax.value = systemState.currentFilters.stockRange.max || '';
         }
 
-        function doResize(e) {
-            if (!isResizing) return;
-            e.preventDefault();
-            
-            const panel = document.getElementById('actionPanel');
-            const deltaX = startX - e.clientX;
-            let newWidth = startWidth + deltaX;
-            
-            // Apply constraints
-            newWidth = Math.max(320, Math.min(600, newWidth));
-            
-            panel.style.width = newWidth + 'px';
+        function closeAdvancedFilters() {
+            document.getElementById('advancedFilterModal').classList.remove('open');
         }
 
-        function doResizeTouch(e) {
-            if (!isResizing || e.touches.length !== 1) return;
-            e.preventDefault();
+        function applyAdvancedFilters() {
+            // Get stock range
+            const stockMin = parseInt(document.getElementById('stockMin').value) || 0;
+            const stockMax = parseInt(document.getElementById('stockMax').value) || 1000;
+            systemState.currentFilters.stockRange = { min: stockMin, max: stockMax };
             
-            const panel = document.getElementById('actionPanel');
-            const deltaX = startX - e.touches[0].clientX;
-            let newWidth = startWidth + deltaX;
+            // Get days filters
+            const daysFilters = [];
+            if (document.getElementById('filterDaysCritical').checked) daysFilters.push('critical');
+            if (document.getElementById('filterDaysWarning').checked) daysFilters.push('warning');
+            if (document.getElementById('filterDaysNormal').checked) daysFilters.push('normal');
+            systemState.currentFilters.daysFilters = daysFilters;
             
-            // Apply constraints
-            newWidth = Math.max(320, Math.min(600, newWidth));
+            // Get status filters
+            const statusFilters = [];
+            if (document.getElementById('filterStatusCritical').checked) statusFilters.push('critical');
+            if (document.getElementById('filterStatusWarning').checked) statusFilters.push('warning');
+            systemState.currentFilters.statusFilters = statusFilters;
             
-            panel.style.width = newWidth + 'px';
+            // Get supplier filters
+            const supplierFilters = [];
+            if (document.getElementById('filterSupplierMultiple').checked) supplierFilters.push('multiple');
+            if (document.getElementById('filterSupplierSingle').checked) supplierFilters.push('single');
+            systemState.currentFilters.supplierFilters = supplierFilters;
+            
+            applyAllFilters();
+            updateActiveFilterBadges();
+            closeAdvancedFilters();
         }
 
-        function stopResize() {
-            if (!isResizing) return;
+        function resetFilters() {
+            // Reset all filters
+            systemState.currentFilters = {
+                warehouse: 'all',
+                category: 'all',
+                search: '',
+                stockRange: { min: 0, max: 1000 },
+                daysFilters: [],
+                statusFilters: [],
+                supplierFilters: []
+            };
             
-            isResizing = false;
+            // Reset UI elements
+            document.getElementById('warehouseFilter').value = 'all';
+            document.getElementById('categoryFilter').value = 'all';
+            document.getElementById('searchInput').value = '';
             
-            document.getElementById('actionPanel').classList.remove('resizing');
-            document.getElementById('panelResizeHandle').classList.remove('resizing');
+            applyAllFilters();
+            updateActiveFilterBadges();
+            showToast('All filters reset', 'info');
+        }
+
+        function quickFilter(filterType) {
+            resetFilters();
             
-            document.body.style.cursor = '';
-            document.body.style.userSelect = '';
+            switch(filterType) {
+                case 'critical':
+                    systemState.currentFilters.statusFilters = ['critical'];
+                    systemState.currentFilters.daysFilters = ['critical'];
+                    break;
+            }
             
-            // Save the width to localStorage for persistence
-            const panel = document.getElementById('actionPanel');
-            const width = parseInt(panel.style.width, 10);
-            if (width && !isNaN(width)) {
-                localStorage.setItem('actionPanelWidth', width);
+            applyAllFilters();
+            updateActiveFilterBadges();
+        }
+
+        function applyAllFilters() {
+            systemState.filteredItems = systemState.allItems.filter(item => {
+                // Warehouse filter
+                if (systemState.currentFilters.warehouse !== 'all' && 
+                    item.warehouse.toLowerCase() !== systemState.currentFilters.warehouse) {
+                    return false;
+                }
+                
+                // Category filter
+                if (systemState.currentFilters.category !== 'all' && 
+                    item.category.toLowerCase() !== systemState.currentFilters.category) {
+                    return false;
+                }
+                
+                // Search filter
+                if (systemState.currentFilters.search) {
+                    const searchTerm = systemState.currentFilters.search.toLowerCase();
+                    const itemText = `${item.id} ${item.name} ${item.category} ${item.warehouse}`.toLowerCase();
+                    if (!itemText.includes(searchTerm)) {
+                        return false;
+                    }
+                }
+                
+                // Stock range filter
+                if (item.stock < systemState.currentFilters.stockRange.min || 
+                    item.stock > systemState.currentFilters.stockRange.max) {
+                    return false;
+                }
+                
+                // Days left filter
+                if (systemState.currentFilters.daysFilters.length > 0) {
+                    const daysLeft = Math.floor((item.stock / item.weeklyUsage) * 7);
+                    let daysCategory = 'normal';
+                    if (daysLeft < 7) daysCategory = 'critical';
+                    else if (daysLeft < 14) daysCategory = 'warning';
+                    
+                    if (!systemState.currentFilters.daysFilters.includes(daysCategory)) {
+                        return false;
+                    }
+                }
+                
+                // Status filter
+                if (systemState.currentFilters.statusFilters.length > 0) {
+                    if (!systemState.currentFilters.statusFilters.includes(item.status)) {
+                        return false;
+                    }
+                }
+                
+                // Supplier filter
+                if (systemState.currentFilters.supplierFilters.length > 0) {
+                    if (systemState.currentFilters.supplierFilters.includes('multiple') && 
+                        item.suppliers.length <= 1) {
+                        return false;
+                    }
+                    if (systemState.currentFilters.supplierFilters.includes('single') && 
+                        item.suppliers.length > 1) {
+                        return false;
+                    }
+                }
+                
+                return true;
+            });
+            
+            // Apply sorting
+            applySorting();
+            
+            // Render table with filtered items
+            renderTable();
+            
+            // Update selection UI
+            updateSelectionUI();
+        }
+
+        function updateActiveFilterBadges() {
+            const badgesContainer = document.getElementById('activeFilterBadges');
+            const filters = systemState.currentFilters;
+            let badges = [];
+            
+            // Warehouse badge
+            if (filters.warehouse !== 'all') {
+                badges.push({
+                    label: `Warehouse: ${filters.warehouse}`,
+                    key: 'warehouse',
+                    value: filters.warehouse
+                });
+            }
+            
+            // Category badge
+            if (filters.category !== 'all') {
+                badges.push({
+                    label: `Category: ${filters.category}`,
+                    key: 'category',
+                    value: filters.category
+                });
+            }
+            
+            // Stock range badge
+            if (filters.stockRange.min > 0 || filters.stockRange.max < 1000) {
+                badges.push({
+                    label: `Stock: ${filters.stockRange.min}-${filters.stockRange.max}`,
+                    key: 'stockRange',
+                    value: `${filters.stockRange.min}-${filters.stockRange.max}`
+                });
+            }
+            
+            // Days filters badges
+            filters.daysFilters.forEach(filter => {
+                badges.push({
+                    label: `Days: ${filter}`,
+                    key: `days-${filter}`,
+                    value: filter
+                });
+            });
+            
+            // Status filters badges
+            filters.statusFilters.forEach(filter => {
+                badges.push({
+                    label: `Status: ${filter}`,
+                    key: `status-${filter}`,
+                    value: filter
+                });
+            });
+            
+            // Supplier filters badges
+            filters.supplierFilters.forEach(filter => {
+                badges.push({
+                    label: `Suppliers: ${filter}`,
+                    key: `supplier-${filter}`,
+                    value: filter
+                });
+            });
+            
+            // Clear all badge
+            if (badges.length > 0) {
+                badges.push({
+                    label: 'Clear All',
+                    key: 'clear-all',
+                    isClear: true
+                });
+            }
+            
+            // Render badges
+            badgesContainer.innerHTML = badges.map(badge => {
+                if (badge.isClear) {
+                    return `<span class="filter-badge" style="cursor: pointer; background: rgba(255, 82, 82, 0.1); color: var(--neo-accent-red);" onclick="resetFilters()">
+                        ${badge.label}
+                    </span>`;
+                }
+                
+                return `<span class="filter-badge">
+                    ${badge.label}
+                    <span class="remove-btn" onclick="removeFilter('${badge.key}')">
+                        <i class="fas fa-times"></i>
+                    </span>
+                </span>`;
+            }).join('');
+        }
+
+        function removeFilter(filterKey) {
+            if (filterKey === 'warehouse') {
+                systemState.currentFilters.warehouse = 'all';
+                document.getElementById('warehouseFilter').value = 'all';
+            } else if (filterKey === 'category') {
+                systemState.currentFilters.category = 'all';
+                document.getElementById('categoryFilter').value = 'all';
+            } else if (filterKey === 'stockRange') {
+                systemState.currentFilters.stockRange = { min: 0, max: 1000 };
+            } else if (filterKey.startsWith('days-')) {
+                const value = filterKey.split('-')[1];
+                systemState.currentFilters.daysFilters = systemState.currentFilters.daysFilters.filter(f => f !== value);
+            } else if (filterKey.startsWith('status-')) {
+                const value = filterKey.split('-')[1];
+                systemState.currentFilters.statusFilters = systemState.currentFilters.statusFilters.filter(f => f !== value);
+            } else if (filterKey.startsWith('supplier-')) {
+                const value = filterKey.split('-')[1];
+                systemState.currentFilters.supplierFilters = systemState.currentFilters.supplierFilters.filter(f => f !== value);
+            }
+            
+            applyAllFilters();
+            updateActiveFilterBadges();
+        }
+
+        // ============================================
+        // IMPROVED SELECTION SYSTEM
+        // ============================================
+        function toggleSelectAll() {
+            const selectAllCheckbox = document.getElementById('selectAll');
+            const isChecked = selectAllCheckbox.classList.contains('checked');
+            const isIndeterminate = selectAllCheckbox.classList.contains('indeterminate');
+            
+            if (isChecked || isIndeterminate) {
+                // Deselect all visible items
+                systemState.filteredItems.forEach(item => {
+                    systemState.selectedItems.delete(item.id);
+                });
+                selectAllCheckbox.classList.remove('checked', 'indeterminate');
+            } else {
+                // Select all visible items
+                systemState.filteredItems.forEach(item => {
+                    if (!systemState.selectedItems.has(item.id)) {
+                        const bestSupplier = getBestSupplier(item);
+                        systemState.selectedItems.set(item.id, {
+                            ...item,
+                            selectedSupplier: bestSupplier,
+                            quantity: calculateOptimalQuantity(item)
+                        });
+                    }
+                });
+                selectAllCheckbox.classList.add('checked');
+                selectAllCheckbox.classList.remove('indeterminate');
+            }
+            
+            renderTable();
+            updateSelectionUI();
+        }
+
+        function toggleItemSelection(itemId) {
+            if (systemState.selectedItems.has(itemId)) {
+                systemState.selectedItems.delete(itemId);
+            } else {
+                const item = systemState.allItems.find(i => i.id === itemId);
+                if (item) {
+                    const bestSupplier = getBestSupplier(item);
+                    systemState.selectedItems.set(itemId, {
+                        ...item,
+                        selectedSupplier: bestSupplier,
+                        quantity: calculateOptimalQuantity(item)
+                    });
+                }
+            }
+            
+            renderTable();
+            updateSelectionUI();
+        }
+
+        function updateSelectionUI() {
+            const count = systemState.selectedItems.size;
+            const selectionBar = document.getElementById('selectionBar');
+            const quickOrderBtn = document.getElementById('quickOrderBtn');
+            const selectAllCheckbox = document.getElementById('selectAll');
+            
+            // Update selection bar
+            if (count > 0) {
+                selectionBar.style.display = 'flex';
+                quickOrderBtn.style.display = 'flex';
+                
+                document.getElementById('selectedCount').textContent = `${count} item${count !== 1 ? 's' : ''}`;
+                
+                let total = 0;
+                systemState.selectedItems.forEach(item => {
+                    const supplier = systemState.suppliers[item.selectedSupplier];
+                    if (supplier) {
+                        total += (item.price * supplier.priceMultiplier * item.quantity);
+                    }
+                });
+                
+                document.getElementById('selectedTotal').textContent = total.toFixed(2);
+            } else {
+                selectionBar.style.display = 'none';
+                quickOrderBtn.style.display = 'none';
+            }
+            
+            // Update select all checkbox state
+            const visibleItems = systemState.filteredItems;
+            const selectedVisibleItems = visibleItems.filter(item => 
+                systemState.selectedItems.has(item.id)
+            ).length;
+            
+            if (selectedVisibleItems === 0) {
+                selectAllCheckbox.classList.remove('checked', 'indeterminate');
+            } else if (selectedVisibleItems === visibleItems.length) {
+                selectAllCheckbox.classList.add('checked');
+                selectAllCheckbox.classList.remove('indeterminate');
+            } else {
+                selectAllCheckbox.classList.add('indeterminate');
+                selectAllCheckbox.classList.remove('checked');
             }
         }
 
@@ -1413,7 +2092,7 @@
         // ============================================
         document.addEventListener('DOMContentLoaded', () => {
             loadSampleData();
-            renderTable();
+            applyAllFilters();
             
             // Initialize resize functionality
             initializeResize();
@@ -1440,6 +2119,9 @@
             window.addEventListener('resize', handleResize);
         });
 
+        // ============================================
+        // UPDATED RENDERING FUNCTIONS
+        // ============================================
         function loadSampleData() {
             systemState.allItems = [
                 {
@@ -1547,16 +2229,14 @@
                     status: 'critical'
                 }
             ];
+            systemState.filteredItems = [...systemState.allItems];
         }
 
-        // ============================================
-        // DATA TABLE RENDERING
-        // ============================================
         function renderTable() {
             const tbody = document.getElementById('tableBody');
             tbody.innerHTML = '';
             
-            systemState.allItems.forEach(item => {
+            systemState.filteredItems.forEach(item => {
                 const isSelected = systemState.selectedItems.has(item.id);
                 const daysLeft = Math.floor((item.stock / item.weeklyUsage) * 7);
                 
@@ -1621,58 +2301,186 @@
                 tbody.appendChild(row);
             });
             
-            updateSelectionUI();
+            // Show empty state if no items match filters
+            if (systemState.filteredItems.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="12" style="text-align: center; padding: 40px 20px; color: var(--neo-text-light);">
+                            <i class="fas fa-search" style="font-size: 24px; margin-bottom: 12px; opacity: 0.5;"></i>
+                            <div style="font-size: 13px; font-weight: 500; margin-bottom: 6px;">No items match your filters</div>
+                            <div style="font-size: 11px;">Try adjusting your filter criteria or <a href="javascript:void(0)" onclick="resetFilters()" style="color: var(--neo-accent-blue); text-decoration: none;">reset all filters</a></div>
+                        </td>
+                    </tr>
+                `;
+            }
         }
 
-        // ============================================
-        // SELECTION MANAGEMENT
-        // ============================================
-        function toggleItemSelection(itemId) {
-            if (systemState.selectedItems.has(itemId)) {
-                systemState.selectedItems.delete(itemId);
-            } else {
-                const item = systemState.allItems.find(i => i.id === itemId);
-                if (item) {
-                    const bestSupplier = getBestSupplier(item);
-                    systemState.selectedItems.set(itemId, {
-                        ...item,
-                        selectedSupplier: bestSupplier,
-                        quantity: calculateOptimalQuantity(item)
-                    });
+        function searchTable() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            systemState.currentFilters.search = searchTerm;
+            applyAllFilters();
+        }
+
+        function applySorting() {
+            const sortBy = document.getElementById('sortFilter').value;
+            systemState.sortBy = sortBy;
+            
+            systemState.filteredItems.sort((a, b) => {
+                switch (sortBy) {
+                    case 'status':
+                        const statusOrder = { critical: 0, warning: 1, normal: 2 };
+                        return statusOrder[a.status] - statusOrder[b.status];
+                    case 'days':
+                        const daysA = Math.floor((a.stock / a.weeklyUsage) * 7);
+                        const daysB = Math.floor((b.stock / b.weeklyUsage) * 7);
+                        return daysA - daysB;
+                    case 'stock':
+                        return a.stock - b.stock;
+                    case 'name':
+                        return a.name.localeCompare(b.name);
+                    default:
+                        return 0;
                 }
-            }
+            });
             
             renderTable();
-            updateSelectionUI();
         }
 
-        function toggleSelectAll() {
-            const allSelected = systemState.selectedItems.size === systemState.allItems.length;
+        // ============================================
+        // REST OF THE FUNCTIONS (same as before)
+        // ============================================
+        function initializeResize() {
+            const panel = document.getElementById('actionPanel');
+            const resizeHandle = document.getElementById('panelResizeHandle');
             
-            if (allSelected) {
-                systemState.selectedItems.clear();
-            } else {
-                systemState.allItems.forEach(item => {
-                    if (!systemState.selectedItems.has(item.id)) {
-                        const bestSupplier = getBestSupplier(item);
-                        systemState.selectedItems.set(item.id, {
-                            ...item,
-                            selectedSupplier: bestSupplier,
-                            quantity: calculateOptimalQuantity(item)
-                        });
-                    }
-                });
+            if (!panel || !resizeHandle) return;
+            
+            resizeHandle.addEventListener('mousedown', startResize);
+            document.addEventListener('mousemove', doResize);
+            document.addEventListener('mouseup', stopResize);
+            
+            // Touch events for mobile
+            resizeHandle.addEventListener('touchstart', startResizeTouch);
+            document.addEventListener('touchmove', doResizeTouch);
+            document.addEventListener('touchend', stopResize);
+        }
+
+        function startResize(e) {
+            e.preventDefault();
+            isResizing = true;
+            startX = e.clientX;
+            startWidth = parseInt(getComputedStyle(document.getElementById('actionPanel')).width, 10);
+            
+            document.getElementById('actionPanel').classList.add('resizing');
+            document.getElementById('panelResizeHandle').classList.add('resizing');
+            
+            document.body.style.cursor = 'col-resize';
+            document.body.style.userSelect = 'none';
+        }
+
+        function startResizeTouch(e) {
+            e.preventDefault();
+            if (e.touches.length !== 1) return;
+            
+            isResizing = true;
+            startX = e.touches[0].clientX;
+            startWidth = parseInt(getComputedStyle(document.getElementById('actionPanel')).width, 10);
+            
+            document.getElementById('actionPanel').classList.add('resizing');
+            document.getElementById('panelResizeHandle').classList.add('resizing');
+            
+            document.body.style.cursor = 'col-resize';
+            document.body.style.userSelect = 'none';
+        }
+
+        function doResize(e) {
+            if (!isResizing) return;
+            e.preventDefault();
+            
+            const panel = document.getElementById('actionPanel');
+            const deltaX = startX - e.clientX;
+            let newWidth = startWidth + deltaX;
+            
+            // Apply constraints
+            newWidth = Math.max(320, Math.min(600, newWidth));
+            
+            panel.style.width = newWidth + 'px';
+        }
+
+        function doResizeTouch(e) {
+            if (!isResizing || e.touches.length !== 1) return;
+            e.preventDefault();
+            
+            const panel = document.getElementById('actionPanel');
+            const deltaX = startX - e.touches[0].clientX;
+            let newWidth = startWidth + deltaX;
+            
+            // Apply constraints
+            newWidth = Math.max(320, Math.min(600, newWidth));
+            
+            panel.style.width = newWidth + 'px';
+        }
+
+        function stopResize() {
+            if (!isResizing) return;
+            
+            isResizing = false;
+            
+            document.getElementById('actionPanel').classList.remove('resizing');
+            document.getElementById('panelResizeHandle').classList.remove('resizing');
+            
+            document.body.style.cursor = '';
+            document.body.style.userSelect = '';
+            
+            // Save the width to localStorage for persistence
+            const panel = document.getElementById('actionPanel');
+            const width = parseInt(panel.style.width, 10);
+            if (width && !isNaN(width)) {
+                localStorage.setItem('actionPanelWidth', width);
             }
+        }
+
+        function getBestSupplier(item) {
+            let bestSupplier = null;
+            let bestScore = -1;
             
-            renderTable();
-            updateSelectionUI();
+            item.suppliers.forEach(supplierId => {
+                const supplier = systemState.suppliers[supplierId];
+                if (supplier) {
+                    const priceScore = (1 / supplier.priceMultiplier) * 0.4;
+                    const deliveryDays = parseInt(supplier.delivery.split('-')[0]);
+                    const deliveryScore = (1 / deliveryDays) * 0.3;
+                    const reliabilityScore = (supplier.reliability / 100) * 0.2;
+                    const ratingScore = (supplier.rating / 5) * 0.1;
+                    
+                    const totalScore = priceScore + deliveryScore + reliabilityScore + ratingScore;
+                    
+                    if (totalScore > bestScore) {
+                        bestScore = totalScore;
+                        bestSupplier = supplierId;
+                    }
+                }
+            });
+            
+            return bestSupplier || item.suppliers[0];
+        }
+
+        function calculateOptimalQuantity(item) {
+            const weeksCoverage = 4;
+            const buffer = Math.ceil(item.weeklyUsage * 0.5);
+            const required = Math.max(item.minStock - item.stock, 0);
+            
+            return Math.max(
+                required + Math.ceil(item.weeklyUsage * weeksCoverage) + buffer,
+                1
+            );
         }
 
         function smartSelect() {
             systemState.selectedItems.clear();
             
             // Enterprise logic: select items based on urgency and business rules
-            systemState.allItems.forEach(item => {
+            systemState.filteredItems.forEach(item => {
                 const urgencyScore = calculateUrgencyScore(item);
                 
                 if (urgencyScore > 50) { // Threshold for automatic selection
@@ -1714,81 +2522,6 @@
             showToast('Selection cleared', 'info');
         }
 
-        function updateSelectionUI() {
-            const count = systemState.selectedItems.size;
-            const selectionBar = document.getElementById('selectionBar');
-            const quickOrderBtn = document.getElementById('quickOrderBtn');
-            
-            if (count > 0) {
-                selectionBar.style.display = 'flex';
-                quickOrderBtn.style.display = 'flex';
-                
-                document.getElementById('selectedCount').textContent = `${count} item${count !== 1 ? 's' : ''}`;
-                
-                let total = 0;
-                systemState.selectedItems.forEach(item => {
-                    const supplier = systemState.suppliers[item.selectedSupplier];
-                    if (supplier) {
-                        total += (item.price * supplier.priceMultiplier * item.quantity);
-                    }
-                });
-                
-                document.getElementById('selectedTotal').textContent = total.toFixed(2);
-            } else {
-                selectionBar.style.display = 'none';
-                quickOrderBtn.style.display = 'none';
-            }
-            
-            const selectAll = document.getElementById('selectAll');
-            const allSelected = count === systemState.allItems.length;
-            const someSelected = count > 0 && count < systemState.allItems.length;
-            
-            selectAll.classList.toggle('checked', allSelected);
-            selectAll.style.opacity = someSelected ? '0.6' : '1';
-        }
-
-        // ============================================
-        // BUSINESS LOGIC
-        // ============================================
-        function getBestSupplier(item) {
-            let bestSupplier = null;
-            let bestScore = -1;
-            
-            item.suppliers.forEach(supplierId => {
-                const supplier = systemState.suppliers[supplierId];
-                if (supplier) {
-                    const priceScore = (1 / supplier.priceMultiplier) * 0.4;
-                    const deliveryDays = parseInt(supplier.delivery.split('-')[0]);
-                    const deliveryScore = (1 / deliveryDays) * 0.3;
-                    const reliabilityScore = (supplier.reliability / 100) * 0.2;
-                    const ratingScore = (supplier.rating / 5) * 0.1;
-                    
-                    const totalScore = priceScore + deliveryScore + reliabilityScore + ratingScore;
-                    
-                    if (totalScore > bestScore) {
-                        bestScore = totalScore;
-                        bestSupplier = supplierId;
-                    }
-                }
-            });
-            
-            return bestSupplier || item.suppliers[0];
-        }
-
-        function calculateOptimalQuantity(item) {
-            const weeksCoverage = 4;
-            const buffer = Math.ceil(item.weeklyUsage * 0.5);
-            const required = Math.max(item.minStock - item.stock, 0);
-            
-            return Math.max(
-                required + Math.ceil(item.weeklyUsage * weeksCoverage) + buffer,
-                1
-            );
-        }
-
-        // ============================================
-        // ORDER PANEL
-        // ============================================
         function openOrderPanel() {
             if (systemState.selectedItems.size === 0) {
                 showToast('Please select items first', 'warning');
@@ -2001,9 +2734,6 @@
             document.getElementById('summaryTotal').textContent = `$${total.toFixed(2)}`;
         }
 
-        // ============================================
-        // ORDER SUBMISSION
-        // ============================================
         function submitPurchaseOrder() {
             if (systemState.selectedItems.size === 0) {
                 showToast('No items to order', 'warning');
@@ -2045,106 +2775,6 @@
                 updateSelectionUI();
                 openOrderPanel();
             }
-        }
-
-        // ============================================
-        // FILTERING FUNCTIONS
-        // ============================================
-        function filterByWarehouse() {
-            const warehouse = document.getElementById('warehouseFilter').value;
-            const rows = document.querySelectorAll('#tableBody tr');
-            
-            rows.forEach(row => {
-                const warehouseCell = row.querySelector('td:nth-child(5)');
-                if (warehouse === 'all' || !warehouseCell) {
-                    row.style.display = '';
-                } else if (warehouseCell.textContent.trim().toLowerCase() === warehouse.toLowerCase()) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-            
-            if (warehouse !== 'all') {
-                showToast(`Showing items from ${warehouse} warehouse`, 'info');
-            }
-        }
-
-        function filterByCategory() {
-            const category = document.getElementById('categoryFilter').value;
-            const rows = document.querySelectorAll('#tableBody tr');
-            
-            rows.forEach(row => {
-                const categoryCell = row.querySelector('td:nth-child(4)');
-                if (category === 'all' || !categoryCell) {
-                    row.style.display = '';
-                } else if (categoryCell.textContent.trim().toLowerCase().includes(category.toLowerCase())) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-            
-            if (category !== 'all') {
-                showToast(`Showing ${category} items`, 'info');
-            }
-        }
-
-        function filterByStatus(status) {
-            const rows = document.querySelectorAll('#tableBody tr');
-            
-            rows.forEach(row => {
-                const statusCell = row.querySelector('.status-badge');
-                if (status === 'all' || !statusCell) {
-                    row.style.display = '';
-                } else if (statusCell.classList.contains(`status-${status}`)) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-            
-            if (status !== 'all') {
-                showToast(`Showing ${status} items only`, 'info');
-            }
-        }
-
-        function sortTable() {
-            const sortBy = document.getElementById('sortFilter').value;
-            
-            systemState.allItems.sort((a, b) => {
-                switch (sortBy) {
-                    case 'status':
-                        const statusOrder = { critical: 0, warning: 1, normal: 2 };
-                        return statusOrder[a.status] - statusOrder[b.status];
-                    case 'days':
-                        const daysA = Math.floor((a.stock / a.weeklyUsage) * 7);
-                        const daysB = Math.floor((b.stock / b.weeklyUsage) * 7);
-                        return daysA - daysB;
-                    case 'stock':
-                        return a.stock - b.stock;
-                    case 'name':
-                        return a.name.localeCompare(b.name);
-                    default:
-                        return 0;
-                }
-            });
-            
-            renderTable();
-            showToast(`Sorted by ${sortBy}`, 'info');
-        }
-
-        // ============================================
-        // UI UTILITIES
-        // ============================================
-        function searchTable() {
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const rows = document.querySelectorAll('#tableBody tr');
-            
-            rows.forEach(row => {
-                const text = row.textContent.toLowerCase();
-                row.style.display = text.includes(searchTerm) ? '' : 'none';
-            });
         }
 
         function exportData() {
